@@ -12,6 +12,7 @@
     "allowUnreachableCode": true,
     "allowSyntheticDefaultImports": true,
     "strictFunctionTypes": false,
+    "jsx": "preserve",
     "outDir": "dist"
   },
   "exclude": ["node_modules", "dist", "scripts", "demo", "bench"]
