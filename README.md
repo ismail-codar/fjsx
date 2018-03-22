@@ -17,6 +17,8 @@ document.body.appendChild(view);
 
 You can browse our [todomvc example](./packages/fjsx-examples/examples/todomvc-minimal) for a more advanced example.
 
+> To start fjsx [fjsx-examples](./packages/fjsx-examples) is a configured project.
+
 You notice that in the above example: Created view is a dom element. Not virtual dom element! This feature is great and very usefull for developers.
 
 Also this is not virtual dom library unlike the React, Angular, Vue etc.. Stop the dizziness incoming by render cycles.
@@ -40,7 +42,7 @@ a(4); // update the "a" also it updates to "c" because "a" is used to "c" comput
 console.log(c.$val); // 6 ...
 ```
 
-This technique can be used for DOM updates. Also fjsx is uses a [babel plugin](./packages/babel-plugin-transform-fjsx) for compiling JSX views to this structure. DOM example below:
+This technique can be used for DOM updates. Fjsx utilizes a [babel plugin](./packages/babel-plugin-transform-fjsx) for compiling JSX views to this structure. DOM example below:
 
 ##### Jsx input:
 
@@ -59,7 +61,7 @@ fjsx.createElement("div", null, function(element) {
 });
 ```
 
-Other use cases can be viewed [in our babel plugin tests](./packages/babel-plugin-transform-fjsx/test/fixtues)
+Other use cases can be viewed [in our babel plugin tests](./packages/babel-plugin-transform-fjsx/test/fixtures)
 
 ### API
 
