@@ -17,7 +17,7 @@ document.body.appendChild(view);
 
 You can browse our [todomvc example](./packages/fjsx-examples/examples/todomvc-minimal) for a more advanced example.
 
-### To start fjsx [fjsx-examples](./packages/fjsx-examples) is a configured project.
+### [fjsx-examples](./packages/fjsx-examples) is a configured project for starting.
 
 You notice that in the above example: Created view is a dom element. Not virtual dom element! This feature is great and very usefull for developers.
 
