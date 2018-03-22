@@ -17,7 +17,7 @@ document.body.appendChild(view);
 
 You can browse our [todomvc example](./packages/fjsx-examples/examples/todomvc-minimal) for a more advanced example.
 
-## To start fjsx [fjsx-examples](./packages/fjsx-examples) is a configured project.
+### To start fjsx [fjsx-examples](./packages/fjsx-examples) is a configured project.
 
 You notice that in the above example: Created view is a dom element. Not virtual dom element! This feature is great and very usefull for developers.
 
@@ -25,7 +25,7 @@ Also this is not virtual dom library unlike the React, Angular, Vue etc.. Stop t
 
 Fsx knows where is the binded your data in the DOM and auto updates to DOM when changing data reactively.
 
-### How to works
+## How to works
 
 The core is a simple reactive programming structure in [f.ts](./lib/f.ts)
 
@@ -63,11 +63,11 @@ fjsx.createElement("div", null, function(element) {
 
 Other use cases can be viewed [in our babel plugin test fixtures](./packages/babel-plugin-transform-fjsx/test/fixtures)
 
-### API
+## API
 
 TODO
 
-### Acknowledgement
+## Acknowledgement
 
 Some ideas are inspired from [surplus](https://github.com/adamhaile/surplus)
 
