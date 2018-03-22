@@ -1,0 +1,28 @@
+{
+  "name": "fjsx",
+  "version": "0.0.1",
+  "description": "-",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "rm -rf dist & tsc",
+    "webpack": "webpack-cli dist/index.js --mode production",
+    "build": "npm run tsc && npm run webpack"
+  },
+  "keywords": [],
+  "author": "ismail codar",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jasmine": "^2.8.6",
+    "@types/node": "^9.4.7",
+    "jasmine": "^3.1.0",
+    "jasmine-ts": "^0.2.1",
+    "webpack": "^4.2.0",
+    "webpack-cli": "^2.0.12"
+  },
+  "dependencies": {}
+}

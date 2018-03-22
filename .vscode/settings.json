@@ -1,0 +1,10 @@
+{
+  "code-runner.executorMapByFileExtension": {
+    ".tsx":
+      "ts-node $dirWithoutTrailingSlash/../../scripts/ts-runner.ts $fullFileName"
+  },
+  "code-runner.executorMap": {
+    "typescript":
+      "ts-node $dirWithoutTrailingSlash/../../scripts/ts-runner.ts $fullFileName"
+  }
+}

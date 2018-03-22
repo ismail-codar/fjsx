@@ -1,9 +1,6 @@
-# fjsx
+import { fjsx, FJsxValue } from "fjsx";
 
-A counter example:
-
-```jsx
-var counter = fjsx.value(0);
+const counter = fjsx.value(0);
 
 var view = (
   <div>
@@ -13,6 +10,3 @@ var view = (
   </div>
 );
 document.body.appendChild(view);
-```
-
-You can browse our [todomvc example](./packages/fjsx-examples/examples/todomvc) for a more advanced example.
