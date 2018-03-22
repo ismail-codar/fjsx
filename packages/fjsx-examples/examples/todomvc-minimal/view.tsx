@@ -1,4 +1,3 @@
-import { FJsxValue } from "fjsx";
 import {
   todos,
   todoCtrl,
@@ -9,7 +8,7 @@ import {
 } from "./types";
 import classNames from "classnames";
 
-export const DemoView = (props: { data: FJsxValue<boolean> }) => (
+export const DemoView = () => (
   <>
     <section className="todoapp">
       <header className="header">

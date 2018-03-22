@@ -15,4 +15,4 @@ var view = (
 document.body.appendChild(view);
 ```
 
-You can browse our [todomvc example](./packages/fjsx-examples/examples/todomvc) for a more advanced example.
+You can browse our [todomvc example](./packages/fjsx-examples/examples/todomvc-minimal) for a more advanced example.
