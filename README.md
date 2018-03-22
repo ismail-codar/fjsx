@@ -16,3 +16,7 @@ document.body.appendChild(view);
 ```
 
 You can browse our [todomvc example](./packages/fjsx-examples/examples/todomvc-minimal) for a more advanced example.
+
+### Acknowledgement
+
+Some ideas are inspired from [surplus](https://github.com/adamhaile/surplus)
