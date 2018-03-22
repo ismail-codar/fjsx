@@ -2,13 +2,11 @@ import { fjsx, FJsxValue } from "fjsx";
 import { DemoView } from "./view";
 import { cssLink } from "../util";
 
-const data: FJsxValue<boolean> = fjsx.value(false);
-
 export const DEMO = () => {
   return {
     title: "TodoMVC",
     demos: {
-      View: <DemoView data={data} />
+      View: <DemoView />
     }
   };
 };
