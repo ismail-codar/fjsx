@@ -1,8 +1,6 @@
 # fjx-examples
 
-An configured project for fjsx with some examples.
-
-##### Getting started
+A configured project for fjsx with some examples.
 
 ```sh
 npm install
