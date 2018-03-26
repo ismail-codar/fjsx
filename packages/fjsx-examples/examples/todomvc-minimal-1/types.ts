@@ -1,5 +1,5 @@
 import { fjsx, FJsxValue } from "fjsx";
-import { Utils } from "./utils";
+import { Utils } from "../util";
 
 export interface ITodoModel {
   completed: FJsxValue<boolean>;
@@ -124,9 +124,9 @@ const initCompletedCalculations = (todoItem: ITodoModel) => {
 
 //////// save-load data ////////
 const saveTodos = () => {
-  Utils.store("FJSX_TODOMVC", todos);
+  Utils.store("FJSX_TODOMVC1", todos);
 };
-const savedTodos: any[] = Utils.store("FJSX_TODOMVC");
+const savedTodos: any[] = Utils.store("FJSX_TODOMVC1");
 savedTodos.forEach(item => {
   const todoItem: ITodoModel = {
     completed: fjsx.value(item.completed),

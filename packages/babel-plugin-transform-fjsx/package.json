@@ -2,11 +2,15 @@
   "name": "@babel/plugin-transform-fjsx",
   "version": "7.0.0-beta.40",
   "description": "Turn JSX into Fjsx function calls",
-  "repository":
-    "https://github.com/ismail-codar/fjsx/packages/babel-plugin-transform-fjsx",
+  "repository": "https://github.com/ismail-codar/fjsx/packages/babel-plugin-transform-fjsx",
   "license": "MIT",
   "main": "dist/index.js",
-  "keywords": ["babel-plugin", "fjx", "reactive", "react"],
+  "keywords": [
+    "babel-plugin",
+    "fjx",
+    "reactive",
+    "react"
+  ],
   "author": "ismail codar",
   "scripts": {
     "test": "ts-node test",
