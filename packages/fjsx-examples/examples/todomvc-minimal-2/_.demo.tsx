@@ -3,7 +3,7 @@ import { cssLink } from "../util";
 
 export const DEMO = () => {
   return {
-    title: "TodoMVC",
+    title: "TodoMVC-2",
     demos: {
       View: <DemoView />
     }

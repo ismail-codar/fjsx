@@ -7,6 +7,7 @@ import {
   editText$
 } from "./types";
 import classNames from "classnames";
+
 export const DemoView = () => (
   <>
     <section className="todoapp">

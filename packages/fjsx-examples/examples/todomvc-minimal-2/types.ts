@@ -10,26 +10,17 @@ export interface ITodoModel {
   uid: string;
 }
 
-// @tracked @track_keys completed|editing|showing|title
 export const todos$: ITodoModel[] = [];
-
-// @tracked
 export var newTitle$ = "";
-
-// @tracked
 export var editText$ = "";
 
 export const todoCtrl = {
   newTodoKeyDown(e: KeyboardEvent) {
     if (e.key == "Enter") {
       const todoItem: ITodoModel = {
-        // @tracked
         completed$: false,
-        // @tracked
         editing$: false,
-        // @tracked
         showing$: true,
-        // @tracked
         title$: e.target["value"],
         uid: Utils.uuid()
       };
@@ -102,10 +93,8 @@ export const todoCtrl = {
 };
 
 //////// footer computations ////////
-// @tracked
 var totalCount$ = todos$.length;
 var completedCount$ = fjsx.value(0, true);
-// @tracked
 export const activeCount$ = totalCount$ - completedCount$.$val;
 
 fjsx.on(todos$, "itemadded", e => {
@@ -130,13 +119,9 @@ const saveTodos = () => {
 const savedTodos: ITodoModel[] = Utils.store("FJSX_TODOMVC2");
 savedTodos.forEach((item: ITodoModel) => {
   const todoItem: ITodoModel = {
-    // @tracked
     completed$: item["completed$"],
-    // @tracked
     editing$: item["editing$"],
-    // @tracked
     showing$: true,
-    // @tracked
     title$: item["title$"],
     uid: item.uid
   };
@@ -147,8 +132,6 @@ completedCount$(savedTodos.filter(item => item["completed$"]).length);
 completedCount$.freezed = false;
 
 //////// page router ////////
-
-// @tracked
 export var filterType$ = "";
 fjsx.compute(() => {
   todoCtrl.filterBy(filterType$);

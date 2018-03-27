@@ -14,7 +14,9 @@
       "type": "node",
       "request": "launch",
       "name": "fjsx-syntax",
-      "program": "${workspaceFolder}/node_modules/jasmine-ts/lib/index.js",
+      "program":
+        "${workspaceFolder}/packages/babel-plugin-transform-fjsx-syntax/node_modules/jasmine-ts/lib/index.js",
+      "cwd": "${workspaceFolder}/packages/babel-plugin-transform-fjsx-syntax",
       "args": [
         "/Users/macbook/Documents/GitHub/fjsx/packages/babel-plugin-transform-fjsx-syntax/test/index.ts"
       ]

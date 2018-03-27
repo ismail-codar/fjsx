@@ -25,7 +25,7 @@ const parentPathFound = <T>(
   path: NodePath<any>,
   check: (path: NodePath<t.BaseNode>) => boolean
 ): NodePath<T> => {
-  while (path && check(path) === false) path = path.parentPath;
+  while (path && !check(path)) path = path.parentPath;
   return path;
 };
 
