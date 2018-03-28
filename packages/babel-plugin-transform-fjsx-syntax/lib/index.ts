@@ -359,9 +359,13 @@ export = function() {
               path.container.name.name.toString() === "style"
             )
               //style-member-access, style-conditional
-              modifyDom.setupStyleAttributeExpression(path.node.expression);
+              modifyDom.setupStyleAttributeExpression(
+                path.scope,
+                path.node.expression
+              );
             else
               path.node.expression = modifyDom.attributeExpression(
+                path.scope,
                 path.container.name.name.toString(),
                 path.node.expression
               );
@@ -373,6 +377,7 @@ export = function() {
           ) {
             if (t.isJSXElement(path.parent)) {
               path.node.expression = modifyDom.attributeExpression(
+                path.scope,
                 "textContent",
                 path.node.expression
               );
@@ -380,6 +385,7 @@ export = function() {
           } else if (t.isConditionalExpression(path.node.expression)) {
             //element-text-conditional
             path.node.expression = modifyDom.appendReplaceConditionallyExpression(
+              path.scope,
               path.node.expression
             );
           } else if (
@@ -394,6 +400,7 @@ export = function() {
           ) {
             //array-map
             path.node.expression = modifyDom.arrayMapExpression(
+              path.scope,
               path.node.expression
             );
           }

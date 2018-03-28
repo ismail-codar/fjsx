@@ -9,12 +9,12 @@ fjsx.createElement(
               editing: data.editing.$val,
               completed: data.completed.$val
             },
-            data.highligth.$val
+            data.highlight.$val
           );
         },
         data.editing,
         data.completed,
-        data.highligth
+        data.highlight
       );
     }
   },

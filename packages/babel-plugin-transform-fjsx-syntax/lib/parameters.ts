@@ -1,21 +1,18 @@
 import * as t from "@babel/types";
 import { check } from "./check";
 import { Scope } from "babel-traverse";
+import generate from "@babel/generator";
 
 //üstteki fCompute fonksiyonların parametrelerinde de varmı kontrolü yap... Örn: array-map-conditional
 const listIncludes = (list: t.Expression[], item: t.Expression) => {
   return (
     list.find(listItem => {
-      const itemName = item["property"] ? item["property"].name : item["name"];
-      const listItemName = listItem["property"]
-        ? listItem["property"].name
-        : listItem["name"];
-      return listItemName == itemName;
+      return generate(item).code === generate(listItem).code;
     }) != undefined
   );
 };
 
-export const fjsxComputeParametersInExpression = (
+const fjsxComputeParametersInExpression = (
   expression: t.Expression,
   list: t.Expression[]
 ): void => {
@@ -23,11 +20,9 @@ export const fjsxComputeParametersInExpression = (
     if (!listIncludes(list, expression)) list.push(expression);
   }
   if (t.isMemberExpression(expression)) {
-    if (t.isMemberExpression(expression.object))
-      fjsxComputeParametersInExpression(expression.object, list);
     if (t.isIdentifier(expression.property)) {
       if (expression.property.name === "$val") {
-        const objectValue = expression.object as t.MemberExpression;
+        const objectValue = expression as t.MemberExpression;
         if (!listIncludes(list, objectValue)) list.push(objectValue);
       } else if (check.isTrackedByNodeName(expression.property)) {
         const objectValue = expression as t.MemberExpression;
@@ -91,13 +86,16 @@ export const fjsxComputeParametersInExpressionWithScopeFilter = (
 ) => {
   const fComputeParameters = [];
   fjsxComputeParametersInExpression(expression, fComputeParameters);
-  return fComputeParameters.filter(item =>
-    check.isTrackedVariable(scope, item)
-  );
+  return fComputeParameters
+    .map(item => {
+      if (check.isValMemberProperty(item)) return item.object;
+      else if (check.isTrackedVariable(scope, item)) return item;
+      else return null;
+    })
+    .filter(item => item !== null);
 };
 
 export const parameters = {
-  fjsxComputeParametersInExpression,
   fjsxComputeParametersInExpressionWithScopeFilter
 };
 

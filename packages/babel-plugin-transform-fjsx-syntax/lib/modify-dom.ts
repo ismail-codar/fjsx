@@ -1,12 +1,16 @@
 import * as t from "@babel/types";
 import { parameters } from "./parameters";
+import { Scope } from "babel-traverse";
 
 const attributeExpression = (
+  scope: Scope,
   attributeName: string,
   expression: t.Expression
 ) => {
-  const fComputeParameters = [];
-  parameters.fjsxComputeParametersInExpression(expression, fComputeParameters);
+  const fComputeParameters = parameters.fjsxComputeParametersInExpressionWithScopeFilter(
+    scope,
+    expression
+  );
   if (fComputeParameters.length == 0) return expression;
   // console.log(fComputeParameters.map(parameter => generate(parameter).code));
 
@@ -61,10 +65,14 @@ const attributeExpression = (
   );
 };
 
-const setupStyleAttributeExpression = (expression: t.ObjectExpression) => {
+const setupStyleAttributeExpression = (
+  scope: Scope,
+  expression: t.ObjectExpression
+) => {
   expression.properties.forEach((prop: t.ObjectProperty) => {
     if (!t.isLiteral(prop.value)) {
       prop.value = attributeExpression(
+        scope,
         "style." + prop.key.name,
         prop.value as t.Expression
       );
@@ -72,9 +80,14 @@ const setupStyleAttributeExpression = (expression: t.ObjectExpression) => {
   });
 };
 
-const appendReplaceConditionallyExpression = (expression: t.Expression) => {
-  const fComputeParameters = [];
-  parameters.fjsxComputeParametersInExpression(expression, fComputeParameters);
+const appendReplaceConditionallyExpression = (
+  scope: Scope,
+  expression: t.Expression
+) => {
+  const fComputeParameters = parameters.fjsxComputeParametersInExpressionWithScopeFilter(
+    scope,
+    expression
+  );
   if (fComputeParameters.length == 0) return expression;
   return t.functionExpression(
     t.identifier(""),
@@ -111,7 +124,7 @@ const appendReplaceConditionallyExpression = (expression: t.Expression) => {
   );
 };
 
-const arrayMapExpression = (expression: t.CallExpression) => {
+const arrayMapExpression = (scope: Scope, expression: t.CallExpression) => {
   const arrayName = [];
   let callMember = expression.callee["object"];
   while (true) {
@@ -145,11 +158,13 @@ const arrayMapExpression = (expression: t.CallExpression) => {
     if (t.isReturnStatement(returnStatement)) {
       if (t.isConditionalExpression(returnStatement.argument)) {
         returnStatement.argument = appendReplaceConditionallyExpression(
+          scope,
           returnStatement.argument
         );
       }
     } else if (t.isConditionalExpression(returnStatement)) {
       returnFn.body = appendReplaceConditionallyExpression(
+        scope,
         returnFn.body as t.Expression
       );
     }

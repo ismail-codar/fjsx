@@ -1,12 +1,23 @@
-import { IGrid1, grid1Controller } from "./types";
+import classNames from "classnames";
 
-// var sortBy = (data$, sortKey) => {
-//   data$ = data$.sort(function(a, b) {
-//     a = a[sortKey];
-//     b = b[sortKey];
-//     return (a === b ? 0 : a > b ? 1 : -1) * 1;
-//   });
-// };
+export interface IGrid1 {
+  searchQuery: string;
+  gridColumns: string[];
+  gridData: any[];
+  filteredData?: any[];
+}
+
+const sortKeys$ = {};
+var sortKey$ = "";
+const sortBy = (data$: any[], sortKey) => {
+  sortKey$ = sortKey;
+  sortKeys$[sortKey] = sortKeys$[sortKey] === 1 ? -1 : 1;
+  data$ = data$.slice().sort(function(a, b) {
+    a = a[sortKey];
+    b = b[sortKey];
+    return (a === b ? 0 : a > b ? 1 : -1) * sortKeys$[sortKey];
+  });
+};
 
 export const Grid1 = (props: IGrid1) => {
   const { gridColumns, gridData } = props;
@@ -16,9 +27,19 @@ export const Grid1 = (props: IGrid1) => {
     <table>
       <thead>
         <tr>
-          {gridColumns.map(col => (
-            <th onClick={() => grid1Controller.sortBy(filteredData$, col)}>
-              <span>{col}</span>
+          {gridColumns.map(key => (
+            <th
+              className={classNames({ active: sortKey$ == key })}
+              onClick={() => sortBy(filteredData$, key)}
+            >
+              {key}
+              <span
+                className={classNames({
+                  arrow: true,
+                  asc: sortKeys$[key] > 0,
+                  dsc: sortKeys$[key] < 0
+                })}
+              />
             </th>
           ))}
         </tr>

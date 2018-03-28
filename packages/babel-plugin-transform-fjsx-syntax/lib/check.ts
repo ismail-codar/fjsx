@@ -75,6 +75,7 @@ const leadingCommentsFromPath = (path: NodePath<any>) => {
     });
   } else {
     if (path.isImportSpecifier(path.node)) {
+      //TODO use export-sources
       return path.parent.trailingComments;
     }
     leadingComments = path.parent.leadingComments;
@@ -157,6 +158,7 @@ const isTrackedVariable = (
       t.isImportSpecifier(variableBinding.path.node) &&
       hasTrackedComment(variableBinding.path)
     ) {
+      //TODO use export-sources
       return true;
     } else if (
       t.isVariableDeclarator(variableBinding.path.node) &&
@@ -249,7 +251,9 @@ export const isExportsMember = (expression: t.LVal) => {
     return true;
 };
 
-export const isValMemberProperty = (node: t.BaseNode) => {
+export const isValMemberProperty = (
+  node: t.BaseNode
+): node is t.MemberExpression => {
   return (
     t.isMemberExpression(node) &&
     t.isIdentifier(node.property) &&

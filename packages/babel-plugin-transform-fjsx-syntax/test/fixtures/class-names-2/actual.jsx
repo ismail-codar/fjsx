@@ -4,7 +4,7 @@
       editing: data.editing.$val,
       completed: data.completed.$val
     },
-    data.highligth.$val
+    data.highlight.$val
   )}
 >
   test
