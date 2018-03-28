@@ -1,22 +1,48 @@
 import { FJsxValue, FjsxArrayEventType } from "..";
 export declare const value: <T>(value: T, freezed?: boolean) => FJsxValue<T>;
-export declare const array: <T>(items: T[]) => {
-    on?: (type: FjsxArrayEventType, callback: (e: {
+export declare const array: <T>(
+  items: T[]
+) => {
+  on?: (
+    type: FjsxArrayEventType,
+    callback: (
+      e: {
         item: T;
         index: number;
-    }) => void) => void;
-    removeEventListener?: (type: FjsxArrayEventType) => void;
-    $val: T[];
+      }
+    ) => void
+  ) => void;
+  removeEventListener?: (type: FjsxArrayEventType) => void;
+  $val: T[];
 };
-export declare const on: (arr: any[], type: FjsxArrayEventType, callback: (e: {
-    item: any;
-    index: number;
-}) => void) => void;
-export declare const off: (arr: any[], type: FjsxArrayEventType, callback: (e: {
-    item: any;
-    index: number;
-}) => void) => void;
+export declare const on: (
+  arr: any[],
+  type: FjsxArrayEventType,
+  callback: (
+    e: {
+      item: any;
+      index: number;
+    }
+  ) => void
+) => void;
+export declare const off: (
+  arr: any[],
+  type: FjsxArrayEventType,
+  callback: (
+    e: {
+      item: any;
+      index: number;
+    }
+  ) => void
+) => void;
 export declare const compute: (fn: () => void, ...args: any[]) => void;
-export declare const initCompute: (fn: () => void, ...args: FJsxValue<any>[]) => FJsxValue<void>;
-export declare const setCompute: (prev: FJsxValue<any>, fn: () => void, ...args: FJsxValue<any>[]) => FJsxValue<void>;
+export declare const initCompute: (
+  fn: () => any,
+  ...args: FJsxValue<any>[]
+) => FJsxValue<void>;
+export declare const setCompute: (
+  prev: FJsxValue<any>,
+  fn: () => void,
+  ...args: FJsxValue<any>[]
+) => FJsxValue<void>;
 export declare const destroy: (item: FJsxValue<any>) => void;

@@ -66,7 +66,7 @@ export const compute = (fn: () => void, ...args: any[]) => {
   fn();
 };
 
-export const initCompute = (fn: () => void, ...args: FJsxValue<any>[]) => {
+export const initCompute = (fn: () => any, ...args: FJsxValue<any>[]) => {
   var cValue = value(fn());
   var cmpInner = function() {
     cValue(fn());

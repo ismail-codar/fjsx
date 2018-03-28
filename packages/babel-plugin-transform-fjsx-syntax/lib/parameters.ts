@@ -5,9 +5,15 @@ import generate from "@babel/generator";
 
 //üstteki fCompute fonksiyonların parametrelerinde de varmı kontrolü yap... Örn: array-map-conditional
 const listIncludes = (list: t.Expression[], item: t.Expression) => {
+  var itemCode: string = generate(item).code;
+  if (itemCode.endsWith(".$val"))
+    itemCode = itemCode.substr(0, itemCode.length - 5);
   return (
     list.find(listItem => {
-      return generate(item).code === generate(listItem).code;
+      var listItemCode = generate(listItem).code;
+      if (listItemCode.endsWith(".$val"))
+        listItemCode = listItemCode.substr(0, listItemCode.length - 5);
+      return itemCode === listItemCode;
     }) != undefined
   );
 };
@@ -31,6 +37,9 @@ const fjsxComputeParametersInExpression = (
             t.memberExpression(objectValue.object, objectValue.property)
           );
       }
+    }
+    if (t.isIdentifier(expression.object)) {
+      fjsxComputeParametersInExpression(expression.object, list);
     }
   } else if (t.isBinaryExpression(expression))
     checkBinaryExpression(expression, list);
