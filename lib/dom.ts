@@ -49,7 +49,7 @@ export const arrayMap = (
   const renderAll = () => {
     if (arr.$val.length === 0) parentDom.textContent = "";
     else {
-      // parentDom.textContent = "";
+      parentDom.textContent = "";
       for (var i = parentDom.childElementCount; i < arr.$val.length; i++) {
         insertToDom(parentDom, i, renderReturn(arr.$val[i], i));
       }

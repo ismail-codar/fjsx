@@ -175,7 +175,7 @@ export function ObservableArray(items) {
       return _array;
     },
     set: function(v) {
-      _self.push.apply(_self, v);
+      // _self.push.apply(_self, v); // renderAll
       _array = v;
     }
   });

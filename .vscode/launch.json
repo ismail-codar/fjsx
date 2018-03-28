@@ -20,6 +20,16 @@
       "args": [
         "/Users/macbook/Documents/GitHub/fjsx/packages/babel-plugin-transform-fjsx-syntax/test/index.ts"
       ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "ts-node",
+      "runtimeArgs": ["-r", "ts-node/register"],
+      "cwd": "${workspaceFolder}/packages/babel-plugin-transform-fjsx-syntax",
+      "args": [
+        "/Users/macbook/Documents/GitHub/fjsx/packages/babel-plugin-transform-fjsx-syntax/test/temp/export-sources.ts"
+      ]
     }
   ]
 }

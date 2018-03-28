@@ -1,6 +1,8 @@
-var sortBy = function sortBy(data$) {};
+var controller = {
+  sortBy(data$) {}
+};
 var filteredData$ = gridData;
 
 const Grid1 = props => {
-  sortBy(filteredData$);
+  controller.sortBy(filteredData$);
 };

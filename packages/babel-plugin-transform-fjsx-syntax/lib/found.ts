@@ -41,21 +41,47 @@ const variableBindingInScope = (scope: Scope, searchName: string): Binding => {
   return null;
 };
 
-const callingMethodParams = (path: NodePath<t.CallExpression>): t.LVal[] => {
+const callingMethodParams = (
+  path: NodePath<t.CallExpression>,
+  filename: string
+): t.LVal[] => {
   var foundParams = null;
   const callee = path.node.callee;
   const searchName = t.isIdentifier(callee)
     ? callee.name
-    : t.isMemberExpression(callee) ? callee.property.name : null;
+    : t.isMemberExpression(callee) && t.isIdentifier(callee.object)
+      ? callee.object.name
+      : null;
   if (searchName) {
     const foundPath = parentPathFound(path, checkPath => {
       const variableBinding = checkPath.scope.bindings[searchName];
-      if (
-        variableBinding &&
-        t.isVariableDeclarator(variableBinding.path.node)
-      ) {
-        if (t.isFunctionExpression(variableBinding.path.node.init)) {
-          foundParams = variableBinding.path.node.init.params;
+      if (variableBinding) {
+        if (t.isVariableDeclarator(variableBinding.path.node)) {
+          if (t.isFunctionExpression(variableBinding.path.node.init)) {
+            foundParams = variableBinding.path.node.init.params;
+            return true;
+          } else if (t.isObjectExpression(variableBinding.path.node.init)) {
+            //call-6
+            if (
+              t.isMemberExpression(callee) &&
+              t.isIdentifier(callee.property)
+            ) {
+              variableBinding.path.node.init.properties.every(prop => {
+                if (
+                  t.isObjectProperty(prop) &&
+                  t.isIdentifier(prop.key) &&
+                  prop.key.name === callee.property.name &&
+                  t.isFunctionExpression(prop.value)
+                ) {
+                  foundParams = prop.value.params;
+                  return true;
+                }
+              });
+              if (foundParams) return true;
+            } else throw "not implemented in callingMethodParams";
+          }
+        } else if (t.isImportSpecifier(variableBinding.path.node)) {
+          //variableBinding.path.parent.source.value
           return true;
         }
       }

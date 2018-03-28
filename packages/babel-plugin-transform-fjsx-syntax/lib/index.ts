@@ -10,6 +10,7 @@ import { modifyDom } from "./modify-dom";
 import generate from "@babel/generator";
 import { realpathSync } from "fs";
 import { join } from "path";
+
 var micromatch = require("micromatch");
 //https://github.com/babel-utils/babel-type-scopes
 
@@ -229,7 +230,7 @@ export = function() {
         try {
           const member = found.callExpressionFirstMember(path.node);
           if (member && !member.name.startsWith("fjsx")) {
-            const methodParams = found.callingMethodParams(path);
+            const methodParams = found.callingMethodParams(path, file.filename);
             path.node.arguments.forEach((argument, index) => {
               const leftIsTracked = check.isTrackedVariable(
                 path.scope,

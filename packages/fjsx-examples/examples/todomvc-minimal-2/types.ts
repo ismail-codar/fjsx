@@ -24,10 +24,10 @@ export const todoCtrl = {
         title$: e.target["value"],
         uid: Utils.uuid()
       };
-      completedCount$.freezed = true;
+      completedCount.freezed = true;
       initCompletedCalculations(todoItem);
       todos$.push(todoItem);
-      completedCount$.freezed = false;
+      completedCount.freezed = false;
       newTitle$ = "";
       saveTodos();
     } else if (e.key == "Escape") {
@@ -94,8 +94,8 @@ export const todoCtrl = {
 
 //////// footer computations ////////
 var totalCount$ = todos$.length;
-var completedCount$ = fjsx.value(0, true);
-export const activeCount$ = totalCount$ - completedCount$.$val;
+var completedCount = fjsx.value(0, true);
+export const activeCount$ = totalCount$ - completedCount.$val;
 
 fjsx.on(todos$, "itemadded", e => {
   totalCount$ = totalCount$ + 1;
@@ -107,8 +107,8 @@ fjsx.on(todos$, "itemremoved", e => {
 
 const initCompletedCalculations = (todoItem: ITodoModel) => {
   fjsx.compute(() => {
-    if (!completedCount$.freezed)
-      completedCount$(completedCount$.$val + (todoItem.completed$ ? 1 : -1));
+    if (!completedCount.freezed)
+      completedCount(completedCount.$val + (todoItem.completed$ ? 1 : -1));
   }, todoItem.completed$);
 };
 
@@ -128,8 +128,8 @@ savedTodos.forEach((item: ITodoModel) => {
   initCompletedCalculations(todoItem);
   todos$.push(todoItem);
 });
-completedCount$(savedTodos.filter(item => item["completed$"]).length);
-completedCount$.freezed = false;
+completedCount(savedTodos.filter(item => item["completed$"]).length);
+completedCount.freezed = false;
 
 //////// page router ////////
 export var filterType$ = "";

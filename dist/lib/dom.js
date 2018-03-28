@@ -39,7 +39,7 @@ exports.arrayMap = (arr, parentDom, renderReturn) => {
         if (arr.$val.length === 0)
             parentDom.textContent = "";
         else {
-            // parentDom.textContent = "";
+            parentDom.textContent = "";
             for (var i = parentDom.childElementCount; i < arr.$val.length; i++) {
                 exports.insertToDom(parentDom, i, renderReturn(arr.$val[i], i));
             }
