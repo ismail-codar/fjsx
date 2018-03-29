@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "rm -rf dist & tsc",
     "webpack": "webpack-cli dist/index.js --mode production",
-    "build": "npm run tsc && npm run webpack"
+    "build": "npm run tsc"
   },
   "keywords": [],
   "author": "ismail codar",
