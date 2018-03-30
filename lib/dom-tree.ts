@@ -1,7 +1,8 @@
 var jsxEventProperty = /^on[A-Z]/;
+export const Fragment = Symbol("fjsx.Fragment");
 
 export const createElement = (
-  tagName: string | Function,
+  tagName: string | Function | Symbol,
   attributes: { [key: string]: any },
   ...childs: any[]
 ) => {
@@ -10,38 +11,42 @@ export const createElement = (
     attributes["children"] = childs;
     return (tagName as any)(attributes);
   }
-
-  const element = document.createElement(tagName);
-  if (attributes) {
-    let attribute = null;
-    for (var attributeName in attributes) {
-      attribute = attributes[attributeName];
-      if (attribute instanceof Function) {
-        if (jsxEventProperty.test(attributeName)) {
-          if (attributeName === "onDomCreate") {
-            attributes[attributeName](element);
-          } else {
-            attributeName = attributeName.toLowerCase();
-            element[attributeName] = attribute;
-          }
-        } else attribute(element);
-      } else if (attribute instanceof Object) {
-        //style
-        for (var key in attribute) {
-          if (typeof attribute[key] === "function") {
-            attribute[key](element);
-          } else {
-            if (attributeName === "style") {
-              //TODO styles
+  let element = null;
+  if (tagName === Fragment) {
+    element = document.createDocumentFragment();
+  } else {
+    element = document.createElement(tagName as any);
+    if (attributes) {
+      let attribute = null;
+      for (var attributeName in attributes) {
+        attribute = attributes[attributeName];
+        if (attribute instanceof Function) {
+          if (jsxEventProperty.test(attributeName)) {
+            if (attributeName === "onDomCreate") {
+              attributes[attributeName](element);
             } else {
-              throw attributeName + " type is object";
+              attributeName = attributeName.toLowerCase();
+              element[attributeName] = attribute;
+            }
+          } else attribute(element);
+        } else if (attribute instanceof Object) {
+          //style
+          for (var key in attribute) {
+            if (typeof attribute[key] === "function") {
+              attribute[key](element);
+            } else {
+              if (attributeName === "style") {
+                //TODO styles
+              } else {
+                throw attributeName + " type is object";
+              }
             }
           }
+        } else {
+          if (attributeName.indexOf("-") !== -1)
+            element.setAttribute(attributeName, attribute);
+          else element[attributeName] = attribute;
         }
-      } else {
-        if (attributeName.indexOf("-") !== -1)
-          element.setAttribute(attributeName, attribute);
-        else element[attributeName] = attribute;
       }
     }
   }

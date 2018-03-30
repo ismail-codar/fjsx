@@ -6,16 +6,16 @@ A counter example:
 var counter$ = 0; // An option: If variables ending with $ they are observable.
 
 var view = (
-  <div>
+  <>
     <button onClick={() => counter$++}> + </button>
     {counter$}
     <button onClick={() => counter$--}> - </button>
-  </div>
-); // Bonus! view is a real DOM element
+  </>
+); // Bonus! view is a real DOM element(s)
 document.body.appendChild(view);
 ```
 
-The above example can work because it compiles to knockout style observable functions for you.
+The above example can work because our [compiler](./packages/babel-plugin-transform-fjsx-syntax) compiles to knockout style observable functions.
 
 You can browse our [todomvc example](./packages/fjsx-examples/examples/todomvc-minimal-2) for a more advanced example.
 

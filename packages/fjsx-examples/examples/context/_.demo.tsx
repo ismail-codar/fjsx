@@ -1,4 +1,4 @@
 import { fjsx, FJsxValue } from "fjsx";
 
-var view = <div>TODO</div>;
+var view = <>TODO</>;
 document.body.appendChild(view);
