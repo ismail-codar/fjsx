@@ -4,9 +4,9 @@ var counter$ = 0;
 
 var view = (
   <div>
-    <button onClick={() => (counter$ = counter$ + 1)}> + </button>
+    <button onClick={() => counter$++}> + </button>
     {counter$}
-    <button onClick={() => (counter$ = counter$ - 1)}> - </button>
+    <button onClick={() => counter$--}> - </button>
   </div>
 );
 document.body.appendChild(view);

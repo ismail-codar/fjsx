@@ -17,7 +17,7 @@ const data: IGrid1 = {
 };
 
 const searchQuery = e => {
-  var filterKey = e.target["value"];
+  var filterKey = e.target.value;
   data.filteredData$ = data.gridData.filter(function(row) {
     return Object.keys(row).some(function(key) {
       return (

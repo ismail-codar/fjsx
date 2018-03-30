@@ -3,6 +3,7 @@ import traverse from "@babel/traverse";
 import { NodePath, Scope } from "babel-traverse";
 import * as t from "@babel/types";
 import { check } from "./check";
+import { parameters } from "./parameters";
 
 const fjsxValueInit = (
   init: t.Expression | t.PatternLike | t.SpreadElement | t.JSXNamespacedName
@@ -18,9 +19,16 @@ const fjsxValueInit = (
 
 const fjsxCall = (
   left: t.Expression | t.RestElement | t.LVal,
-  right: t.Expression
+  right: t.Expression,
+  operator: string
 ) => {
-  return t.callExpression(left as any, [right]);
+  if (operator === "=") return t.callExpression(left as any, [right]);
+  else {
+    operator = operator.substr(0, 1);
+    return t.callExpression(left as any, [
+      t.binaryExpression(operator as any, left as any, right)
+    ]);
+  }
 };
 
 const assignmentExpressionToCallCompute = (
@@ -84,6 +92,79 @@ const fjsxAssignmentExpressionSetCompute = (
   );
 };
 
+const expressionStatementGeneralProcess = (
+  propertyName: string,
+  path: NodePath<any>
+) => {
+  const expression: t.Expression = path.node[propertyName];
+  if (t.isAssignmentExpression(expression)) {
+    // const code = generate(path.node).code;
+    if (t.isMemberExpression(expression.left)) {
+      const leftIsTracked = check.isTrackedVariable(
+        path.scope,
+        expression.left
+      );
+      const rightIsTracked = check.isTrackedVariable(
+        path.scope,
+        expression.right
+      );
+      if (rightIsTracked) {
+        if (leftIsTracked) {
+          path.node[propertyName] = modify.fjsxCall(
+            expression.left,
+            expression.right,
+            expression.operator
+          );
+        }
+      } else {
+        if (leftIsTracked) {
+          path.node[propertyName] = modify.fjsxCall(
+            expression.left,
+            expression.right,
+            expression.operator
+          );
+        }
+      }
+    }
+    if (check.hasTrackedSetComment(path)) {
+      if (
+        !(
+          t.isIdentifier(expression.right) &&
+          check.isTrackedVariable(path.scope, expression.right)
+        ) // @tracked != @tracked ...
+      ) {
+        const fComputeParameters = parameters.fjsxComputeParametersInExpressionWithScopeFilter(
+          path.scope,
+          expression.right
+        );
+        expression.right = modify.fjsxAssignmentExpressionSetCompute(
+          expression,
+          fComputeParameters
+        );
+      }
+    } else if (check.isTrackedVariable(path.scope, expression.left)) {
+      path.node[propertyName] = modify.fjsxCall(
+        expression.left,
+        expression.right,
+        expression.operator
+      );
+    } else if (
+      check.isTrackedVariable(path.scope, expression.right) &&
+      !check.isExportsMember(expression.left)
+    ) {
+      expression.right = modify.memberVal(expression.right);
+    }
+  } else if (t.isUpdateExpression(expression)) {
+    if (check.isTrackedVariable(path.scope, expression.argument)) {
+      path.node[propertyName] = modify.fjsxCall(
+        expression.argument,
+        t.numericLiteral(1),
+        expression.operator
+      );
+    }
+  }
+};
+
 const memberVal = (
   expression:
     | t.Expression
@@ -106,5 +187,6 @@ export const modify = {
   memberVal,
   binaryExpressionInitComputeValues,
   assignmentExpressionToCallCompute,
-  fjsxAssignmentExpressionSetCompute
+  fjsxAssignmentExpressionSetCompute,
+  expressionStatementGeneralProcess
 };

@@ -275,12 +275,14 @@ export = function() {
       ArrowFunctionExpression(path: NodePath<t.ArrowFunctionExpression>, file) {
         if (doNotTraverse) return;
         try {
-          if (t.isAssignmentExpression(path.node.body)) {
-            path.node.body = modify.fjsxCall(
-              path.node.body.left,
-              path.node.body.right
-            );
-          }
+          // if (t.isAssignmentExpression(path.node.body)) {
+          //   path.node.body = modify.fjsxCall(
+          //     path.node.body.left,
+          //     path.node.body.right,
+          //     "="
+          //   );
+          // }
+          modify.expressionStatementGeneralProcess("body", path);
         } catch (e) {
           errorReport(e, path, file);
         }
@@ -288,63 +290,7 @@ export = function() {
       ExpressionStatement(path: NodePath<t.ExpressionStatement>, file) {
         if (doNotTraverse) return;
         try {
-          // içeride path.node.expression ataması yapılabilmesi için direk AssignmentExpression kullanılmadı
-          const expression = path.node.expression;
-          if (t.isAssignmentExpression(expression)) {
-            const code = generate(path.node).code;
-            if (t.isMemberExpression(expression.left)) {
-              const leftIsTracked = check.isTrackedVariable(
-                path.scope,
-                expression.left
-              );
-              const rightIsTracked = check.isTrackedVariable(
-                path.scope,
-                expression.right
-              );
-              if (rightIsTracked) {
-                if (leftIsTracked) {
-                  path.node.expression = modify.fjsxCall(
-                    expression.left,
-                    expression.right
-                  );
-                }
-              } else {
-                if (leftIsTracked) {
-                  path.node.expression = modify.fjsxCall(
-                    expression.left,
-                    expression.right
-                  );
-                }
-              }
-            }
-            if (check.hasTrackedSetComment(path)) {
-              if (
-                !(
-                  t.isIdentifier(expression.right) &&
-                  check.isTrackedVariable(path.scope, expression.right)
-                ) // @tracked != @tracked ...
-              ) {
-                const fComputeParameters = parameters.fjsxComputeParametersInExpressionWithScopeFilter(
-                  path.scope,
-                  expression.right
-                );
-                expression.right = modify.fjsxAssignmentExpressionSetCompute(
-                  expression,
-                  fComputeParameters
-                );
-              }
-            } else if (check.isTrackedVariable(path.scope, expression.left)) {
-              path.node.expression = modify.fjsxCall(
-                expression.left,
-                expression.right
-              );
-            } else if (
-              check.isTrackedVariable(path.scope, expression.right) &&
-              !check.isExportsMember(expression.left)
-            ) {
-              expression.right = modify.memberVal(expression.right);
-            }
-          }
+          modify.expressionStatementGeneralProcess("expression", path);
         } catch (e) {
           errorReport(e, path, file);
         }
@@ -375,7 +321,7 @@ export = function() {
             t.isMemberExpression(path.node.expression) ||
             t.isBinaryExpression(path.node.expression)
           ) {
-            if (t.isJSXElement(path.parent)) {
+            if (t.isJSXElement(path.parent) || t.isJSXFragment(path.parent)) {
               path.node.expression = modifyDom.attributeExpression(
                 path.scope,
                 "textContent",

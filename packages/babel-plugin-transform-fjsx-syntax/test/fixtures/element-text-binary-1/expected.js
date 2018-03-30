@@ -1,4 +1,4 @@
-fjsx.createElement("div", null, function(element) {
+fjsx.createElement(fjsx.Fragment, null, function(element) {
   element = fjsx.createTextNode(element);
   fjsx.compute(
     function() {

@@ -7,9 +7,9 @@ var counter$ = 0; // An option: If variables ending with $ they are observable.
 
 var view = (
   <div>
-    <button onClick={() => (counter$ = counter$ + 1)}>+</button>
+    <button onClick={() => counter$++}> + </button>
     {counter$}
-    <button onClick={() => (counter$ = counter$ - 1)}>-</button>
+    <button onClick={() => counter$--}> - </button>
   </div>
 ); // Bonus! view is a real DOM element
 document.body.appendChild(view);
