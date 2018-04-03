@@ -181,6 +181,21 @@ const memberVal = (
   } else return t.memberExpression(expression as any, t.identifier("$val"));
 };
 
+export const moveContextArguments = (args: any[], contextArgIndex: number) => {
+  const contextArgs = args[contextArgIndex].arguments.splice(2);
+  contextArgs.push(
+    t.callExpression(
+      t.memberExpression(t.identifier("fjsx"), t.identifier("endContext")),
+      []
+    )
+  );
+  args[contextArgIndex] = t.callExpression(
+    t.memberExpression(t.identifier("fjsx"), t.identifier("startContext")),
+    [args[contextArgIndex].arguments[1]]
+  );
+  args.splice.apply(args, [contextArgIndex + 1, 0].concat(contextArgs));
+};
+
 export const modify = {
   fjsxValueInit,
   fjsxCall,
@@ -188,5 +203,6 @@ export const modify = {
   binaryExpressionInitComputeValues,
   assignmentExpressionToCallCompute,
   fjsxAssignmentExpressionSetCompute,
-  expressionStatementGeneralProcess
+  expressionStatementGeneralProcess,
+  moveContextArguments
 };

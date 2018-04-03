@@ -230,30 +230,43 @@ export = function() {
         try {
           const member = found.callExpressionFirstMember(path.node);
           if (member && !member.name.startsWith("fjsx")) {
-            const methodParams = found.callingMethodParams(path, file.filename);
-            path.node.arguments.forEach((argument, index) => {
-              const leftIsTracked = check.isTrackedVariable(
-                path.scope,
-                argument
+            const contextArgumentIndex = found.findContextChildIndex(
+              path.node.arguments
+            );
+            if (contextArgumentIndex !== -1) {
+              modify.moveContextArguments(
+                path.node.arguments,
+                contextArgumentIndex
               );
-              const rightIsTracked =
-                methodParams &&
-                check.isTrackedVariable(path.scope, methodParams[index]);
-              if (rightIsTracked) {
-                if (!leftIsTracked) {
-                  //call-2 call-3
-                  path.node.arguments[index] = modify.fjsxValueInit(
-                    path.node.arguments[index]
-                  );
+            } else if (!member.name.startsWith("React")) {
+              const methodParams = found.callingMethodParams(
+                path,
+                file.filename
+              );
+              path.node.arguments.forEach((argument, index) => {
+                const leftIsTracked = check.isTrackedVariable(
+                  path.scope,
+                  argument
+                );
+                const rightIsTracked =
+                  methodParams &&
+                  check.isTrackedVariable(path.scope, methodParams[index]);
+                if (rightIsTracked) {
+                  if (!leftIsTracked) {
+                    //call-2 call-3
+                    path.node.arguments[index] = modify.fjsxValueInit(
+                      path.node.arguments[index]
+                    );
+                  }
+                } else {
+                  if (leftIsTracked) {
+                    path.node.arguments[index] = modify.memberVal(
+                      path.node.arguments[index]
+                    );
+                  }
                 }
-              } else {
-                if (leftIsTracked) {
-                  path.node.arguments[index] = modify.memberVal(
-                    path.node.arguments[index]
-                  );
-                }
-              }
-            });
+              });
+            }
           }
         } catch (e) {
           errorReport(e, path, file);

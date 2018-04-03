@@ -1,13 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const dom_tree_1 = require("./dom-tree");
 const appContext = {};
-exports.getContextValue = (key, componentId) => {
-    return null;
+exports.getContextValue = (key) => {
+    return appContext[key];
 };
-// export const Context = (props: { key: string; value: any }) => {
-//   const { key, value } = props;
-//   appContext[key] = value;
-//   //TODO childeren render süresince context geçerli olup render bitince kaybolmalı
-//   return <div>sss</div>;
-// };
+exports.Context = (props) => {
+    const { key, value, children } = props;
+    appContext[key] = value;
+    console.log("appContext", key, value);
+    props.onAfterMount = () => {
+        appContext[key] = null;
+    };
+    debugger;
+    const element = document.createDocumentFragment();
+    dom_tree_1.addChildElements(element, children);
+    return element;
+};
 //# sourceMappingURL=context.jsx.map

@@ -90,9 +90,28 @@ const callingMethodParams = (
   return foundParams;
 };
 
+const findContextChildIndex = (args: any[]) => {
+  return args.findIndex(arg => {
+    if (
+      t.isCallExpression(arg) &&
+      arg.arguments.length &&
+      t.isMemberExpression(arg.arguments[0])
+    ) {
+      const memberExpression = arg.arguments[0] as t.MemberExpression;
+      if (
+        t.isIdentifier(memberExpression.property) &&
+        memberExpression.property.name == "Context"
+      ) {
+        return true;
+      } else return false;
+    } else return false;
+  });
+};
+
 export const found = {
   callExpressionFirstMember,
   parentPathFound,
   variableBindingInScope,
-  callingMethodParams
+  callingMethodParams,
+  findContextChildIndex
 };
