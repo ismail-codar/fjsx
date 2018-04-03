@@ -1,25 +1,16 @@
-import { addChildElements } from "./dom-tree";
+const appContext: { [key: string]: any[] } = {};
 
-const appContext = {};
+export const startContext = (key: string, value: any) => {
+  if (!appContext[key]) appContext[key] = [];
+  appContext[key].push(value);
+};
 
 export const getContextValue = (key: string) => {
-  return appContext[key];
+  return appContext[key][appContext[key].length - 1];
 };
 
-export const Context = (props: {
-  key: string;
-  value: any;
-  children: any;
-  onAfterMount?: any;
-}) => {
-  const { key, value, children } = props;
-  appContext[key] = value;
-  console.log("appContext", key, value);
-  props.onAfterMount = () => {
-    appContext[key] = null;
-  };
-  debugger;
-  const element = document.createDocumentFragment();
-  addChildElements(element, children);
-  return element;
+export const endContext = (key: string) => {
+  appContext[key].pop();
 };
+
+export const Context = (props: { key: string; value: any }) => null;

@@ -2,7 +2,7 @@ import * as babel from "@babel/core";
 import { getExportSource } from "../../lib/export-sources";
 
 getExportSource(
-  "/Users/macbook/Documents/GitHub/fjsx/packages/fjsx-examples/examples/grid-1/view.tsx",
+  "/Users/macbook/Documents/GitHub/fjsx/packages/fjsx-examples/examples/grid-2/types.ts",
   babel,
   {
     presets: [

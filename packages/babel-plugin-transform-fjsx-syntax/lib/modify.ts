@@ -182,16 +182,17 @@ const memberVal = (
 };
 
 export const moveContextArguments = (args: any[], contextArgIndex: number) => {
+  const contextArgProps: any[] = args[contextArgIndex].arguments[1].properties;
   const contextArgs = args[contextArgIndex].arguments.splice(2);
   contextArgs.push(
     t.callExpression(
       t.memberExpression(t.identifier("fjsx"), t.identifier("endContext")),
-      []
+      [contextArgProps[0].value]
     )
   );
   args[contextArgIndex] = t.callExpression(
     t.memberExpression(t.identifier("fjsx"), t.identifier("startContext")),
-    [args[contextArgIndex].arguments[1]]
+    [contextArgProps[0].value, contextArgProps[1].value]
   );
   args.splice.apply(args, [contextArgIndex + 1, 0].concat(contextArgs));
 };

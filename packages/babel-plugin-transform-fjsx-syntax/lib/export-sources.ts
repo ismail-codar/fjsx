@@ -152,6 +152,11 @@ export function getExportSource(entry, babel, babelConfig) {
     if (node.declaration.type === "TypeAlias") {
       return [node.declaration.id.name];
     }
+
+    if (node.declaration.type === "TSInterfaceDeclaration") {
+      // TODO TSInterfaceDeclaration
+      return [];
+    }
     /* This should not happen and tests for that case would be absurd :) */
     /* istanbul ignore next */
     throw new Error("unknown declaration");
