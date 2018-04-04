@@ -1,5 +1,7 @@
 import * as t from "@babel/types";
 import { NodePath, Scope, Binding } from "babel-traverse";
+import generate from "babel-generator";
+import { exportRegistry } from "./export-registry";
 
 const callExpressionFirstMember = (
   expression: t.CallExpression
@@ -41,6 +43,31 @@ const variableBindingInScope = (scope: Scope, searchName: string): Binding => {
   return null;
 };
 
+const callingMethodParamsInNode = (callee, node: t.BaseNode): t.BaseNode[] => {
+  var foundParams = [];
+  if (t.isVariableDeclarator(node)) {
+    if (t.isFunctionExpression(node.init)) {
+      foundParams = node.init.params;
+    } else if (t.isObjectExpression(node.init)) {
+      //call-6
+      if (t.isMemberExpression(callee) && t.isIdentifier(callee.property)) {
+        node.init.properties.every(prop => {
+          if (
+            t.isObjectProperty(prop) &&
+            t.isIdentifier(prop.key) &&
+            prop.key.name === callee.property.name &&
+            t.isFunctionExpression(prop.value)
+          ) {
+            foundParams = prop.value.params;
+            return true;
+          }
+        });
+      } else throw "not implemented in callingMethodParams";
+    }
+  }
+  return foundParams;
+};
+
 const callingMethodParams = (
   path: NodePath<t.CallExpression>,
   filename: string
@@ -57,31 +84,21 @@ const callingMethodParams = (
       const variableBinding = checkPath.scope.bindings[searchName];
       if (variableBinding) {
         if (t.isVariableDeclarator(variableBinding.path.node)) {
-          if (t.isFunctionExpression(variableBinding.path.node.init)) {
-            foundParams = variableBinding.path.node.init.params;
-            return true;
-          } else if (t.isObjectExpression(variableBinding.path.node.init)) {
-            //call-6
-            if (
-              t.isMemberExpression(callee) &&
-              t.isIdentifier(callee.property)
-            ) {
-              variableBinding.path.node.init.properties.every(prop => {
-                if (
-                  t.isObjectProperty(prop) &&
-                  t.isIdentifier(prop.key) &&
-                  prop.key.name === callee.property.name &&
-                  t.isFunctionExpression(prop.value)
-                ) {
-                  foundParams = prop.value.params;
-                  return true;
-                }
-              });
-              if (foundParams) return true;
-            } else throw "not implemented in callingMethodParams";
-          }
+          foundParams = callingMethodParamsInNode(
+            callee,
+            variableBinding.path.node
+          );
+          if (foundParams) return true;
         } else if (t.isImportSpecifier(variableBinding.path.node)) {
-          //variableBinding.path.parent.source.value
+          const exportedNodes = exportRegistry.loadImportedFileExports(
+            filename,
+            variableBinding.path.parent["source"].value
+          );
+          exportedNodes.find(node => {
+            foundParams = callingMethodParamsInNode(callee, node);
+            return foundParams !== null;
+          });
+          if (foundParams) return true;
           return true;
         }
       }

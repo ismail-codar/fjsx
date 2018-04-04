@@ -10,6 +10,7 @@ import { modifyDom } from "./modify-dom";
 import generate from "@babel/generator";
 import { realpathSync } from "fs";
 import { join } from "path";
+import { exportRegistry } from "./export-registry";
 
 var micromatch = require("micromatch");
 //https://github.com/babel-utils/babel-type-scopes
