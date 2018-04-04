@@ -6,7 +6,7 @@ export const startContext = (key: string, value: any) => {
 };
 
 export const getContextValue = (key: string) => {
-  return appContext[key][appContext[key].length - 1];
+  if (appContext[key]) return appContext[key][appContext[key].length - 1];
 };
 
 export const endContext = (key: string) => {

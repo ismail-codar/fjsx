@@ -7,10 +7,11 @@ exports.startContext = (key, value) => {
     appContext[key].push(value);
 };
 exports.getContextValue = (key) => {
-    return appContext[key][appContext[key].length - 1];
+    if (appContext[key])
+        return appContext[key][appContext[key].length - 1];
 };
 exports.endContext = (key) => {
     appContext[key].pop();
 };
 exports.Context = (props) => null;
-//# sourceMappingURL=context.jsx.map
+//# sourceMappingURL=context.js.map

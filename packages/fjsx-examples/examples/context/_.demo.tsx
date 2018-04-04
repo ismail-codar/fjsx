@@ -7,24 +7,16 @@ const Component1 = () => {
 
 var view = (
   <div>
+    <Component1 />
     <fjsx.Context key="theme" value="tema1">
+      <Component1 />
+      <fjsx.Context key="theme" value="tema2">
+        <Component1 />
+      </fjsx.Context>
       <Component1 />
     </fjsx.Context>
     <Component1 />
   </div>
 );
-
-// var view = (
-//   <div>
-//     <fjsx.Context key="theme" value="tema1">
-//       <Component1 />
-//       <fjsx.Context key="theme" value="tema2">
-//         <Component1 />
-//       </fjsx.Context>
-//       <Component1 />
-//     </fjsx.Context>
-//     <Component1 />
-//   </div>
-// );
 
 document.body.appendChild(view);
