@@ -128,6 +128,7 @@ const isTrackedVariable = (
     | t.SpreadElement
     | t.JSXNamespacedName
 ) => {
+  if (!node) return false;
   if (isTrackedByNodeName(node)) return true;
   if (leadingCommentsHasTracked(node.leadingComments)) {
     return true;
