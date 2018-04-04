@@ -78,9 +78,11 @@ exports.addChildElements = (element, childs) => {
         }
         else {
             child = childs[i];
-            props = child["$props"];
-            element.appendChild(child instanceof Node ? child : document.createTextNode(child));
-            props && props.onAfterMount && props.onAfterMount(child);
+            if (child) {
+                props = child["$props"];
+                element.appendChild(child instanceof Node ? child : document.createTextNode(child));
+                props && props.onAfterMount && props.onAfterMount(child);
+            }
         }
     }
 };

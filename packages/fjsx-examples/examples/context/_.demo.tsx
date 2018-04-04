@@ -10,6 +10,7 @@ var view = (
     <fjsx.Context key="theme" value="tema1">
       <Component1 />
     </fjsx.Context>
+    <Component1 />
   </div>
 );
 
