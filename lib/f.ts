@@ -66,7 +66,7 @@ export const compute = (fn: () => void, ...args: any[]) => {
   fn();
 };
 
-export const initCompute = (fn: () => any, ...args: FJsxValue<any>[]) => {
+export const initCompute = (fn: () => any, ...args: any[]) => {
   var cValue = value(fn());
   var cmpInner = function() {
     cValue(fn());
@@ -79,16 +79,12 @@ export const initCompute = (fn: () => any, ...args: FJsxValue<any>[]) => {
   return cValue;
 };
 
-export const setCompute = (
-  prev: FJsxValue<any>,
-  fn: () => void,
-  ...args: FJsxValue<any>[]
-) => {
+export const setCompute = (prev: any, fn: () => void, ...args: any[]) => {
   destroy(prev);
   return initCompute(fn, ...args);
 };
 
-export const destroy = (item: FJsxValue<any>) => {
+export const destroy = (item: any) => {
   delete item["compute"];
   delete item["computes"];
 };

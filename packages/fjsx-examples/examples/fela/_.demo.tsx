@@ -1,33 +1,66 @@
 import { createRenderer } from "fela";
 import { render } from "fela-dom";
 
-// a simple style rule is a pure function of state
-// that returns an object of style declarations
-const rule = state => ({
-  textAlign: "center",
-  padding: "5px 10px",
-  // directly use the state to compute style values
-  background: state.primary ? "green" : "blue",
-  fontSize: "18pt",
-  borderRadius: 5,
-  // deeply nest media queries and pseudo classes
-  ":hover": {
-    background: state.primary ? "chartreuse" : "dodgerblue",
-    boxShadow: "0 0 2px rgb(70, 70, 70)"
-  }
-});
-
 const renderer = createRenderer();
 render(renderer);
+const cssRule = (rule, params?) => {
+  if (!params) {
+    rule = () => rule;
+    params = {};
+  }
+  return renderer.renderRule(rule, params);
+};
 
-// fela generates atomic CSS classes in order to achieve
-// maximal style reuse and minimal CSS output
-const className = renderer.renderRule(rule, {
-  primary: true
-});
+var primary$ = true;
+var fontSize$ = 18;
 
-console.log(renderer);
+setInterval(() => {
+  primary$ = !primary$;
+  // fontSize$++;
+}, 1000);
 
-const view = <button className={className}>button 1</button>;
+const view1 = (
+  <button
+    className={cssRule(
+      state => {
+        return {
+          fontSize: `${state.fontSize}pt`,
+          textAlign: "center",
+          padding: "5px 10px",
+          background: state.primary ? "green" : "blue",
+          borderRadius: 5,
+          ":hover": {
+            background: state.primary ? "chartreuse" : "dodgerblue",
+            boxShadow: "0 0 2px rgb(70, 70, 70)"
+          }
+        };
+      },
+      {
+        primary: primary$,
+        fontSize: fontSize$
+      }
+    )}
+  >
+    button 1
+  </button>
+);
+const view2 = (
+  <button
+    className={cssRule({
+      fontSize: `${primary$}pt`,
+      textAlign: "center",
+      padding: "5px 10px",
+      background: primary$ ? "green" : "blue",
+      borderRadius: 5,
+      ":hover": {
+        background: primary$ ? "chartreuse" : "dodgerblue",
+        boxShadow: "0 0 2px rgb(70, 70, 70)"
+      }
+    })}
+  >
+    button 1
+  </button>
+);
 
-document.body.appendChild(view);
+document.body.appendChild(view1);
+document.body.appendChild(view2);

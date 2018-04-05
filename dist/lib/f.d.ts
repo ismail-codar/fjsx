@@ -17,6 +17,6 @@ export declare const off: (arr: any[], type: FjsxArrayEventType, callback: (e: {
     index: number;
 }) => void) => void;
 export declare const compute: (fn: () => void, ...args: any[]) => void;
-export declare const initCompute: (fn: () => any, ...args: FJsxValue<any>[]) => FJsxValue<any>;
-export declare const setCompute: (prev: FJsxValue<any>, fn: () => void, ...args: FJsxValue<any>[]) => FJsxValue<any>;
-export declare const destroy: (item: FJsxValue<any>) => void;
+export declare const initCompute: (fn: () => any, ...args: any[]) => FJsxValue<any>;
+export declare const setCompute: (prev: any, fn: () => void, ...args: any[]) => FJsxValue<any>;
+export declare const destroy: (item: any) => void;
