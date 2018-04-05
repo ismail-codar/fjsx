@@ -53,6 +53,8 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "fela": "^6.1.7",
+    "fela-dom": "^7.0.7",
     "fjsx": "file:../.."
   }
 }
