@@ -15,9 +15,10 @@ const callExpressionFirstMember = (
       else if (t.isCallExpression(member.object))
         if (t.isIdentifier(member.object.callee)) return member.object.callee;
         else member = member.object.callee["object"];
+      else if (t.isMemberExpression(member)) return member.property;
       else {
-        break;
         debugger;
+        break;
       }
     }
   }

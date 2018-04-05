@@ -3,12 +3,9 @@ import { render } from "fela-dom";
 
 const renderer = createRenderer();
 render(renderer);
-const cssRule = (rule, params?) => {
-  if (!params) {
-    rule = () => rule;
-    params = {};
-  }
-  return renderer.renderRule(rule, params);
+const cssRules = (rule, params?) => {
+  if (!params) return renderer.renderRule(() => rule, {});
+  else return renderer.renderRule(rule, params);
 };
 
 var primary$ = true;
@@ -21,7 +18,7 @@ setInterval(() => {
 
 const view1 = (
   <button
-    className={cssRule(
+    className={cssRules(
       state => {
         return {
           fontSize: `${state.fontSize}pt`,
@@ -46,8 +43,8 @@ const view1 = (
 );
 const view2 = (
   <button
-    className={cssRule({
-      fontSize: `${primary$}pt`,
+    className={cssRules({
+      fontSize: `${fontSize$}pt`,
       textAlign: "center",
       padding: "5px 10px",
       background: primary$ ? "green" : "blue",
