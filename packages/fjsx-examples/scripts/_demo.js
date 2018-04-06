@@ -1,3 +1,3 @@
 module.exports = {
-  view: require("../examples/context/_.demo.tsx")
+  view: require("../examples/svg-1/_.demo.tsx")
 };

@@ -1,5 +1,31 @@
 var jsxEventProperty = /^on[A-Z]/;
+const svgNS = "http://www.w3.org/2000/svg";
 export const Fragment = Symbol("fjsx.Fragment");
+
+const setElementAttributes = (
+  element: Element,
+  attributes,
+  forceSetAttr: boolean
+) => {
+  let attribute = null;
+  for (var attributeName in attributes) {
+    attribute = attributes[attributeName];
+    if (attribute instanceof Function) {
+      if (jsxEventProperty.test(attributeName)) {
+        attributeName = attributeName.toLowerCase();
+        element[attributeName] = attribute;
+      } else attribute(element);
+    } else if (attribute instanceof Object) {
+      //style
+      for (var key in attribute)
+        if (typeof attribute[key] === "function") attribute[key](element);
+    } else {
+      if (forceSetAttr || attributeName.indexOf("-") !== -1)
+        element.setAttribute(attributeName, attribute);
+      else element[attributeName] = attribute;
+    }
+  }
+};
 
 export const createElement = (
   tagName: string | Function | Symbol,
@@ -16,29 +42,21 @@ export const createElement = (
       element = document.createDocumentFragment();
     } else {
       element = document.createElement(tagName as any);
-      if (attributes) {
-        let attribute = null;
-        for (var attributeName in attributes) {
-          attribute = attributes[attributeName];
-          if (attribute instanceof Function) {
-            if (jsxEventProperty.test(attributeName)) {
-              attributeName = attributeName.toLowerCase();
-              element[attributeName] = attribute;
-            } else attribute(element);
-          } else if (attribute instanceof Object) {
-            //style
-            for (var key in attribute)
-              if (typeof attribute[key] === "function") attribute[key](element);
-          } else {
-            if (attributeName.indexOf("-") !== -1)
-              element.setAttribute(attributeName, attribute);
-            else element[attributeName] = attribute;
-          }
-        }
-      }
+      attributes && setElementAttributes(element, attributes, false);
     }
-    if (childs && childs.length) addChildElements(element, childs);
+    childs && childs.length && addChildElements(element, childs);
   }
+  return element;
+};
+
+export const createSvgElement = (
+  tagName: string,
+  attributes: { [key: string]: any },
+  ...childs: any[]
+) => {
+  let element = document.createElementNS(svgNS, tagName);
+  attributes && setElementAttributes(element, attributes, true);
+  childs && childs.length && addChildElements(element, childs);
   return element;
 };
 

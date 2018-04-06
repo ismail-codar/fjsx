@@ -11,6 +11,7 @@ import generate from "@babel/generator";
 import { realpathSync } from "fs";
 import { join } from "path";
 import { exportRegistry } from "./export-registry";
+import { allSvgElements, htmlAndSvgElements } from "./svg";
 
 var micromatch = require("micromatch");
 //https://github.com/babel-utils/babel-type-scopes
@@ -32,6 +33,7 @@ function getRealpath(n) {
 }
 
 var doNotTraverse = false;
+const openedTags: string[] = [];
 
 export = function() {
   return {
@@ -225,10 +227,25 @@ export = function() {
           errorReport(e, path, file);
         }
       },
-
       CallExpression(path: NodePath<t.CallExpression>, file) {
         if (doNotTraverse) return;
         try {
+          if (
+            t.isMemberExpression(path.node.callee) &&
+            path.node.callee.property.name == "createElement"
+          ) {
+            const firstArgument = path.node.arguments[0];
+            if (t.isStringLiteral(firstArgument)) {
+              if (
+                (t.isStringLiteral(firstArgument) &&
+                  allSvgElements.indexOf(firstArgument.value) !== -1) ||
+                (htmlAndSvgElements.indexOf(firstArgument.value) !== -1 &&
+                  allSvgElements.indexOf(openedTags[openedTags.length - 1]) !==
+                    -1)
+              )
+                path.node.callee.property.name = "createSvgElement";
+            }
+          }
           const member = found.callExpressionFirstMember(path.node);
           if (member && !member.name.startsWith("fjsx")) {
             const contextArgumentIndex = found.findContextChildIndex(
@@ -311,6 +328,12 @@ export = function() {
         } catch (e) {
           errorReport(e, path, file);
         }
+      },
+      JSXOpeningElement(path: NodePath<t.JSXOpeningElement>, file) {
+        openedTags.push(path.node.name["name"]);
+      },
+      JSXClosingElement(path: NodePath<t.JSXClosingElement>, file) {
+        openedTags.pop();
       },
       JSXExpressionContainer(path: NodePath<t.JSXExpressionContainer>, file) {
         if (doNotTraverse) return;
