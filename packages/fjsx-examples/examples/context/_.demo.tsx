@@ -1,5 +1,5 @@
 import { fjsx, FJsxValue } from "fjsx";
-import { cssRules } from "../fela/_.demo";
+import { cssRules } from "fjsx-cssinjs-fela";
 
 const themes = {
   dark: {

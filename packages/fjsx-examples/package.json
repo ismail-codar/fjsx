@@ -53,8 +53,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "fela": "^6.1.7",
-    "fela-dom": "^7.0.7",
-    "fjsx": "file:../.."
+    "fjsx": "file:../..",
+    "fjsx-cssinjs-fela": "file:../fjsx-cssinjs-fela"
   }
 }

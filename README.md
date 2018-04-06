@@ -12,6 +12,7 @@ var view = (
     <button onClick={() => counter$--}> - </button>
   </>
 ); // Bonus! view is a real DOM element(s)
+
 document.body.appendChild(view);
 ```
 

@@ -1,0 +1,17 @@
+{
+  "name": "fjsx-cssinjs-fela",
+  "version": "1.0.0",
+  "description": "CSS in JS with fela for jsx",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "İsmail Codar",
+  "license": "ISC",
+  "dependencies": {
+    "fela": "^6.1.7",
+    "fela-dom": "^7.0.7"
+  }
+}
