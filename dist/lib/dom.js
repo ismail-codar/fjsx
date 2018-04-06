@@ -33,16 +33,14 @@ exports.arrayMap = (arr, parentDom, renderReturn) => {
     oArr.on("itemremoved", function (e) {
         parentDom.removeChild(parentDom.childNodes.item(e.index));
     });
-    // arr.$val = oArr;
     arr(oArr);
     const renderAll = () => {
         if (arr.$val.length === 0)
             parentDom.textContent = "";
         else {
             parentDom.textContent = "";
-            for (var i = parentDom.childElementCount; i < arr.$val.length; i++) {
+            for (var i = parentDom.childElementCount; i < arr.$val.length; i++)
                 exports.insertToDom(parentDom, i, renderReturn(arr.$val[i], i));
-            }
         }
     };
     f_1.compute(renderAll, arr);

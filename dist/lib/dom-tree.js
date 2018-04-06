@@ -22,32 +22,17 @@ exports.createElement = (tagName, attributes, ...childs) => {
                     attribute = attributes[attributeName];
                     if (attribute instanceof Function) {
                         if (jsxEventProperty.test(attributeName)) {
-                            if (attributeName === "onDomCreate") {
-                                attributes[attributeName](element);
-                            }
-                            else {
-                                attributeName = attributeName.toLowerCase();
-                                element[attributeName] = attribute;
-                            }
+                            attributeName = attributeName.toLowerCase();
+                            element[attributeName] = attribute;
                         }
                         else
                             attribute(element);
                     }
                     else if (attribute instanceof Object) {
                         //style
-                        for (var key in attribute) {
-                            if (typeof attribute[key] === "function") {
+                        for (var key in attribute)
+                            if (typeof attribute[key] === "function")
                                 attribute[key](element);
-                            }
-                            else {
-                                if (attributeName === "style") {
-                                    //TODO styles
-                                }
-                                else {
-                                    throw attributeName + " type is object";
-                                }
-                            }
-                        }
                     }
                     else {
                         if (attributeName.indexOf("-") !== -1)
@@ -58,31 +43,23 @@ exports.createElement = (tagName, attributes, ...childs) => {
                 }
             }
         }
-        // TODO number vs...
-        if (childs && childs.length) {
+        if (childs && childs.length)
             exports.addChildElements(element, childs);
-        }
     }
-    element["$props"] = attributes;
     return element;
 };
 exports.addChildElements = (element, childs) => {
-    let child = null;
     let props = null;
     for (var i = 0; i < childs.length; i++) {
-        if (Array.isArray(childs[i])) {
+        if (Array.isArray(childs[i]))
             exports.addChildElements(element, childs[i]);
-        }
-        else if (childs[i] instanceof Function) {
+        else if (childs[i] instanceof Function)
             childs[i](element);
-        }
         else {
-            child = childs[i];
-            if (child) {
-                props = child["$props"];
-                element.appendChild(child instanceof Node ? child : document.createTextNode(child));
-                props && props.onAfterMount && props.onAfterMount(child);
-            }
+            childs[i] &&
+                element.appendChild(childs[i] instanceof Node
+                    ? childs[i]
+                    : document.createTextNode(childs[i]));
         }
     }
 };

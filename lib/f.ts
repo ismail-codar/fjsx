@@ -9,17 +9,14 @@ export const value = <T>(value: T, freezed?: boolean): FJsxValue<T> => {
     } else innerFn["$val"] = val;
     const computes = innerFn["computes"];
     if (computes.length)
-      for (var i = 0; i < computes.length; i++) {
+      for (var i = 0; i < computes.length; i++)
         !computes[i]["freezed"] && computes[i](computes[i].compute());
-      }
   };
   innerFn["$val"] = value;
   innerFn["freezed"] = freezed;
 
   innerFn["computes"] = [];
-  if (value instanceof Function) {
-    innerFn["compute"] = value;
-  }
+  if (value instanceof Function) innerFn["compute"] = value;
   innerFn.toJSON = () => innerFn["$val"];
   return innerFn;
 };
@@ -60,9 +57,7 @@ export const off = (
 
 export const compute = (fn: () => void, ...args: any[]) => {
   var compute = value(fn);
-  for (var i = 0; i < args.length; i++) {
-    args[i]["computes"].push(compute);
-  }
+  for (var i = 0; i < args.length; i++) args[i]["computes"].push(compute);
   fn();
 };
 
@@ -72,9 +67,7 @@ export const initCompute = (fn: () => any, ...args: any[]) => {
     cValue(fn());
   };
   cmpInner["compute"] = cValue;
-  for (var i = 0; i < args.length; i++) {
-    args[i]["computes"].push(cmpInner);
-  }
+  for (var i = 0; i < args.length; i++) args[i]["computes"].push(cmpInner);
 
   return cValue;
 };

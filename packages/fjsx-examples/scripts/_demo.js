@@ -1,3 +1,3 @@
 module.exports = {
-  view: require("../examples/fela/_.demo.tsx")
+  view: require("../examples/context/_.demo.tsx")
 };

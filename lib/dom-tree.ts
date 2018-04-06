@@ -22,26 +22,13 @@ export const createElement = (
           attribute = attributes[attributeName];
           if (attribute instanceof Function) {
             if (jsxEventProperty.test(attributeName)) {
-              if (attributeName === "onDomCreate") {
-                attributes[attributeName](element);
-              } else {
-                attributeName = attributeName.toLowerCase();
-                element[attributeName] = attribute;
-              }
+              attributeName = attributeName.toLowerCase();
+              element[attributeName] = attribute;
             } else attribute(element);
           } else if (attribute instanceof Object) {
             //style
-            for (var key in attribute) {
-              if (typeof attribute[key] === "function") {
-                attribute[key](element);
-              } else {
-                if (attributeName === "style") {
-                  //TODO styles
-                } else {
-                  throw attributeName + " type is object";
-                }
-              }
-            }
+            for (var key in attribute)
+              if (typeof attribute[key] === "function") attribute[key](element);
           } else {
             if (attributeName.indexOf("-") !== -1)
               element.setAttribute(attributeName, attribute);
@@ -50,33 +37,23 @@ export const createElement = (
         }
       }
     }
-
-    // TODO number vs...
-    if (childs && childs.length) {
-      addChildElements(element, childs);
-    }
+    if (childs && childs.length) addChildElements(element, childs);
   }
-  element["$props"] = attributes;
   return element;
 };
 
 export const addChildElements = (element, childs) => {
-  let child = null;
   let props = null;
   for (var i = 0; i < childs.length; i++) {
-    if (Array.isArray(childs[i])) {
-      addChildElements(element, childs[i]);
-    } else if (childs[i] instanceof Function) {
-      childs[i](element);
-    } else {
-      child = childs[i];
-      if (child) {
-        props = child["$props"];
+    if (Array.isArray(childs[i])) addChildElements(element, childs[i]);
+    else if (childs[i] instanceof Function) childs[i](element);
+    else {
+      childs[i] &&
         element.appendChild(
-          child instanceof Node ? child : document.createTextNode(child)
+          childs[i] instanceof Node
+            ? childs[i]
+            : document.createTextNode(childs[i])
         );
-        props && props.onAfterMount && props.onAfterMount(child);
-      }
     }
   }
 };

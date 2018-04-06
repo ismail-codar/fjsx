@@ -11,16 +11,14 @@ exports.value = (value, freezed) => {
             innerFn["$val"] = val;
         const computes = innerFn["computes"];
         if (computes.length)
-            for (var i = 0; i < computes.length; i++) {
+            for (var i = 0; i < computes.length; i++)
                 !computes[i]["freezed"] && computes[i](computes[i].compute());
-            }
     };
     innerFn["$val"] = value;
     innerFn["freezed"] = freezed;
     innerFn["computes"] = [];
-    if (value instanceof Function) {
+    if (value instanceof Function)
         innerFn["compute"] = value;
-    }
     innerFn.toJSON = () => innerFn["$val"];
     return innerFn;
 };
@@ -39,9 +37,8 @@ exports.off = (arr, type, callback) => {
 };
 exports.compute = (fn, ...args) => {
     var compute = exports.value(fn);
-    for (var i = 0; i < args.length; i++) {
+    for (var i = 0; i < args.length; i++)
         args[i]["computes"].push(compute);
-    }
     fn();
 };
 exports.initCompute = (fn, ...args) => {
@@ -50,9 +47,8 @@ exports.initCompute = (fn, ...args) => {
         cValue(fn());
     };
     cmpInner["compute"] = cValue;
-    for (var i = 0; i < args.length; i++) {
+    for (var i = 0; i < args.length; i++)
         args[i]["computes"].push(cmpInner);
-    }
     return cValue;
 };
 exports.setCompute = (prev, fn, ...args) => {
