@@ -37,6 +37,7 @@ export const createElement = (
     if (attributes === null) attributes = {};
     attributes["children"] = childs;
     element = (tagName as any)(attributes);
+    if (element) element["$props"] = attributes;
   } else {
     if (tagName === Fragment) {
       element = document.createDocumentFragment();
@@ -44,6 +45,7 @@ export const createElement = (
       element = document.createElement(tagName as any);
       attributes && setElementAttributes(element, attributes, false);
     }
+    element["$props"] = attributes;
     childs && childs.length && addChildElements(element, childs);
   }
   return element;
@@ -66,12 +68,15 @@ export const addChildElements = (element, childs) => {
     if (Array.isArray(childs[i])) addChildElements(element, childs[i]);
     else if (childs[i] instanceof Function) childs[i](element);
     else {
-      childs[i] &&
+      if (childs[i]) {
+        props = childs[i]["$props"];
         element.appendChild(
           childs[i] instanceof Node
             ? childs[i]
             : document.createTextNode(childs[i])
         );
+        props && props.didMount && props.didMount(element, childs[i]);
+      }
     }
   }
 };

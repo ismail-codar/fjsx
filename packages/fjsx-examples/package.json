@@ -54,6 +54,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "fjsx": "file:../..",
-    "fjsx-cssinjs-fela": "file:../fjsx-cssinjs-fela"
+    "fjsx-cssinjs-fela": "file:../fjsx-cssinjs-fela",
+    "fjsx-router": "file:../fjsx-router"
   }
 }

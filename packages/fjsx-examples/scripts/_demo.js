@@ -1,3 +1,3 @@
 module.exports = {
-  view: require("../examples/fela/_.demo.tsx")
+  view: require("../examples/router-1/_.demo.tsx")
 };

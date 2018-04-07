@@ -36,6 +36,8 @@ exports.createElement = (tagName, attributes, ...childs) => {
             attributes = {};
         attributes["children"] = childs;
         element = tagName(attributes);
+        if (element)
+            element["$props"] = attributes;
     }
     else {
         if (tagName === exports.Fragment) {
@@ -45,6 +47,7 @@ exports.createElement = (tagName, attributes, ...childs) => {
             element = document.createElement(tagName);
             attributes && setElementAttributes(element, attributes, false);
         }
+        element["$props"] = attributes;
         childs && childs.length && exports.addChildElements(element, childs);
     }
     return element;
@@ -63,10 +66,13 @@ exports.addChildElements = (element, childs) => {
         else if (childs[i] instanceof Function)
             childs[i](element);
         else {
-            childs[i] &&
+            if (childs[i]) {
+                props = childs[i]["$props"];
                 element.appendChild(childs[i] instanceof Node
                     ? childs[i]
                     : document.createTextNode(childs[i]));
+                props && props.didMount && props.didMount(element, childs[i]);
+            }
         }
     }
 };
