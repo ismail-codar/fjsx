@@ -1,4 +1,4 @@
-import { fjsx as fjsxObj } from "../index";
+import { fjsx as fjsxObj } from "fjsx";
 
 declare global {
   var fjsx: typeof fjsxObj;

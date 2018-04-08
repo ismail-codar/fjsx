@@ -1,7 +1,7 @@
 {
   "name": "fjsx-router",
   "version": "1.0.0",
-  "description": "Page router for fjsx. A port of react-router.",
+  "description": "Page router for fjsx.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
