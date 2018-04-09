@@ -1,4 +1,4 @@
-import { fjsx, FJsxValue } from "fjsx";
+import fjsx, { FJsxValue } from "fjsx";
 
 var view = (
   <div>

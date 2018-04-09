@@ -1,5 +1,12 @@
 import { ObservableArray } from "./observable-array";
-import { FJsxValue, FjsxArrayEventType } from "..";
+
+export interface FJsxValue<T> {
+  (val: T): void;
+  readonly $val: T;
+  freezed: boolean;
+}
+
+export type FjsxArrayEventType = "itemadded" | "itemset" | "itemremoved";
 
 export const value = <T>(value: T, freezed?: boolean): FJsxValue<T> => {
   const innerFn: any = (val?) => {

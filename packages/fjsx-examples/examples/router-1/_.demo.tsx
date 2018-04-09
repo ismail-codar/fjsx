@@ -1,4 +1,4 @@
-import { fjsx, FJsxValue } from "fjsx";
+import fjsx, { FJsxValue } from "fjsx";
 import { Router, Route, Link } from "fjsx-router";
 
 const Home = () => {

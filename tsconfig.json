@@ -12,7 +12,6 @@
     "allowUnreachableCode": true,
     "allowSyntheticDefaultImports": true,
     "strictFunctionTypes": false,
-    "declaration": true,
     "jsx": "preserve",
     "outDir": "dist"
   },

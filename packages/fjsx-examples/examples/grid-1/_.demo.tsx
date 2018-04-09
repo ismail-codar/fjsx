@@ -1,4 +1,4 @@
-import { fjsx, FJsxValue } from "fjsx";
+import fjsx, { FJsxValue } from "fjsx";
 import { Grid1, IGrid1 } from "./view";
 import { cssLink } from "../util";
 
