@@ -10,6 +10,9 @@
   "keywords": [],
   "author": "İsmail Codar",
   "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "fjsx": ">=0.0.2"
   },
