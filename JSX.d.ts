@@ -432,7 +432,7 @@ declare namespace Fjsx {
     onClickCapture?: MouseEventHandler<T>;
     onContextMenu?: MouseEventHandler<T>;
     onContextMenuCapture?: MouseEventHandler<T>;
-    onDoubleClick?: MouseEventHandler<T>;
+    onDblClick?: MouseEventHandler<T>;
     onDoubleClickCapture?: MouseEventHandler<T>;
     onDrag?: DragEventHandler<T>;
     onDragCapture?: DragEventHandler<T>;

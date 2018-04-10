@@ -15,11 +15,10 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".js"]
   },
-  devtool: "source-map",
+  devtool: "inline-source-map",
   output: {
     filename: "index.js",
     path: path.resolve(__dirname, "dist"),
-    libraryTarget: "commonjs",
-    library: "fjsx"
+    libraryTarget: "commonjs"
   }
 };

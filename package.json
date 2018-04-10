@@ -8,8 +8,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "build":
-      "rm -rf dist & tsc --emitDeclarationOnly --declaration true & npx webpack"
+    "build": "rm -rf dist & tsc --emitDeclarationOnly --declaration true & npx webpack"
   },
   "keywords": [],
   "author": "ismail codar",
@@ -27,6 +26,7 @@
     "@types/node": "^9.6.2",
     "jasmine": "^3.1.0",
     "jasmine-ts": "^0.2.1",
+    "symbol-observable": "^1.2.0",
     "ts-loader": "^4.2.0",
     "typescript": "^2.8.1",
     "webpack": "^4.5.0",

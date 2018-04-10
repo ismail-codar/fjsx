@@ -55,6 +55,7 @@
     "classnames": "^2.2.5",
     "fjsx": "file:../..",
     "fjsx-cssinjs-fela": "file:../fjsx-cssinjs-fela",
-    "fjsx-router": "file:../fjsx-router"
+    "fjsx-router": "file:../fjsx-router",
+    "most": "^1.7.3"
   }
 }

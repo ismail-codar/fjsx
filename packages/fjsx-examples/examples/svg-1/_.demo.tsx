@@ -1,6 +1,4 @@
-import fjsx, { FJsxValue } from "fjsx";
-
-var view = (
+var viewSvg = (
   <div>
     <div>foo</div>
     <svg width="100%" height="500">
@@ -30,4 +28,4 @@ var view = (
   </div>
 );
 
-document.body.appendChild(view);
+document.body.appendChild(viewSvg);

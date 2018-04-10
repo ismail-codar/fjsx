@@ -1,4 +1,4 @@
-import fjsx, { FJsxValue } from "fjsx";
+import { FJsxValue } from "fjsx";
 
 var counter$ = 0;
 

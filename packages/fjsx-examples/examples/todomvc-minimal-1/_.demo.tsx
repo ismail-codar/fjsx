@@ -1,4 +1,3 @@
-import fjsx, { FJsxValue } from "fjsx";
 import { DemoView } from "./view";
 import { cssLink } from "../util";
 

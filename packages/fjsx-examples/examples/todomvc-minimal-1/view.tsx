@@ -28,7 +28,7 @@ export const DemoView = () => (
           type="checkbox"
           onChange={e => todoCtrl.toggleAll(e)}
         />
-        <label for="toggle-all">Mark all as complete</label>
+        <label htmlFor="toggle-all">Mark all as complete</label>
         <ul className="todo-list">
           {todos.$val.map(todo => {
             todo.refEditInput = todo.showing.$val ? (

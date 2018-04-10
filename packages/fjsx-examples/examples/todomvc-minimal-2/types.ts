@@ -1,4 +1,3 @@
-import fjsx, { FJsxValue } from "fjsx";
 import { Utils } from "../util";
 
 export interface ITodoModel {
@@ -15,7 +14,7 @@ export var newTitle$ = "";
 export var editText$ = "";
 
 export const todoCtrl = {
-  newTodoKeyDown(e: KeyboardEvent) {
+  newTodoKeyDown(e: Fjsx.KeyboardEvent<any>) {
     if (e.key == "Enter") {
       const todoItem: ITodoModel = {
         completed$: false,
@@ -60,8 +59,8 @@ export const todoCtrl = {
       todoCtrl.editSubmit(todoItem);
     }
   },
-  toggleAll(event: Event) {
-    var checked = event.target["checked"];
+  toggleAll(event: Fjsx.ChangeEvent<any>) {
+    var checked = event.target.checked;
     todos$.forEach(todo => {
       if (todo.completed$ != checked) todo.completed$ = checked;
     });
