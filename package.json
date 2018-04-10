@@ -18,6 +18,9 @@
     "type": "git",
     "url": "git+https://github.com/ismail-codar/fjsx.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@types/chai": "^4.1.2",
     "@types/jasmine": "^2.8.6",
