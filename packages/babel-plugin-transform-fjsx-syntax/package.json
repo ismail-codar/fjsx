@@ -11,6 +11,9 @@
     "test": "ts-node test",
     "build": "tsc"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.42",
