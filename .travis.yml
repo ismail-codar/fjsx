@@ -4,4 +4,4 @@ deploy:
   email: icodar@hotmail.com
   api_key: $NPM_TOKEN
   on:
-    tags: true
+    all_branches: true
