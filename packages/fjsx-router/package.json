@@ -1,5 +1,5 @@
 {
-  "name": "fjsx-router",
+  "name": "@fjsx/router",
   "version": "0.0.1",
   "description": "Page router for fjsx.",
   "main": "dist/index.js",
@@ -11,8 +11,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "peerDependencies": {
+    "fjsx": ">=0.0.2"
+  },
   "dependencies": {
-    "fjsx": "file:../..",
     "route-recognizer": "^0.3.3"
   }
 }

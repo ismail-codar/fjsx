@@ -9,6 +9,6 @@
       }
     ]
   ],
-  "plugins": ["@babel/transform-fjsx-syntax"],
+  "plugins": ["@fjsx/transform-fjsx-syntax"],
   "retainLines": true
 }

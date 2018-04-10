@@ -1,5 +1,5 @@
 {
-  "name": "@babel/plugin-transform-fjsx-syntax",
+  "name": "@fjsx/babel-plugin-transform-fjsx-syntax",
   "version": "0.0.1",
   "description": "Turn JSX into Fjsx function calls",
   "repository":

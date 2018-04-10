@@ -1,5 +1,5 @@
 {
-  "name": "fjsx-cssinjs-fela",
+  "name": "@fjsx/cssinjs-fela",
   "version": "0.0.1",
   "description": "CSS in JS with fela for jsx",
   "main": "index.js",
@@ -10,6 +10,9 @@
   "keywords": [],
   "author": "İsmail Codar",
   "license": "ISC",
+  "peerDependencies": {
+    "fjsx": ">=0.0.2"
+  },
   "dependencies": {
     "fela": "^6.1.7",
     "fela-dom": "^7.0.7"
