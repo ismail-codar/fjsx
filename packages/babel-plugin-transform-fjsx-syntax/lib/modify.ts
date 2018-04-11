@@ -38,7 +38,7 @@ const assignmentExpressionToCallCompute = (
   if (
     t.isMemberExpression(expression.left) &&
     t.isIdentifier(expression.left.object) &&
-    expression.left.property.name == "$val"
+    expression.left.property.name === "$val"
   )
     return t.callExpression(
       t.memberExpression(t.identifier("fjsx"), t.identifier("compute")),

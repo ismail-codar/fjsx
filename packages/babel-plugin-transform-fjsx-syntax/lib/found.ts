@@ -8,18 +8,21 @@ const callExpressionFirstMember = (
 ): t.Identifier => {
   if (t.isIdentifier(expression.callee)) return expression.callee;
   else if (t.isMemberExpression(expression.callee)) {
-    let member = expression.callee;
-    while (true) {
-      if (t.isIdentifier(member.object)) return member.object;
-      else if (t.isMemberExpression(member.object)) member = member.object;
-      else if (t.isCallExpression(member.object))
-        if (t.isIdentifier(member.object.callee)) return member.object.callee;
-        else member = member.object.callee["object"];
-      else if (t.isMemberExpression(member)) return member.property;
-      else {
-        debugger;
-        break;
-      }
+    return memberExpressionFirstMember(expression.callee);
+  }
+};
+
+const memberExpressionFirstMember = (member: t.MemberExpression) => {
+  while (true) {
+    if (t.isIdentifier(member.object)) return member.object;
+    else if (t.isMemberExpression(member.object)) member = member.object;
+    else if (t.isCallExpression(member.object))
+      if (t.isIdentifier(member.object.callee)) return member.object.callee;
+      else member = member.object.callee["object"];
+    else if (t.isMemberExpression(member)) return member.property;
+    else {
+      debugger;
+      break;
     }
   }
 };
@@ -128,6 +131,7 @@ const findContextChildIndex = (args: any[]) => {
 
 export const found = {
   callExpressionFirstMember,
+  memberExpressionFirstMember,
   parentPathFound,
   variableBindingInScope,
   callingMethodParams,

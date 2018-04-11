@@ -262,6 +262,18 @@ export const isValMemberProperty = (
   );
 };
 
+export const isArrayMapExpression = (
+  scope: Scope,
+  expression: t.CallExpression
+) => {
+  return (
+    t.isMemberExpression(expression.callee) &&
+    expression.callee.property.name == "map" &&
+    (check.isValMemberProperty(expression.callee.object) ||
+      check.isTrackedVariable(scope, expression.callee.object))
+  );
+};
+
 export const check = {
   isValMemberProperty,
   isTrackedByNodeName,
@@ -275,5 +287,6 @@ export const check = {
   parentPathComputeCallee,
   expressionContainerParentIsComponent,
   objectPropertyParentIsComponent,
-  isExportsMember
+  isExportsMember,
+  isArrayMapExpression
 };

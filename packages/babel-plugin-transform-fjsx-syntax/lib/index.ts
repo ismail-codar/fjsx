@@ -88,7 +88,7 @@ export = function() {
           }
           if (
             (t.isMemberExpression(path.parent) &&
-              path.parent.property.name == "$val") == false &&
+              path.parent.property.name === "$val") == false &&
             check.isTrackedKey(path.scope, path.node) &&
             t.isIdentifier(path.node.object)
           ) {
@@ -107,6 +107,7 @@ export = function() {
             path.node.object = modify.memberVal(path.node.object);
           } else if (
             t.isCallExpression(path.parentPath.node) === false &&
+            t.isVariableDeclarator(path.parentPath.node) === false &&
             check.isTrackedByNodeName(path.node.property) &&
             (t.isMemberExpression(path.parentPath.node) &&
               path.parentPath.node.property.name === "$val") == false
@@ -145,6 +146,7 @@ export = function() {
               }
             } else if (
               !check.hasTrackedSetComment(path) &&
+              !check.isTrackedVariable(path.scope, path.node.init) &&
               !t.isCallExpression(path.node.init) //freezed-1
             )
               path.node.init = modify.fjsxValueInit(path.node.init);
@@ -193,7 +195,7 @@ export = function() {
                 parentCallPath &&
                 t.isMemberExpression(parentCallPath.node.callee) &&
                 t.isMemberExpression(parentCallPath.node.callee.object) &&
-                parentCallPath.node.callee.object.property.name == "$val"
+                parentCallPath.node.callee.object.property.name === "$val"
               )
                 path.node.value = modify.fjsxValueInit(path.node.value);
             }
@@ -359,7 +361,9 @@ export = function() {
             check.isValMemberProperty(path.node.expression) ||
             check.isTrackedVariable(path.scope, path.node.expression) ||
             t.isMemberExpression(path.node.expression) ||
-            t.isBinaryExpression(path.node.expression)
+            t.isBinaryExpression(path.node.expression) ||
+            (t.isCallExpression(path.node.expression) &&
+              !check.isArrayMapExpression(path.scope, path.node.expression))
           ) {
             if (t.isJSXElement(path.parent) || t.isJSXFragment(path.parent)) {
               path.node.expression = modifyDom.attributeExpression(
@@ -376,13 +380,7 @@ export = function() {
             );
           } else if (
             t.isCallExpression(path.node.expression) &&
-            t.isMemberExpression(path.node.expression.callee) &&
-            path.node.expression.callee.property.name == "map" &&
-            (check.isValMemberProperty(path.node.expression.callee.object) ||
-              check.isTrackedVariable(
-                path.scope,
-                path.node.expression.callee.object
-              ))
+            check.isArrayMapExpression(path.scope, path.node.expression)
           ) {
             //array-map
             path.node.expression = modifyDom.arrayMapExpression(
