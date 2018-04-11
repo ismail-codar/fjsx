@@ -1,4 +1,4 @@
-import { ObservableArray } from "./observable-array";
+import { EventedArray } from "./evented-array";
 
 export interface FJsxValue<T> {
   (val: T): void;
@@ -38,7 +38,7 @@ export const array = <T>(
   removeEventListener?: (type: FjsxArrayEventType) => void;
   $val: T[];
 } => {
-  const arr = value(new ObservableArray(items)) as any;
+  const arr = value(new EventedArray(items)) as any;
   arr.on = arr.$val.on;
   arr.off = arr.$val.off;
   arr.toJSON = () => arr.$val.innerArray;

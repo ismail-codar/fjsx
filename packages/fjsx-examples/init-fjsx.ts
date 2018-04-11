@@ -1,4 +1,4 @@
-import * as fjsxObj from "fjsx";
+import * as fjsxObj from "@fjsx/runtime";
 
 declare global {
   var fjsx: typeof fjsxObj;

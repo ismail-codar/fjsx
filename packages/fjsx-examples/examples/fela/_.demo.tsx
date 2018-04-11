@@ -1,4 +1,4 @@
-import { cssRules } from "fjsx-cssinjs-fela";
+import { cssRules } from "@fjsx/cssinjs-fela";
 
 var primary$ = true;
 var fontSize$ = 18;

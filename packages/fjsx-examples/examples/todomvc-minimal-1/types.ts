@@ -1,4 +1,4 @@
-import { FJsxValue } from "fjsx";
+import { FJsxValue } from "@fjsx/runtime";
 import { Utils } from "../util";
 
 export interface ITodoModel {

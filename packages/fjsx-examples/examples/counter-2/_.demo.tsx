@@ -1,12 +1,10 @@
-import { FJsxValue } from "fjsx";
-
 var counter$ = 0;
 
-var view = (
+var viewCounter2 = (
   <>
     <button onClick={() => counter$++}> + </button>
     {counter$}
     <button onClick={() => counter$--}> - </button>
   </>
 );
-document.body.appendChild(view);
+document.body.appendChild(viewCounter2);

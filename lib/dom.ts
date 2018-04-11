@@ -1,5 +1,5 @@
 import { FJsxValue } from "..";
-import { ObservableArray } from "./observable-array";
+import { EventedArray } from "./evented-array";
 import { compute } from "./f";
 
 export const conditionalElement = (parentElement, oldElement, newElement) => {
@@ -25,9 +25,7 @@ export const arrayMap = (
   renderReturn: (item: any, idx?: number, isInsert?: boolean) => void
 ) => {
   const oArr =
-    arr.$val instanceof ObservableArray
-      ? arr.$val
-      : new ObservableArray(arr.$val);
+    arr.$val instanceof EventedArray ? arr.$val : new EventedArray(arr.$val);
 
   oArr.on("itemadded", function(e) {
     insertToDom(parentDom, e.index, renderReturn(e.item, e.index));

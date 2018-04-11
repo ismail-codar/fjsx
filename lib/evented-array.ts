@@ -1,5 +1,5 @@
 // https://stackoverflow.com/questions/5100376/how-to-watch-for-array-changes
-export function ObservableArray(items) {
+export function EventedArray(items) {
   var _self = this,
     _array = [],
     _handlers = {

@@ -54,8 +54,8 @@
   "dependencies": {
     "@fjsx/cssinjs-fela": "file:../fjsx-cssinjs-fela",
     "@fjsx/router": "file:../fjsx-router",
+    "@fjsx/runtime": "file:../..",
     "classnames": "^2.2.5",
-    "fjsx": "file:../..",
     "most": "^1.7.3"
   }
 }
