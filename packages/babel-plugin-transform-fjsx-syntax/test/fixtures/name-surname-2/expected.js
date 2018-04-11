@@ -9,8 +9,7 @@ var employee = {
     element = fjsx.createTextNode(element);
     fjsx.compute(
       function() {
-        element.textContent =
-          employee.firstName$.$val + " " + employee.lastName$.$val;
+        element.textContent = fullName(employee);
       },
       employee.firstName$,
       employee.lastName$
