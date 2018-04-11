@@ -8,6 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "server",
+      "cwd": "${workspaceFolder}/packages/fjsx-examples",
       "program": "${workspaceFolder}/packages/fjsx-examples/server.js"
     },
     {

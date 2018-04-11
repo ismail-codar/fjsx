@@ -5,7 +5,6 @@ import generate from "@babel/generator";
 import traverse from "@babel/traverse";
 import { found } from "./found";
 
-//üstteki fCompute fonksiyonların parametrelerinde de varmı kontrolü yap... Örn: array-map-conditional
 const listIncludes = (list: t.Expression[], item: t.Expression) => {
   var itemCode: string = generate(item).code;
   if (itemCode.endsWith(".$val"))
@@ -77,7 +76,7 @@ const fjsxComputeParametersInExpression = (
               variableBinding.path.node.init.body,
               list
             );
-          else throw "not implemented is not isFunctionExpression ";
+          else throw "is not isFunctionExpression else ... not implemented ";
         } else if (t.isImportSpecifier(variableBinding.path.node)) {
           debugger;
           throw "not implemented imported callExpression";
@@ -185,12 +184,3 @@ export const fjsxComputeParametersInExpressionWithScopeFilter = (
 export const parameters = {
   fjsxComputeParametersInExpressionWithScopeFilter
 };
-
-/**
-const checkXExpression = (
-  expression: t.XExpression,
-  list: t.MemberExpression[]
-) => {
-    fjsxComputeParametersInExpression
-};
- */

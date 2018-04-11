@@ -14,7 +14,6 @@ import { exportRegistry } from "./export-registry";
 import { allSvgElements, htmlAndSvgElements } from "./svg";
 
 var micromatch = require("micromatch");
-//https://github.com/babel-utils/babel-type-scopes
 
 const errorReport = (e: Error, path: NodePath<any>, file) => {
   const nodeCode = generate(path.node).code;
@@ -263,6 +262,13 @@ export = function() {
                 path,
                 file.filename
               );
+              if (
+                !methodParams ||
+                path.node.arguments.length !== methodParams.length
+              ) {
+                // debugger;
+                // throw "callingMethodParams is not found";
+              }
               path.node.arguments.forEach((argument, index) => {
                 const leftIsTracked = check.isTrackedVariable(
                   path.scope,

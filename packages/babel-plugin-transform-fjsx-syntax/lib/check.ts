@@ -64,13 +64,13 @@ const leadingCommentsFromPath = (path: NodePath<any>) => {
           if (
             t.isVariableDeclarator(decl) &&
             t.isIdentifier(decl.id) &&
-            decl.id.name == searchName
+            decl.id.name === searchName
           ) {
             leadingComments = item.leadingComments;
           }
-          return leadingComments == null;
+          return leadingComments === null;
         });
-        return leadingComments == null;
+        return leadingComments === null;
       }
     });
   } else {

@@ -12,18 +12,14 @@ const callExpressionFirstMember = (
   }
 };
 
-const memberExpressionFirstMember = (member: t.MemberExpression) => {
+const memberExpressionFirstMember = (expression: t.MemberExpression) => {
+  var member = expression;
   while (true) {
     if (t.isIdentifier(member.object)) return member.object;
     else if (t.isMemberExpression(member.object)) member = member.object;
     else if (t.isCallExpression(member.object))
-      if (t.isIdentifier(member.object.callee)) return member.object.callee;
-      else member = member.object.callee["object"];
+      return callExpressionFirstMember(member.object);
     else if (t.isMemberExpression(member)) return member.property;
-    else {
-      debugger;
-      break;
-    }
   }
 };
 
@@ -63,8 +59,8 @@ const callingMethodParamsInNode = (callee, node: t.BaseNode): t.BaseNode[] => {
             t.isFunctionExpression(prop.value)
           ) {
             foundParams = prop.value.params;
-            return true;
-          }
+            return false;
+          } else return true;
         });
       } else throw "not implemented in callingMethodParams";
     }
