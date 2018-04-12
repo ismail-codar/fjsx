@@ -1,4 +1,4 @@
-import fjsx, { FJsxValue } from "fjsx";
+import { FJsxValue } from "@fjsx/runtime";
 
 export interface IBenchmarkDataRow {
   id: number;
