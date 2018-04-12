@@ -274,7 +274,14 @@ export const isArrayMapExpression = (
   );
 };
 
+export const isFjsxCall = (node: t.BaseNode) => {
+  if (!t.isCallExpression(node)) return false;
+  const member = found.callExpressionFirstMember(node);
+  return member && member.name.startsWith("fjsx");
+};
+
 export const check = {
+  isFjsxCall,
   isValMemberProperty,
   isTrackedByNodeName,
   hasTrackedComment,

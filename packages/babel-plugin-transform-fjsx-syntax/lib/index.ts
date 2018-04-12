@@ -20,7 +20,7 @@ const errorReport = (e: Error, path: NodePath<any>, file) => {
   console.log("FILE: ", file.filename);
   console.log("PART: ", nodeCode);
   console.error("ERROR: ", e);
-  debugger;
+  // debugger;
 };
 
 function getRealpath(n) {
@@ -164,8 +164,10 @@ export = function() {
             //class-names
             path.node.value = modify.memberVal(path.node.value);
           } else if (
-            check.isTrackedByNodeName(path.node.key) ||
-            check.isTrackedVariable(path.scope, path.node)
+            (check.isTrackedByNodeName(path.node.key) ||
+              check.isTrackedVariable(path.scope, path.node)) &&
+            !check.isFjsxCall(path.node.value) &&
+            !check.isTrackedVariable(path.scope, path.node.value)
           ) {
             //object-property-1
             path.node.value = modify.fjsxValueInit(path.node.value as any);

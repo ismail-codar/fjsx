@@ -78,8 +78,8 @@ const fjsxComputeParametersInExpression = (
             );
           else throw "is not isFunctionExpression else ... not implemented ";
         } else if (t.isImportSpecifier(variableBinding.path.node)) {
-          debugger;
-          throw "not implemented imported callExpression";
+          // debugger;
+          // throw "not implemented imported callExpression";
         }
       }
     }

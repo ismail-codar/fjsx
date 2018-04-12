@@ -7,9 +7,16 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "server",
+      "name": "server-examples",
       "cwd": "${workspaceFolder}/packages/fjsx-examples",
       "program": "${workspaceFolder}/packages/fjsx-examples/server.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "server-material-ui",
+      "cwd": "${workspaceFolder}/packages/fjsx-material-ui",
+      "program": "${workspaceFolder}/packages/fjsx-material-ui/server.js"
     },
     {
       "type": "node",
