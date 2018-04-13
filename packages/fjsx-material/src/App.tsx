@@ -22,14 +22,16 @@ export const App = () => {
   return (
     <>
       <fjsx.Context key="theme" value={theme}>
-        <Button text$="Normal" />
-        <Button color$="primary" text$="Primary" />
-        <Button color$="secondary" text$="Secondary" />
+        {/* <Button text$="Normal" /> */}
+        <Button variant="raised" color="primary">
+          Primary
+        </Button>
+        {/* <Button color$="secondary" text$="Secondary" />
         <Button color$="acent" text$="Accent" />
         <Button color$="success" text$={btnText$} />
         <Button color$="error" text$="Error" />
         <Button color$="warning" text$="Warning" />
-        <Button color$="info" text$="Info" />
+        <Button color$="info" text$="Info" /> */}
       </fjsx.Context>
     </>
   );

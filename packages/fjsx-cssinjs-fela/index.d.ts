@@ -1,3 +1,5 @@
+// https://github.com/rofrischmann/fela/blob/master/docs/basics/Rules.md
+
 export interface FelaCSSRules extends CSSStyleDeclaration {
   //Pseudo-elements
   "::after": Partial<FelaCSSRules>;
