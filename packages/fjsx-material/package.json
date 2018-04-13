@@ -68,6 +68,7 @@
     "jss-default-unit": "^8.0.2",
     "jss-global": "^3.0.0",
     "jss-nested": "^6.0.1",
+    "jss-preset-default": "^4.3.0",
     "jss-props-sort": "^6.0.0",
     "jss-vendor-prefixer": "^8.0.0",
     "warning": "^3.0.0"

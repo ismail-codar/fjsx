@@ -6,7 +6,41 @@ import { Theme } from "../../styles/createMuiTheme";
 
 import { fade } from "../../styles/colorManipulator";
 import { capitalize } from "../../utils/helpers";
-import { jssCssRulesWithTheme } from "../../styles/withStyles";
+import { jssCssRulesWithTheme } from "../../utils/jss-css-rules";
+
+export const buttonBaseStyles = {
+  root: {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+    // Remove grey highlight
+    WebkitTapHighlightColor: "transparent",
+    backgroundColor: "transparent", // Reset default value
+    outline: "none",
+    border: 0,
+    margin: 0, // Remove the margin in Safari
+    borderRadius: 0,
+    padding: 0, // Remove the padding in Firefox
+    cursor: "pointer",
+    userSelect: "none",
+    verticalAlign: "middle",
+    "-moz-appearance": "none", // Reset
+    "-webkit-appearance": "none", // Reset
+    textDecoration: "none",
+    // So we take precedent over the style of a native <a /> element.
+    color: "inherit",
+    "&::-moz-focus-inner": {
+      borderStyle: "none" // Remove Firefox dotted outline.
+    },
+    "&$disabled": {
+      pointerEvents: "none", // Disable link interactions
+      cursor: "default"
+    }
+  },
+  disabled: {},
+  keyboardFocused: {}
+};
 
 export const styles = theme => ({
   root: {
@@ -148,6 +182,89 @@ export const styles = theme => ({
   }
 });
 
+export const ButtonBase = (props: any) => {
+  const {
+    buttonRef,
+    centerRipple,
+    children,
+    className: classNameProp,
+    component,
+    disabled,
+    disableRipple,
+    focusRipple,
+    onBlur,
+    onFocus,
+    onKeyboardFocus,
+    onKeyDown,
+    onKeyUp,
+    onMouseDown,
+    onMouseLeave,
+    onMouseUp,
+    onTouchEnd,
+    onTouchMove,
+    onTouchStart,
+    tabIndex,
+    TouchRippleProps,
+    type,
+    ...other
+  } = props;
+
+  const classes: any = jssCssRulesWithTheme(
+    "MuiButtonBase",
+    props,
+    buttonBaseStyles
+  );
+
+  const className = classNames(
+    classes.root,
+    {
+      [classes.disabled]: disabled
+    },
+    classNameProp
+  );
+
+  const buttonProps: any = {};
+
+  let ComponentProp = component;
+
+  if (!ComponentProp) {
+    if (other.href) {
+      ComponentProp = "a";
+    } else {
+      ComponentProp = "button";
+    }
+  }
+
+  if (ComponentProp === "button") {
+    buttonProps.type = type || "button";
+    buttonProps.disabled = disabled;
+  } else {
+    buttonProps.role = "button";
+  }
+
+  return (
+    <ComponentProp
+      // onBlur={this.handleBlur}
+      // onFocus={this.handleFocus}
+      // onKeyDown={this.handleKeyDown}
+      // onKeyUp={this.handleKeyUp}
+      // onMouseDown={this.handleMouseDown}
+      // onMouseLeave={this.handleMouseLeave}
+      // onMouseUp={this.handleMouseUp}
+      // onTouchEnd={this.handleTouchEnd}
+      // onTouchMove={this.handleTouchMove}
+      // onTouchStart={this.handleTouchStart}
+      tabIndex={disabled ? "-1" : tabIndex}
+      className={className}
+      ref={buttonRef}
+      {...buttonProps}
+      {...other}
+    >
+      {children}
+    </ComponentProp>
+  );
+};
+
 export const Button = (props: any) => {
   fjsx.setDefaults(props, {
     color: "default",
@@ -159,7 +276,7 @@ export const Button = (props: any) => {
     type: "button",
     variant: "flat"
   });
-  const classes: any = jssCssRulesWithTheme(props, styles);
+  const classes: any = jssCssRulesWithTheme("MuiButton", props, styles);
 
   const {
     children,
@@ -196,8 +313,8 @@ export const Button = (props: any) => {
   );
 
   return (
-    <button className={className} disabled={disabled} {...other}>
+    <ButtonBase className={className} disabled={disabled} {...other}>
       <span className={classes.label}>{children}</span>
-    </button>
+    </ButtonBase>
   );
 };
