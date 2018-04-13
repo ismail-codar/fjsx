@@ -13,7 +13,7 @@ require("@babel/register");
 
 ////////////////////////////////////////////////////////////////////////////
 var RUN_SINGLE_TEST = null;
-// RUN_SINGLE_TEST = "name-surname-2";
+// RUN_SINGLE_TEST = "object-indexed-property-1";
 ////////////////////////////////////////////////////////////////////////////
 
 var pluginPath = require.resolve("../lib");
@@ -37,9 +37,7 @@ function runTests() {
   } else
     testList = [
       {
-        path:
-          "/Users/macbook/Documents/GitHub/fjsx/packages/babel-plugin-transform-fjsx-syntax/test/fixtures/" +
-          RUN_SINGLE_TEST,
+        path: "./test/fixtures/" + RUN_SINGLE_TEST,
         name: RUN_SINGLE_TEST
       }
     ];

@@ -14,9 +14,9 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "server-material-ui",
-      "cwd": "${workspaceFolder}/packages/fjsx-material-ui",
-      "program": "${workspaceFolder}/packages/fjsx-material-ui/server.js"
+      "name": "server-material",
+      "cwd": "${workspaceFolder}/packages/fjsx-material",
+      "program": "${workspaceFolder}/packages/fjsx-material/server.js"
     },
     {
       "type": "node",
@@ -26,7 +26,7 @@
         "${workspaceFolder}/packages/babel-plugin-transform-fjsx-syntax/node_modules/jasmine-ts/lib/index.js",
       "cwd": "${workspaceFolder}/packages/babel-plugin-transform-fjsx-syntax",
       "args": [
-        "/Users/macbook/Documents/GitHub/fjsx/packages/babel-plugin-transform-fjsx-syntax/test/index.ts"
+        "${workspaceFolder}/packages/babel-plugin-transform-fjsx-syntax/test/index.ts"
       ]
     },
     {

@@ -20,7 +20,7 @@ const errorReport = (e: Error, path: NodePath<any>, file) => {
   console.log("FILE: ", file.filename);
   console.log("PART: ", nodeCode);
   console.error("ERROR: ", e);
-  // debugger;
+  debugger;
 };
 
 function getRealpath(n) {
@@ -105,20 +105,18 @@ export = function() {
           ) {
             path.node.object = modify.memberVal(path.node.object);
           } else if (
+            t.isMemberExpression(path.node.property) &&
             t.isCallExpression(path.parentPath.node) === false &&
             t.isVariableDeclarator(path.parentPath.node) === false &&
             check.isTrackedByNodeName(path.node.property) &&
             (t.isMemberExpression(path.parentPath.node) &&
               path.parentPath.node.property.name === "$val") == false
           ) {
-            // var gen = generate;
-            // debugger;
-            //condition-3 de geçiyor element-text-conditional-3 de geçemiyor
-            path.node.object = t.memberExpression(
-              path.node.object,
-              path.node.property
+            //object-indexed-property-1
+            path.node.property = t.memberExpression(
+              path.node.property,
+              t.identifier("$val")
             );
-            path.node.property = t.identifier("$val");
           }
         } catch (e) {
           errorReport(e, path, file);
@@ -250,7 +248,7 @@ export = function() {
             }
           }
           const member = found.callExpressionFirstMember(path.node);
-          if (member && !member.name.startsWith("fjsx")) {
+          if (member && member.name && !member.name.startsWith("fjsx")) {
             const contextArgumentIndex = found.findContextChildIndex(
               path.node.arguments
             );

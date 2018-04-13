@@ -23,19 +23,20 @@ function buildBabelConfig(plugin) {
 
 const getExportPaths = (fileName: string): t.BaseNode[] => {
   const localExports = [];
-
-  babel.transformFileSync(
-    fileName,
-    buildBabelConfig(() => {
-      return {
-        visitor: {
-          ExportNamedDeclaration(p) {
-            localExports.push.apply(localExports, getDeclations(p.node));
+  if (fs.existsSync(fileName)) {
+    babel.transformFileSync(
+      fileName,
+      buildBabelConfig(() => {
+        return {
+          visitor: {
+            ExportNamedDeclaration(p) {
+              localExports.push.apply(localExports, getDeclations(p.node));
+            }
           }
-        }
-      };
-    })
-  );
+        };
+      })
+    );
+  }
   return localExports;
 };
 
