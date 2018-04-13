@@ -2,6 +2,8 @@
   "presets": [
     "@babel/preset-typescript",
     "@babel/preset-react",
+    "@babel/preset-es2015",
+    "@babel/preset-stage-0",
     [
       "@babel/preset-env",
       {
@@ -9,6 +11,11 @@
       }
     ]
   ],
-  "plugins": ["@fjsx/transform-fjsx-syntax"],
+  "plugins": [
+    "@fjsx/transform-fjsx-syntax",
+    "@babel/proposal-class-properties",
+    "@babel/proposal-object-rest-spread",
+    "@babel/transform-member-expression-literals"
+  ],
   "retainLines": true
 }

@@ -1,26 +1,14 @@
 import fjsx from "@fjsx/runtime";
+import classNames from "classnames";
 
-import { cssRules } from "@fjsx/cssinjs-fela";
-import { classNames } from "../../util/class-names";
-import { rippleEffect } from "../../util/ripple-effect";
+import { rippleEffect } from "../../utils/ripple-effect";
 import { Theme } from "../../styles/createMuiTheme";
 
 import { fade } from "../../styles/colorManipulator";
 import { capitalize } from "../../utils/helpers";
+import { jssCssRulesWithTheme } from "../../styles/withStyles";
 
-const buttonBgColors = {
-  primary: "rgb(33, 150, 243)",
-  secondary: "rgb(225, 0, 80)",
-  acent: "rgb(130, 177, 255)",
-  success: "rgb(76, 175, 80)",
-  error: "rgb(255, 82, 82)",
-  warning: "rgb(255, 193, 7)",
-  info: "rgb(33, 150, 243)",
-  disabled: "rgba(0, 0, 0, 0.26)",
-  null: "rgb(245, 245, 245)"
-};
-
-export const styles = (theme: Theme): any => ({
+export const styles = theme => ({
   root: {
     ...theme.typography.button,
     lineHeight: "1.4em", // Improve readability for multiline button.
@@ -33,20 +21,20 @@ export const styles = (theme: Theme): any => ({
     transition: theme.transitions.create(["background-color", "box-shadow"], {
       duration: theme.transitions.duration.short
     }),
-    ":hover": {
+    "&:hover": {
       textDecoration: "none",
       backgroundColor: fade(theme.palette.text.primary, 0.12),
       // Reset on touch devices, it doesn't add specificity
       "@media (hover: none)": {
         backgroundColor: "transparent"
+      },
+      "&$disabled": {
+        backgroundColor: "transparent"
       }
-      // "&$disabled": {
-      //   backgroundColor: "transparent"
-      // }
+    },
+    "&$disabled": {
+      color: theme.palette.action.disabled
     }
-    // "&$disabled": {
-    //   color: theme.palette.action.disabled
-    // }
   },
   label: {
     width: "100%",
@@ -56,7 +44,7 @@ export const styles = (theme: Theme): any => ({
   },
   flatPrimary: {
     color: theme.palette.primary.main,
-    ":hover": {
+    "&:hover": {
       backgroundColor: fade(theme.palette.primary.main, 0.12),
       // Reset on touch devices, it doesn't add specificity
       "@media (hover: none)": {
@@ -66,7 +54,7 @@ export const styles = (theme: Theme): any => ({
   },
   flatSecondary: {
     color: theme.palette.secondary.main,
-    ":hover": {
+    "&:hover": {
       backgroundColor: fade(theme.palette.secondary.main, 0.12),
       // Reset on touch devices, it doesn't add specificity
       "@media (hover: none)": {
@@ -81,32 +69,32 @@ export const styles = (theme: Theme): any => ({
     color: theme.palette.getContrastText(theme.palette.grey[300]),
     backgroundColor: theme.palette.grey[300],
     boxShadow: theme.shadows[2],
-    // "&$keyboardFocused": {
-    //   boxShadow: theme.shadows[6]
-    // },
-    ":active": {
+    "&$keyboardFocused": {
+      boxShadow: theme.shadows[6]
+    },
+    "&:active": {
       boxShadow: theme.shadows[8]
     },
-    // "&$disabled": {
-    //   color: theme.palette.action.disabled,
-    //   boxShadow: theme.shadows[0],
-    //   backgroundColor: theme.palette.action.disabledBackground
-    // },
-    ":hover": {
+    "&$disabled": {
+      color: theme.palette.action.disabled,
+      boxShadow: theme.shadows[0],
+      backgroundColor: theme.palette.action.disabledBackground
+    },
+    "&:hover": {
       backgroundColor: theme.palette.grey.A100,
       // Reset on touch devices, it doesn't add specificity
       "@media (hover: none)": {
         backgroundColor: theme.palette.grey[300]
+      },
+      "&$disabled": {
+        backgroundColor: theme.palette.action.disabledBackground
       }
-      // "&$disabled": {
-      //   backgroundColor: theme.palette.action.disabledBackground
-      // }
     }
   },
   raisedPrimary: {
     color: theme.palette.primary.contrastText,
     backgroundColor: theme.palette.primary.main,
-    ":hover": {
+    "&:hover": {
       backgroundColor: theme.palette.primary.dark,
       // Reset on touch devices, it doesn't add specificity
       "@media (hover: none)": {
@@ -117,7 +105,7 @@ export const styles = (theme: Theme): any => ({
   raisedSecondary: {
     color: theme.palette.secondary.contrastText,
     backgroundColor: theme.palette.secondary.main,
-    ":hover": {
+    "&:hover": {
       backgroundColor: theme.palette.secondary.dark,
       // Reset on touch devices, it doesn't add specificity
       "@media (hover: none)": {
@@ -135,7 +123,7 @@ export const styles = (theme: Theme): any => ({
     fontSize: 24,
     height: 56,
     boxShadow: theme.shadows[6],
-    ":active": {
+    "&:active": {
       boxShadow: theme.shadows[12]
     }
   },
@@ -171,7 +159,7 @@ export const Button = (props: any) => {
     type: "button",
     variant: "flat"
   });
-  const classes = styles(fjsx.getContextValue("theme"));
+  const classes: any = jssCssRulesWithTheme(props, styles);
 
   const {
     children,
@@ -189,29 +177,27 @@ export const Button = (props: any) => {
   const fab = variant === "fab";
   const raised = variant === "raised";
   const flat = !raised && !fab;
-
-  const rules = [
-    [classes.raised, raised || fab],
-    [classes.fab, fab],
-    [classes.mini, fab && mini],
-    [classes.colorInherit, color === "inherit"],
-    [classes.flatPrimary, flat && color === "primary"],
-    [classes.flatSecondary, flat && color === "secondary"],
-    [classes.raisedPrimary, !flat && color === "primary"],
-    [classes.raisedSecondary, !flat && color === "secondary"],
-    [classes[`size${capitalize(size)}`], size !== "medium"],
-    [classes.disabled, disabled],
-    [classes.fullWidth, fullWidth]
-  ];
-  for (var i = 0; i < rules.length; i++) {
-    if (rules[i][1]) Object.assign(classes.root, rules[i][0]);
-  }
-
-  console.log(classes.root);
+  const className = classNames(
+    classes.root,
+    {
+      [classes.raised]: raised || fab,
+      [classes.fab]: fab,
+      [classes.mini]: fab && mini,
+      [classes.colorInherit]: color === "inherit",
+      [classes.flatPrimary]: flat && color === "primary",
+      [classes.flatSecondary]: flat && color === "secondary",
+      [classes.raisedPrimary]: !flat && color === "primary",
+      [classes.raisedSecondary]: !flat && color === "secondary",
+      [classes[`size${capitalize(size)}`]]: size !== "medium",
+      [classes.disabled]: disabled,
+      [classes.fullWidth]: fullWidth
+    },
+    classNameProp
+  );
 
   return (
-    <button className={cssRules(classes.root)} {...other}>
-      <span className={cssRules(classes.label)}>{children}</span>
+    <button className={className} disabled={disabled} {...other}>
+      <span className={classes.label}>{children}</span>
     </button>
   );
 };
