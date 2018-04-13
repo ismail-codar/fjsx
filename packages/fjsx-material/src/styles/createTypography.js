@@ -6,10 +6,7 @@ function round(value) {
   return Math.round(value * 1e5) / 1e5;
 }
 
-export default function createTypography(
-  palette: any,
-  typography: any | Function
-) {
+export default function createTypography(palette, typography) {
   const {
     fontFamily = '"Roboto", "Helvetica", "Arial", sans-serif',
     // The default font size of the Material Specification.

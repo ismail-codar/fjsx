@@ -32,7 +32,7 @@ function clamp(value, min = 0, max = 1) {
  * @param {string} color - Hex color, i.e. #nnn or #nnnnnn
  * @returns {string} A CSS rgb color string
  */
-export function convertHexToRGB(color: string) {
+export function convertHexToRGB(color) {
   color = color.substr(1);
 
   const re = new RegExp(`.{1,${color.length / 3}}`, "g");
@@ -51,16 +51,16 @@ export function convertHexToRGB(color: string) {
  * Note: Does not support rgb % values.
  *
  * @param {string} color - CSS color, i.e. one of: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla()
- * @returns {object} - A MUI color object: {type: string, values: number[]}
+ * @returns {object} - A MUI color object: {type, values[]}
  */
-export function decomposeColor(color: string) {
+export function decomposeColor(color) {
   if (color.charAt(0) === "#") {
     return decomposeColor(convertHexToRGB(color));
   }
 
   const marker = color.indexOf("(");
   const type = color.substring(0, marker);
-  let values = color.substring(marker + 1, color.length - 1).split(",") as any;
+  let values = color.substring(marker + 1, color.length - 1).split(",");
   values = values.map(value => parseFloat(value));
 
   if (process.env.NODE_ENV !== "production") {
@@ -85,7 +85,7 @@ export function decomposeColor(color: string) {
  * @param {array} color.values - [n,n,n] or [n,n,n,n]
  * @returns {string} A CSS color string
  */
-export function recomposeColor(color: any) {
+export function recomposeColor(color) {
   const { type } = color;
   let { values } = color;
 
@@ -111,7 +111,7 @@ export function recomposeColor(color: any) {
  * @param {string} background - CSS color, i.e. one of: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla()
  * @returns {number} A contrast ratio value in the range 0 - 21.
  */
-export function getContrastRatio(foreground: string, background: string) {
+export function getContrastRatio(foreground, background) {
   const lumA = getLuminance(foreground);
   const lumB = getLuminance(background);
   return (Math.max(lumA, lumB) + 0.05) / (Math.min(lumA, lumB) + 0.05);
@@ -126,7 +126,7 @@ export function getContrastRatio(foreground: string, background: string) {
  * @param {string} color - CSS color, i.e. one of: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla()
  * @returns {number} The relative brightness of the color in the range 0 - 1
  */
-export function getLuminance(color: string) {
+export function getLuminance(color) {
   const decomposedColor = decomposeColor(color);
 
   if (decomposedColor.type.indexOf("rgb") !== -1) {
@@ -154,7 +154,7 @@ export function getLuminance(color: string) {
  * @param {number} coefficient=0.15 - multiplier in the range 0 - 1
  * @returns {string} A CSS color string. Hex input values are returned as rgb
  */
-export function emphasize(color: string, coefficient: number = 0.15) {
+export function emphasize(color, coefficient = 0.15) {
   return getLuminance(color) > 0.5
     ? darken(color, coefficient)
     : lighten(color, coefficient);
@@ -168,8 +168,15 @@ export function emphasize(color: string, coefficient: number = 0.15) {
  * @param {number} value - value to set the alpha channel to in the range 0 -1
  * @returns {string} A CSS color string. Hex input values are returned as rgb
  */
-export function fade(_color: string, value: number) {
-  var color = decomposeColor(_color);
+export function fade(color, value) {
+  warning(
+    color,
+    `Material-UI: missing color argument in fade(${color}, ${value}).`
+  );
+
+  if (!color) return color;
+
+  color = decomposeColor(color);
   value = clamp(value);
 
   if (color.type === "rgb" || color.type === "hsl") {
@@ -187,8 +194,15 @@ export function fade(_color: string, value: number) {
  * @param {number} coefficient - multiplier in the range 0 - 1
  * @returns {string} A CSS color string. Hex input values are returned as rgb
  */
-export function darken(_color: string, coefficient: number) {
-  var color = decomposeColor(_color);
+export function darken(color, coefficient) {
+  warning(
+    color,
+    `Material-UI: missing color argument in darken(${color}, ${coefficient}).`
+  );
+
+  if (!color) return color;
+
+  color = decomposeColor(color);
   coefficient = clamp(coefficient);
 
   if (color.type.indexOf("hsl") !== -1) {
@@ -208,8 +222,15 @@ export function darken(_color: string, coefficient: number) {
  * @param {number} coefficient - multiplier in the range 0 - 1
  * @returns {string} A CSS color string. Hex input values are returned as rgb
  */
-export function lighten(_color: string, coefficient: number) {
-  var color = decomposeColor(_color);
+export function lighten(color, coefficient) {
+  warning(
+    color,
+    `Material-UI: missing color argument in lighten(${color}, ${coefficient}).`
+  );
+
+  if (!color) return color;
+
+  color = decomposeColor(color);
   coefficient = clamp(coefficient);
 
   if (color.type.indexOf("hsl") !== -1) {

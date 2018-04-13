@@ -2,6 +2,7 @@ import fjsx from "@fjsx/runtime";
 
 import { cssRules } from "@fjsx/cssinjs-fela";
 import { rippleEffect } from "../../util/ripple-effect";
+import { Theme } from "../../styles/createMuiTheme";
 
 const buttonBgColors = {
   primary: "rgb(25, 118, 210)",
@@ -42,6 +43,9 @@ export const Button = (props: {
   value?: any;
 }) => {
   fjsx.setDefaults(props, { color$: "null" });
+
+  const theme = fjsx.getContextValue("theme") as Theme;
+  console.log(theme);
 
   return (
     <button

@@ -9,34 +9,28 @@ const theme = createMuiTheme({
   palette: {
     primary: indigo,
     secondary: pink,
-    error: red,
-    // Used by `getContrastText()` to maximize the contrast between the background and
-    // the text.
-    contrastThreshold: 3,
-    // Used to shift a color's luminance by approximately
-    // two indexes within its tonal palette.
-    // E.g., shift from Red 500 to Red 300 or Red 700.
-    tonalOffset: 0.2
+    error: red
   }
 });
 
-console.log(theme);
-
 import { Button } from "./components/button/view";
+import fjsx from "@fjsx/runtime";
 
 export const App = () => {
   var btnText$ = "Success";
 
   return (
-    <div>
-      <Button text$="Normal" />
-      <Button color$="primary" text$="Primary" />
-      <Button color$="secondary" text$="Secondary" />
-      <Button color$="acent" text$="Accent" />
-      <Button color$="success" text$={btnText$} />
-      <Button color$="error" text$="Error" />
-      <Button color$="warning" text$="Warning" />
-      <Button color$="info" text$="Info" />
-    </div>
+    <>
+      <fjsx.Context key="theme" value={theme}>
+        <Button text$="Normal" />
+        <Button color$="primary" text$="Primary" />
+        <Button color$="secondary" text$="Secondary" />
+        <Button color$="acent" text$="Accent" />
+        <Button color$="success" text$={btnText$} />
+        <Button color$="error" text$="Error" />
+        <Button color$="warning" text$="Warning" />
+        <Button color$="info" text$="Info" />
+      </fjsx.Context>
+    </>
   );
 };
