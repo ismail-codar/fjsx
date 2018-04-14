@@ -13,7 +13,7 @@ const theme = createMuiTheme({
   }
 });
 
-import { Button } from "./components/button/view";
+import { Button } from "./components/mui/Button";
 import fjsx from "@fjsx/runtime";
 import { jssCssRulesWithTheme } from "./utils/jss-css-rules";
 
@@ -31,13 +31,11 @@ function RaisedButtons(props) {
 
   return (
     <div>
-      <Button variant="raised" className={classes.button}>
-        Default
-      </Button>
+      <Button className={classes.button}>Default</Button>
       <Button variant="raised" color="primary" className={classes.button}>
         Primary
       </Button>
-      <Button variant="raised" color="secondary" className={classes.button}>
+      <Button variant="fab" color="secondary" className={classes.button}>
         Secondary
       </Button>
       <Button

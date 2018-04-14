@@ -73,10 +73,10 @@ declare namespace Fjsx {
   // Fjsx Elements
   // ----------------------------------------------------------------------
 
+  type FjsxType<T> = <T>(props: T) => HTMLElement;
+
   type Key = string | number;
-  type Ref<T> =
-    | string
-    | { bivarianceHack(instance: T | null): any }["bivarianceHack"];
+  type Ref<T> = (elem: Element) => any;
 
   interface Attributes {
     key?: Key;

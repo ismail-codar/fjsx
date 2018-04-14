@@ -17,7 +17,13 @@ const generateClassName = createGenerateClassName();
 
 var INDEX = 999;
 
-export const jssCssRulesWithTheme = (name, props, stylesOrCreator) => {
+export const jssCssRulesWithTheme = (
+  name,
+  props,
+  stylesOrCreator,
+  dynamicCss = undefined
+) => {
+  dynamicCss = dynamicCss || stylesOrCreator instanceof Function;
   const stylesCreator = getStylesCreator(stylesOrCreator);
   stylesCreator.create(fjsx.getContextValue("theme"), name);
 
@@ -31,7 +37,7 @@ export const jssCssRulesWithTheme = (name, props, stylesOrCreator) => {
     index: INDEX--
   });
 
-  const key = JSON.stringify(styles);
+  const key = dynamicCss ? JSON.stringify(styles) : styles;
   if (!manager.get(key)) {
     manager.add(key, sheet);
     manager.manage(key);

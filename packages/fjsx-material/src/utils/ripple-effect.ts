@@ -1,6 +1,5 @@
-import { jss } from "./jss-css-rules";
+import { jss, jssCssRulesWithTheme } from "./jss-css-rules";
 import { SheetsManager } from "jss";
-const manager = new SheetsManager();
 
 export const rippleEffect = (
   node: HTMLElement,
@@ -20,17 +19,9 @@ export const rippleEffect = (
     }
   };
 
-  var sheet = jss.createStyleSheet(styles, {
-    meta: "ripple-effect"
-  });
+  const classes = jssCssRulesWithTheme("re", null, styles, true);
 
-  const key = JSON.stringify(styles);
-  if (!manager.get(key)) {
-    manager.add(key, sheet);
-    manager.manage(key);
-  } else sheet = manager.get(key);
-
-  node.classList.add(sheet.classes.waves);
+  node.classList.add(classes.waves);
   node.addEventListener("click", (event: MouseEvent) => {
     event.preventDefault();
     const button = event.currentTarget as HTMLElement;
@@ -39,23 +30,19 @@ export const rippleEffect = (
       yPos = event.pageY - button.offsetTop,
       elWavesRipple = document.createElement("div");
 
-    elWavesRipple.className = sheet.classes.ripple;
+    elWavesRipple.className = classes.ripple;
     elWavesRipple.style.left = xPos + "px";
     elWavesRipple.style.top = yPos + "px";
 
     const rippleElm = button.appendChild(elWavesRipple);
 
-    var anim = elWavesRipple.animate(
-      {
-        opacity: [1, 0],
-        transform: ["scale(1)", "scale(40)"]
-      },
+    elWavesRipple.animate(
+      { opacity: [1, 0], transform: ["scale(1)", "scale(40)"] },
       {
         duration: 1000,
         easing: "ease-out"
       }
-    );
-    anim.onfinish = () => {
+    ).onfinish = () => {
       elWavesRipple.remove();
     };
   });
