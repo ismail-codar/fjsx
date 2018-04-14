@@ -313,7 +313,12 @@ export const Button = (props: any) => {
   );
 
   return (
-    <ButtonBase className={className} disabled={disabled} {...other}>
+    <ButtonBase
+      ref={element => rippleEffect(element)}
+      className={className}
+      disabled={disabled}
+      {...other}
+    >
       <span className={classes.label}>{children}</span>
     </ButtonBase>
   );

@@ -1,4 +1,4 @@
-import createMuiTheme from "./styles/createMuiTheme";
+import createMuiTheme, { Theme } from "./styles/createMuiTheme";
 import indigo from "./colors/indigo";
 import pink from "./colors/pink";
 import red from "./colors/red";
@@ -15,6 +15,54 @@ const theme = createMuiTheme({
 
 import { Button } from "./components/button/view";
 import fjsx from "@fjsx/runtime";
+import { jssCssRulesWithTheme } from "./utils/jss-css-rules";
+
+const styles = (theme: Theme) => ({
+  button: {
+    margin: theme.spacing.unit
+  },
+  input: {
+    display: "none"
+  }
+});
+
+function RaisedButtons(props) {
+  const classes: any = jssCssRulesWithTheme("RaisedButtons", props, styles);
+
+  return (
+    <div>
+      <Button variant="raised" className={classes.button}>
+        Default
+      </Button>
+      <Button variant="raised" color="primary" className={classes.button}>
+        Primary
+      </Button>
+      <Button variant="raised" color="secondary" className={classes.button}>
+        Secondary
+      </Button>
+      <Button
+        variant="raised"
+        color="secondary"
+        disabled
+        className={classes.button}
+      >
+        Disabled
+      </Button>
+      <input
+        accept="image/*"
+        className={classes.input}
+        id="raised-button-file"
+        multiple
+        type="file"
+      />
+      <label htmlFor="raised-button-file">
+        <Button variant="raised" component="span" className={classes.button}>
+          Upload
+        </Button>
+      </label>
+    </div>
+  );
+}
 
 export const App = () => {
   var btnText$ = "Success";
@@ -22,16 +70,7 @@ export const App = () => {
   return (
     <>
       <fjsx.Context key="theme" value={theme}>
-        {/* <Button text$="Normal" /> */}
-        <Button variant="raised" color="primary">
-          Primary
-        </Button>
-        {/* <Button color$="secondary" text$="Secondary" />
-        <Button color$="acent" text$="Accent" />
-        <Button color$="success" text$={btnText$} />
-        <Button color$="error" text$="Error" />
-        <Button color$="warning" text$="Warning" />
-        <Button color$="info" text$="Info" /> */}
+        <RaisedButtons />
       </fjsx.Context>
     </>
   );

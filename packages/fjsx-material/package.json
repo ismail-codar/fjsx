@@ -7,11 +7,7 @@
     "build": "tsc",
     "start": "webpack-dev-server"
   },
-  "keywords": [
-    "fjx",
-    "reactive",
-    "react"
-  ],
+  "keywords": ["fjx", "reactive", "react"],
   "author": "ismail codar",
   "license": "ISC",
   "devDependencies": {
@@ -24,7 +20,8 @@
     "@babel/preset-react": "7.0.0-beta.44",
     "@babel/preset-stage-0": "^7.0.0-beta.44",
     "@babel/preset-typescript": "7.0.0-beta.44",
-    "@fjsx/babel-plugin-transform-fjsx-syntax": "file:../babel-plugin-transform-fjsx-syntax",
+    "@fjsx/babel-plugin-transform-fjsx-syntax":
+      "file:../babel-plugin-transform-fjsx-syntax",
     "@types/chai": "^4.1.2",
     "@types/classnames": "^2.2.3",
     "@types/estree": "0.0.38",
@@ -58,7 +55,6 @@
     "webpack-merge": "^4.1.2"
   },
   "dependencies": {
-    "@fjsx/cssinjs-fela": "file:../fjsx-cssinjs-fela",
     "@fjsx/router": "file:../fjsx-router",
     "@fjsx/runtime": "file:../..",
     "classnames": "^2.2.5",

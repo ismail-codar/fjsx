@@ -1,23 +1,36 @@
-import { cssRules } from "@fjsx/cssinjs-fela";
-
-const wavesEffect = cssRules({
-  position: "relative",
-  overflow: "hidden"
-});
+import { jss } from "./jss-css-rules";
+import { SheetsManager } from "jss";
+const manager = new SheetsManager();
 
 export const rippleEffect = (
   node: HTMLElement,
   backgroundColor = "rgba(221, 221, 221, 0.4)"
 ) => {
-  const wavesRipple = cssRules({
-    backgroundColor: backgroundColor,
-    borderRadius: "100%",
-    width: "10px",
-    height: "10px",
-    position: "absolute"
+  const styles = {
+    waves: {
+      position: "relative",
+      overflow: "hidden"
+    },
+    ripple: {
+      backgroundColor: backgroundColor,
+      borderRadius: "100%",
+      width: "10px",
+      height: "10px",
+      position: "absolute"
+    }
+  };
+
+  var sheet = jss.createStyleSheet(styles, {
+    meta: "ripple-effect"
   });
 
-  wavesEffect.split(" ").forEach(item => node.classList.add(item));
+  const key = JSON.stringify(styles);
+  if (!manager.get(key)) {
+    manager.add(key, sheet);
+    manager.manage(key);
+  } else sheet = manager.get(key);
+
+  node.classList.add(sheet.classes.waves);
   node.addEventListener("click", (event: MouseEvent) => {
     event.preventDefault();
     const button = event.currentTarget as HTMLElement;
@@ -26,7 +39,7 @@ export const rippleEffect = (
       yPos = event.pageY - button.offsetTop,
       elWavesRipple = document.createElement("div");
 
-    elWavesRipple.className = wavesRipple;
+    elWavesRipple.className = sheet.classes.ripple;
     elWavesRipple.style.left = xPos + "px";
     elWavesRipple.style.top = yPos + "px";
 
