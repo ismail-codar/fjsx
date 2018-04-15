@@ -17,6 +17,9 @@ import { Button } from "./components/mui/Button";
 import fjsx from "@fjsx/runtime";
 import { jssCssRulesWithTheme } from "./utils/jss-css-rules";
 
+import AddIcon from "./icons/src/Add";
+// import Icon from "./components/mui/Icon";
+
 const styles = (theme: Theme) => ({
   button: {
     margin: theme.spacing.unit
@@ -36,7 +39,7 @@ function RaisedButtons(props) {
         Primary
       </Button>
       <Button variant="fab" color="secondary" className={classes.button}>
-        Secondary
+        <AddIcon />
       </Button>
       <Button
         variant="raised"

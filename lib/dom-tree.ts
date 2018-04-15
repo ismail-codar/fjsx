@@ -57,7 +57,13 @@ export const createSvgElement = (
   ...childs: any[]
 ) => {
   let element = document.createElementNS(svgNS, tagName);
-  attributes && setElementAttributes(element, attributes, true);
+  if (attributes) {
+    if (attributes.className) {
+      attributes.class = attributes.className;
+      delete attributes.className;
+    }
+    setElementAttributes(element, attributes, true);
+  }
   childs && childs.length && addChildElements(element, childs);
   return element;
 };
