@@ -2,6 +2,23 @@ import fjsx from "@fjsx/runtime";
 import classNames from "classnames";
 import { capitalize } from "../../utils/helpers";
 import { jssCssRulesWithTheme } from "../../utils/jss-css-rules";
+import { StandardProps, PropTypes } from ".";
+
+export interface SvgIconProps
+  extends StandardProps<Fjsx.SVGProps<SVGSVGElement>, SvgIconClassKey> {
+  color?: PropTypes.Color | "action" | "disabled" | "error";
+  nativeColor?: string;
+  titleAccess?: string;
+  viewBox?: string;
+}
+
+export type SvgIconClassKey =
+  | "root"
+  | "colorSecondary"
+  | "colorAction"
+  | "colorDisabled"
+  | "colorError"
+  | "colorPrimary";
 
 export const styles = theme => ({
   root: {
@@ -33,7 +50,7 @@ export const styles = theme => ({
   }
 });
 
-export const SvgIcon = props => {
+export const SvgIcon = (props: SvgIconProps) => {
   fjsx.setDefaults(props, {
     color: "inherit",
     viewBox: "0 0 24 24"
@@ -56,7 +73,6 @@ export const SvgIcon = props => {
     },
     classNameProp
   );
-  console.log(className);
 
   return (
     <svg

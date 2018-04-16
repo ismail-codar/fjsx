@@ -59,10 +59,11 @@ export const createSvgElement = (
   let element = document.createElementNS(svgNS, tagName);
   if (attributes) {
     if (attributes.className) {
+      // TODO compile time
       attributes.class = attributes.className;
       delete attributes.className;
+      setElementAttributes(element, attributes, true);
     }
-    setElementAttributes(element, attributes, true);
   }
   childs && childs.length && addChildElements(element, childs);
   return element;

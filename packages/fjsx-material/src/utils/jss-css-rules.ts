@@ -25,7 +25,6 @@ export const jssCssRulesWithTheme = (
 ) => {
   dynamicCss = dynamicCss || stylesOrCreator instanceof Function;
   const stylesCreator = getStylesCreator(stylesOrCreator);
-  stylesCreator.create(fjsx.getContextValue("theme"), name);
 
   const styles = stylesCreator.create(fjsx.getContextValue("theme"), name);
   var sheet = jss.createStyleSheet(styles, {
@@ -37,11 +36,19 @@ export const jssCssRulesWithTheme = (
     index: INDEX--
   });
 
-  const key = dynamicCss ? JSON.stringify(styles) : styles;
+  //TODO detect theme changes and unmanage (buttons:MuiThemeProvider)
+
+  var key = dynamicCss ? JSON.stringify(styles) : styles;
   if (!manager.get(key)) {
     manager.add(key, sheet);
     manager.manage(key);
   } else sheet = manager.get(key);
 
+  if (props && props.classes) {
+    for (key in props.classes) {
+      sheet.classes[key] =
+        (sheet.classes[key] || "") + " " + props.classes[key];
+    }
+  }
   return sheet.classes;
 };
