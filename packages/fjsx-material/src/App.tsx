@@ -4,15 +4,18 @@ import createMuiTheme from "./styles/createMuiTheme";
 import indigo from "./colors/indigo";
 import pink from "./colors/pink";
 import red from "./colors/red";
+import lightBlue from "./colors/lightBlue";
+
 import { HomePage } from "./pages/home";
 import { TextFieldsPage } from "./pages/text-fields";
 import { AppBarPage } from "./pages/appbar";
 import { ButtonsPage } from "./pages/buttons";
+import { ListPage } from "./pages/list";
 
 const theme = createMuiTheme({
   palette: {
-    primary: indigo,
-    secondary: pink,
+    primary: lightBlue,
+    secondary: indigo,
     error: red
   }
 });
@@ -25,10 +28,12 @@ export const App = () => {
       <fjsx.Context key="theme" value={theme}>
         <div>
           <div>
+            |
             <Link to="/">Home</Link> |
             <Link to="/buttons">Buttons</Link> |
             <Link to="/appbar">App Bar</Link> |
-            <Link to="/textfields">Text Fields</Link>
+            <Link to="/textfields">Text Fields</Link> |
+            <Link to="/list">List</Link> |
           </div>
           <hr />
         </div>
@@ -38,6 +43,7 @@ export const App = () => {
           <Route exact path="/buttons" component={ButtonsPage} />
           <Route path="/appbar" component={AppBarPage} />
           <Route path="/textfields" component={TextFieldsPage} />
+          <Route path="/list" component={ListPage} />
         </Router>
       </fjsx.Context>
     </>

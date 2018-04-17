@@ -96,3 +96,9 @@ export const addChildElements = (element, childs) => {
 export const createTextNode = parent => {
   return parent.appendChild(document.createTextNode(""));
 };
+
+export const cloneElement = (element: Element, attributes: any) => {
+  element = element.cloneNode(true) as Element;
+  attributes && setElementAttributes(element, attributes, false);
+  return element;
+};

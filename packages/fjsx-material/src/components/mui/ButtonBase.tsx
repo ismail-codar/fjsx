@@ -11,7 +11,7 @@ export interface ButtonBaseProps
     > {
   buttonRef?: Fjsx.Ref<any>;
   centerRipple?: boolean;
-  component?: Fjsx.DetailedHTMLProps<any, any>;
+  component?: Fjsx.DetailedHTMLProps<any, ButtonBaseProps>;
   disableRipple?: boolean;
   focusRipple?: boolean;
   onKeyboardFocus?: Fjsx.FocusEventHandler<any>;

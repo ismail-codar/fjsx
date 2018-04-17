@@ -14,7 +14,7 @@ import { StandardProps, PropTypes } from ".";
 export interface ButtonProps
   extends StandardProps<ButtonBaseProps, ButtonClassKey, "component"> {
   color?: PropTypes.Color;
-  component?: Fjsx.DetailedHTMLProps<any, any>;
+  component?: Fjsx.DetailedHTMLProps<any, ButtonProps>;
   disabled?: boolean;
   disableFocusRipple?: boolean;
   disableRipple?: boolean;

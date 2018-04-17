@@ -6,7 +6,7 @@ import { jssCssRulesWithTheme } from "../../utils/jss-css-rules";
 
 export interface PaperProps
   extends StandardProps<Fjsx.HTMLAttributes<HTMLDivElement>, PaperClassKey> {
-  component?: Fjsx.DetailedHTMLProps<any, any>;
+  component?: Fjsx.DetailedHTMLProps<any, PaperProps>;
   elevation?: number;
   square?: boolean;
 }
