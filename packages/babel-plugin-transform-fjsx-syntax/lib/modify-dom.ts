@@ -111,7 +111,11 @@ const appendReplaceConditionallyExpression = (
                     t.callExpression(t.identifier("fjsx.conditionalElement"), [
                       t.identifier("element"),
                       t.identifier("oldElement"),
-                      expression
+                      t.functionExpression(
+                        null,
+                        [],
+                        t.blockStatement([t.returnStatement(expression)])
+                      )
                     ])
                   )
                 )

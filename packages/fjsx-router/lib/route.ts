@@ -13,13 +13,12 @@ export const Route = (props: {
     {
       path: props.path,
       handler: () => {
-        for (var key in props["$context"])
-          fjsx.startContext(key, props["$context"][key]);
+        fjsx.activateContext(props["$context"]);
         const rendered = props.component(props);
         if (viewParent.firstChild)
           viewParent.replaceChild(rendered, viewParent.firstChild);
         else viewParent.appendChild(rendered);
-        for (var key in props["$context"]) fjsx.endContext(key);
+        fjsx.deactivateContext(props["$context"]);
       }
     }
   ]);

@@ -1,8 +1,17 @@
 import { FJsxValue } from "..";
 import { EventedArray } from "./evented-array";
 import { compute } from "./f";
+import { activateContext, deactivateContext } from "../lib/context";
 
-export const conditionalElement = (parentElement, oldElement, newElement) => {
+export const conditionalElement = (
+  parentElement,
+  oldElement,
+  newElementFn: () => any
+) => {
+  activateContext(parentElement["$props"]["$context"]);
+  let newElement = newElementFn();
+  deactivateContext(parentElement["$props"]["$context"]);
+  // for (var key in props["$context"]) fjsx.endContext(key);
   if (newElement instanceof Node === false)
     newElement = document.createTextNode(newElement || "");
   if (oldElement) parentElement.replaceChild(newElement, oldElement);

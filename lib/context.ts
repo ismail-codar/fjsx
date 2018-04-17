@@ -33,4 +33,12 @@ export const endContext = (key: string) => {
   activeContextKeys.pop();
 };
 
+export const activateContext = context => {
+  for (var key in context) startContext(key, context[key]);
+};
+
+export const deactivateContext = context => {
+  for (var key in context) endContext(key);
+};
+
 export const Context = (props: { key: string; value: any }) => null;
