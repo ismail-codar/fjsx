@@ -1,14 +1,11 @@
 import fjsx from "@fjsx/runtime";
 // @inheritedComponent ButtonBase
-
 import classNames from "classnames";
+import { PropTypes, StandardProps } from ".";
 import { fade } from "../../styles/colorManipulator";
-import { ButtonBase } from "./ButtonBase";
 import { capitalize } from "../../utils/helpers";
-
-import { StandardProps, PropTypes } from ".";
-import { ButtonBaseProps, ButtonBaseClassKey } from "./ButtonBase";
 import { jssCssRulesWithTheme } from "../../utils/jss-css-rules";
+import { ButtonBase, ButtonBaseClassKey, ButtonBaseProps } from "./ButtonBase";
 
 export interface IconButtonProps
   extends StandardProps<ButtonBaseProps, IconButtonClassKey> {

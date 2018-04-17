@@ -93,6 +93,7 @@ module.exports = {
   devServer: {
     port: 3040,
     open: true,
+    historyApiFallback: true,
     watchOptions: {
       ignored: /node_modules/
     }

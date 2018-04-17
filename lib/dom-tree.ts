@@ -18,9 +18,11 @@ const setElementAttributes = (
         element[attributeName] = attribute;
       } else attribute(element);
     } else if (attribute instanceof Object) {
-      //style
-      for (var key in attribute)
-        if (typeof attribute[key] === "function") attribute[key](element);
+      if (Array.isArray(attribute)) {
+        addChildElements(element, attribute);
+      } else
+        for (var key in attribute)
+          if (typeof attribute[key] === "function") attribute[key](element);
     } else {
       if (forceSetAttr || attributeName.indexOf("-") !== -1)
         element.setAttribute(attributeName, attribute);
