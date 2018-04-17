@@ -24,7 +24,7 @@ export const value = <T>(value: T, freezed?: boolean): FJsxValue<T> => {
 
   innerFn["computes"] = [];
   if (value instanceof Function) innerFn["compute"] = value;
-  innerFn.toJSON = () => innerFn["$val"];
+  innerFn.toString = innerFn.toJSON = () => innerFn["$val"];
   return innerFn;
 };
 
