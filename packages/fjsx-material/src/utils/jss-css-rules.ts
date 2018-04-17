@@ -47,11 +47,11 @@ export const jssCssRulesWithTheme = (
     manager.manage(key);
   } else sheet = manager.get(key);
 
+  const classes = Object.assign({}, sheet.classes);
   if (props && props.classes) {
     for (key in props.classes) {
-      sheet.classes[key] =
-        (sheet.classes[key] || "") + " " + props.classes[key];
+      classes[key] = (classes[key] || "") + " " + props.classes[key];
     }
   }
-  return sheet.classes;
+  return classes;
 };

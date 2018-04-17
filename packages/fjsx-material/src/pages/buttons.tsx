@@ -126,7 +126,7 @@ export const ButtonsPage = props => {
           Upload
         </Button>
       </label>
-      {/* <Button
+      <Button
         variant="raised"
         color="primary"
         className={classes.button}
@@ -135,13 +135,13 @@ export const ButtonsPage = props => {
         }}
       >
         Custom CSS
-      </Button> */}
+      </Button>
       {/* <fjsx.Context key="theme" value={theme2}>
         <Button variant="raised" color="primary" className={classes.button}>
           MuiThemeProvider
         </Button>
       </fjsx.Context> */}
-      {/* <Button
+      <Button
         variant="raised"
         color="primary"
         className={classes.button}
@@ -151,7 +151,7 @@ export const ButtonsPage = props => {
         }}
       >
         Bootstrap
-      </Button> */}
+      </Button>
     </div>
   );
 };
