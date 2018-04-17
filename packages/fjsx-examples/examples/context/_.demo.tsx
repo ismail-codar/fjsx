@@ -15,11 +15,11 @@ const themes = {
   }
 };
 
-const Button = ({ children }) => {
-  const theme = themes[fjsx.getContextValue("theme")];
+const Button = props => {
+  const theme = themes[(fjsx.getContextValue("theme", props), props)];
   return (
     <button className={theme ? cssRules(theme.button) : null}>
-      {children}
+      {props.children}
     </button>
   );
 };

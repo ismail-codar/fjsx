@@ -1,5 +1,5 @@
 import RouteRecognizer from "route-recognizer";
-import { fjsx } from "fjsx";
+import * as fjsx from "@fjsx/runtime";
 import { instance, transitionTo } from "./router";
 
 export const Link = (props: { to: string; children: any }) => {

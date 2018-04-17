@@ -233,7 +233,10 @@ export = function() {
         try {
           if (
             t.isMemberExpression(path.node.callee) &&
-            path.node.callee.property.name == "createElement"
+            path.node.callee.property.name == "createElement" &&
+            t.isIdentifier(path.node.callee.object) &&
+            (path.node.callee.object.name === "React" ||
+              path.node.callee.object.name === "fjsx")
           ) {
             const firstArgument = path.node.arguments[0];
             if (t.isStringLiteral(firstArgument)) {

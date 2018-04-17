@@ -1,15 +1,17 @@
 import RouteRecognizer from "route-recognizer";
-import { fjsx } from "fjsx";
+import * as fjsx from "@fjsx/runtime";
 export const instance = new RouteRecognizer();
 
 export const transitionTo = (path: string) => {
   let result = instance.recognize(path);
-  for (var i = 0; i < result.length; i++) {
-    var item = result[i] as any;
-    item.handler();
+  if (result) {
+    for (var i = 0; i < result.length; i++) {
+      var item = result[i] as any;
+      item.handler();
+    }
+    // window.location.hash = props.to;
+    window.history.pushState(null, null, path);
   }
-  // window.location.hash = props.to;
-  window.history.pushState(null, null, path);
 };
 
 export const Router = (props: any) => {

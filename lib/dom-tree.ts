@@ -1,3 +1,5 @@
+import { injectContexts } from "./context";
+
 var jsxEventProperty = /^on[A-Z]/;
 const svgNS = "http://www.w3.org/2000/svg";
 export const Fragment = Symbol("fjsx.Fragment");
@@ -36,6 +38,7 @@ export const createElement = (
   if (tagName instanceof Function) {
     if (attributes === null) attributes = {};
     attributes["children"] = childs;
+    injectContexts(attributes);
     element = (tagName as any)(attributes);
     if (element) element["$props"] = attributes;
   } else {
@@ -62,8 +65,8 @@ export const createSvgElement = (
       // TODO compile time
       attributes.class = attributes.className;
       delete attributes.className;
-      setElementAttributes(element, attributes, true);
     }
+    setElementAttributes(element, attributes, true);
   }
   childs && childs.length && addChildElements(element, childs);
   return element;

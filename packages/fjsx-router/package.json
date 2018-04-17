@@ -14,10 +14,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "peerDependencies": {
-    "fjsx": ">=0.0.2"
-  },
   "dependencies": {
+    "@fjsx/runtime": "file:../..",
     "route-recognizer": "^0.3.3"
   }
 }

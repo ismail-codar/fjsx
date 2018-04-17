@@ -26,7 +26,10 @@ export const jssCssRulesWithTheme = (
   dynamicCss = dynamicCss || stylesOrCreator instanceof Function;
   const stylesCreator = getStylesCreator(stylesOrCreator);
 
-  const styles = stylesCreator.create(fjsx.getContextValue("theme"), name);
+  const styles = stylesCreator.create(
+    fjsx.getContextValue("theme", props),
+    name
+  );
   var sheet = jss.createStyleSheet(styles, {
     name,
     meta: name,

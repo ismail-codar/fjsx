@@ -1,5 +1,5 @@
 import { Router, Route, Link } from "@fjsx/router";
-
+ 
 const Home = () => {
   return <div>Home</div>;
 };

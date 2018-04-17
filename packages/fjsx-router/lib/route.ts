@@ -1,11 +1,11 @@
-import { fjsx } from "fjsx";
 import { instance } from "./router";
+import * as fjsx from "@fjsx/runtime";
 
 export const Route = (props: {
   exact?: boolean;
   path: string;
   didMount?: any;
-  component: () => Element;
+  component: (props) => Element;
 }) => {
   let viewParent: HTMLDivElement = null;
 
@@ -13,10 +13,13 @@ export const Route = (props: {
     {
       path: props.path,
       handler: () => {
-        const rendered = props.component();
+        for (var key in props["$context"])
+          fjsx.startContext(key, props["$context"][key]);
+        const rendered = props.component(props);
         if (viewParent.firstChild)
           viewParent.replaceChild(rendered, viewParent.firstChild);
         else viewParent.appendChild(rendered);
+        for (var key in props["$context"]) fjsx.endContext(key);
       }
     }
   ]);
