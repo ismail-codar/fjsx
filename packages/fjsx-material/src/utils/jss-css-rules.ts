@@ -15,7 +15,7 @@ const manager = new SheetsManager();
 // Use a singleton or the provided one by the context.
 const generateClassName = createGenerateClassName();
 
-var INDEX = 999;
+var INDEX = 9999999999999;
 
 export const jssCssRulesWithTheme = (
   name,
@@ -30,22 +30,25 @@ export const jssCssRulesWithTheme = (
     fjsx.getContextValue("theme", props),
     name
   );
-  var sheet = jss.createStyleSheet(styles, {
-    name,
-    meta: name,
-    generateClassName,
-    classNamePrefix: name,
-    link: false,
-    index: INDEX--
-  });
 
   //TODO detect theme changes and unmanage (buttons:MuiThemeProvider)
 
   var key = dynamicCss ? JSON.stringify(styles) : styles;
   if (!manager.get(key)) {
+    var sheet = jss.createStyleSheet(styles, {
+      name,
+      meta: name,
+      generateClassName,
+      classNamePrefix: name,
+      link: false,
+      index: INDEX--
+    });
     manager.add(key, sheet);
     manager.manage(key);
-  } else sheet = manager.get(key);
+  } else {
+    sheet = manager.get(key);
+    INDEX = sheet.options.index + (sheet.options.index - INDEX);
+  }
 
   const classes = Object.assign({}, sheet.classes);
   if (props && props.classes) {

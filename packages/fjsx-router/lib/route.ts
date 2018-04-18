@@ -15,10 +15,10 @@ export const Route = (props: {
       handler: () => {
         fjsx.activateContext(props["$context"]);
         const rendered = props.component(props);
+        fjsx.deactivateContext(props["$context"]);
         if (viewParent.firstChild)
           viewParent.replaceChild(rendered, viewParent.firstChild);
         else viewParent.appendChild(rendered);
-        fjsx.deactivateContext(props["$context"]);
       }
     }
   ]);

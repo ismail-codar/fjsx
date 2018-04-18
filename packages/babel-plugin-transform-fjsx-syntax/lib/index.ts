@@ -349,7 +349,11 @@ export = function() {
       JSXExpressionContainer(path: NodePath<t.JSXExpressionContainer>, file) {
         if (doNotTraverse) return;
         try {
-          if (check.expressionContainerParentIsComponent(path)) return;
+          if (
+            t.isCallExpression(path.node.expression) === false && //class-names-4 vs component-1
+            check.expressionContainerParentIsComponent(path)
+          )
+            return;
           if (t.isJSXAttribute(path.container))
             if (
               t.isObjectExpression(path.node.expression) &&

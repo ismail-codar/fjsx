@@ -6,6 +6,21 @@ import classNames from "classnames";
 import { duration } from "../styles/transitions";
 // import { getTransitionProps } from '../utils';
 import { jssCssRulesWithTheme } from "../utils/jss-css-rules";
+import { StandardProps } from "../components/mui";
+import { Theme } from "../styles/createMuiTheme";
+import { TransitionProps } from "./transition";
+
+export interface CollapseProps
+  extends StandardProps<TransitionProps, CollapseClassKey, "timeout"> {
+  children?: any;
+  collapsedHeight?: string;
+  component?: Fjsx.DetailedHTMLProps<any, CollapseProps>;
+  theme?: Theme;
+  timeout?: TransitionProps["timeout"] | "auto";
+  open$: boolean;
+}
+
+export type CollapseClassKey = "container" | "entered";
 
 export const styles = theme => ({
   container: {
@@ -25,7 +40,7 @@ export const styles = theme => ({
   }
 });
 
-export const Collapse = props => {
+export const Collapse = (props: CollapseProps) => {
   fjsx.setDefaults(props, {
     collapsedHeight: "0px",
     component: "div",
@@ -36,11 +51,6 @@ export const Collapse = props => {
     className,
     collapsedHeight,
     component: Component,
-    onEnter,
-    onEntered,
-    onEntering,
-    onExit,
-    onExiting,
     style,
     theme,
     timeout,
@@ -48,14 +58,7 @@ export const Collapse = props => {
   } = props;
 
   const childProps = {};
-  const state = "entered";
   let wrapper = null;
-
-  fjsx.setDefaults(props, {
-    collapsedHeight: "0px",
-    component: "div",
-    timeout: duration.standard
-  });
 
   const classes = jssCssRulesWithTheme("MuiCollapse", props, styles);
   return (
@@ -63,7 +66,7 @@ export const Collapse = props => {
       className={classNames(
         classes.container,
         {
-          [classes.entered]: state === "entered"
+          [classes.entered]: props.open$ === true
         },
         className
       )}

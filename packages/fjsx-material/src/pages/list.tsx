@@ -144,7 +144,7 @@ function NestedList(props) {
           <ListItemText inset primary="Inbox" />
           {open$ ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
-        <Collapse in={true} timeout="auto" unmountOnExit>
+        <Collapse open$={open$} timeout="auto">
           <List component="div" disablePadding>
             <ListItem button className={classes.nested}>
               <ListItemIcon>
