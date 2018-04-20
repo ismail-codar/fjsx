@@ -112,6 +112,7 @@ export const TextField = (props: TextFieldProps) => {
     SelectProps,
     type,
     value,
+    margin,
     ...other
   } = props;
 
@@ -145,32 +146,61 @@ export const TextField = (props: TextFieldProps) => {
     />
   );
 
+  const { adornedStart, filled, focused } = {
+    adornedStart: false,
+    filled: false,
+    focused: false
+  };
+  const handleBlur = () => {};
+  const handleClean = () => {};
+  const handleDirty = () => {};
+  const handleFocus = () => {};
+
   return (
-    <FormControl
-      aria-describedby={helperTextId}
-      className={className}
-      error={error}
-      fullWidth={fullWidth}
-      required={required}
-      {...other}
-    >
-      {label && (
-        <InputLabel htmlFor={id} {...InputLabelProps}>
-          {label}
-        </InputLabel>
-      )}
-      {select ? (
-        <Select value={value} input={InputElement} {...SelectProps}>
-          {children}
-        </Select>
-      ) : (
-        InputElement
-      )}
-      {helperText && (
-        <FormHelperText id={helperTextId} {...FormHelperTextProps}>
-          {helperText}
-        </FormHelperText>
-      )}
-    </FormControl>
+    <>
+      <fjsx.Context
+        key="muiFormControl"
+        value={{
+          adornedStart,
+          disabled,
+          error,
+          filled,
+          focused,
+          margin,
+          onBlur: handleBlur,
+          onEmpty: handleClean,
+          onFilled: handleDirty,
+          onFocus: handleFocus,
+          required
+        }}
+      >
+        <FormControl
+          aria-describedby={helperTextId}
+          className={className}
+          error={error}
+          fullWidth={fullWidth}
+          required={required}
+          {...other}
+        >
+          {label && (
+            <InputLabel htmlFor={id} {...InputLabelProps}>
+              {label}
+            </InputLabel>
+          )}
+          {select ? (
+            <Select value={value} input={InputElement} {...SelectProps}>
+              {children}
+            </Select>
+          ) : (
+            InputElement
+          )}
+          {helperText && (
+            <FormHelperText id={helperTextId} {...FormHelperTextProps}>
+              {helperText}
+            </FormHelperText>
+          )}
+        </FormControl>
+      </fjsx.Context>
+    </>
   );
 };

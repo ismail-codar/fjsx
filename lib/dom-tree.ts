@@ -12,21 +12,23 @@ const setElementAttributes = (
   let attribute = null;
   for (var attributeName in attributes) {
     attribute = attributes[attributeName];
-    if (attribute instanceof Function) {
-      if (jsxEventProperty.test(attributeName)) {
-        attributeName = attributeName.toLowerCase();
-        element[attributeName] = attribute;
-      } else attribute(element);
-    } else if (attribute instanceof Object) {
-      if (Array.isArray(attribute)) {
-        addChildElements(element, attribute);
-      } else
-        for (var key in attribute)
-          if (typeof attribute[key] === "function") attribute[key](element);
-    } else {
-      if (forceSetAttr || attributeName.indexOf("-") !== -1)
-        element.setAttribute(attributeName, attribute);
-      else element[attributeName] = attribute;
+    if (attribute != undefined) {
+      if (attribute instanceof Function) {
+        if (jsxEventProperty.test(attributeName)) {
+          attributeName = attributeName.toLowerCase();
+          element[attributeName] = attribute;
+        } else attribute(element);
+      } else if (attribute instanceof Object) {
+        if (Array.isArray(attribute)) {
+          addChildElements(element, attribute);
+        } else
+          for (var key in attribute)
+            if (typeof attribute[key] === "function") attribute[key](element);
+      } else {
+        if (forceSetAttr || attributeName.indexOf("-") !== -1)
+          element.setAttribute(attributeName, attribute);
+        else element[attributeName] = attribute;
+      }
     }
   }
 };
