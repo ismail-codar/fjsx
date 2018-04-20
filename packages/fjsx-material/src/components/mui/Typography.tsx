@@ -9,7 +9,7 @@ export interface TypographyProps
   extends StandardProps<Fjsx.HTMLAttributes<HTMLElement>, TypographyClassKey> {
   align?: PropTypes.Alignment;
   color?: PropTypes.Color | "textSecondary" | "error";
-  component?: Element;
+  component?: Element | string;
   gutterBottom?: boolean;
   headlineMapping?: { [type in TextStyle]: string };
   noWrap?: boolean;

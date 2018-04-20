@@ -1,11 +1,4 @@
 import { jssCssRulesWithTheme } from "../utils/jss-css-rules";
-import {
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  ListSubheader
-} from "../components/mui/List";
 import { Divider } from "../components/mui/Divider";
 import InboxIcon from "../icons/src/Inbox";
 import DraftsIcon from "../icons/src/Drafts";
@@ -19,6 +12,11 @@ import SendIcon from "../icons/src/Send";
 import ExpandLess from "../icons/src/ExpandLess";
 import ExpandMore from "../icons/src/ExpandMore";
 import StarBorder from "../icons/src/StarBorder";
+import { List } from "../components/mui/List/List";
+import { ListItem } from "../components/mui/List/ListItem";
+import { ListItemIcon } from "../components/mui/List/ListItemIcon";
+import { ListItemText } from "../components/mui/List/ListItemText";
+import { ListSubheader } from "../components/mui/List/ListSubheader";
 
 const styles = theme => ({
   root: {
