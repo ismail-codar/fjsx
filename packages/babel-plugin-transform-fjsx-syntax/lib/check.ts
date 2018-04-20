@@ -232,7 +232,7 @@ const expressionContainerParentIsComponent = (
   }
 };
 
-const objectPropertyParentIsComponent = (path: NodePath<t.ObjectProperty>) => {
+const objectPropertyParentIsComponent = (path: NodePath<any>) => {
   if (
     Array.isArray(path.parentPath.container) &&
     path.parentPath.container.length &&
@@ -241,6 +241,21 @@ const objectPropertyParentIsComponent = (path: NodePath<t.ObjectProperty>) => {
     const name = path.parentPath.container[0]["name"];
     return name.substr(0, 1).toUpperCase() == name.substr(0, 1);
   }
+
+  while (path) {
+    if (
+      t.isCallExpression(path.node) &&
+      t.isMemberExpression(path.node.callee) &&
+      t.isIdentifier(path.node.callee.object) &&
+      path.node.callee.object.name === "fjsx" &&
+      t.isIdentifier(path.node.callee.property) &&
+      path.node.callee.property.name === "createElement"
+    ) {
+      const arg0 = path.node.arguments[0] as t.Identifier;
+      return arg0.name.substr(0, 1).toUpperCase() == arg0.name.substr(0, 1);
+    } else path = path.parentPath;
+  }
+  return false;
 };
 
 export const isExportsMember = (expression: t.LVal) => {
@@ -280,6 +295,11 @@ export const isFjsxCall = (node: t.BaseNode) => {
   return member && member.name.startsWith("fjsx");
 };
 
+export const isDynamicExpression = (expression: t.Expression) =>
+  t.isBinaryExpression(expression) ||
+  t.isCallExpression(expression) ||
+  t.isLogicalExpression(expression);
+
 export const check = {
   isFjsxCall,
   isValMemberProperty,
@@ -295,5 +315,6 @@ export const check = {
   expressionContainerParentIsComponent,
   objectPropertyParentIsComponent,
   isExportsMember,
-  isArrayMapExpression
+  isArrayMapExpression,
+  isDynamicExpression
 };

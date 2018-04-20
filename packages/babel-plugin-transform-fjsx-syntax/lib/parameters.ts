@@ -30,7 +30,7 @@ const listAddWithControl = (
 
 const fjsxComputeParametersInExpression = (
   scope: Scope,
-  expression: t.Expression,
+  expression: t.Expression | t.PatternLike,
   list: t.Expression[]
 ): void => {
   if (t.isIdentifier(expression)) {
@@ -58,6 +58,8 @@ const fjsxComputeParametersInExpression = (
     }
   } else if (t.isBinaryExpression(expression))
     checkBinaryExpression(scope, expression, list);
+  else if (t.isLogicalExpression(expression))
+    checkLogicalExpression(scope, expression, list);
   else if (t.isConditionalExpression(expression))
     checkConditionalExpression(scope, expression, list);
   else if (t.isCallExpression(expression)) {
@@ -152,6 +154,15 @@ const checkBinaryExpression = (
   fjsxComputeParametersInExpression(scope, expression.right, list);
 };
 
+const checkLogicalExpression = (
+  scope: Scope,
+  expression: t.LogicalExpression,
+  list: t.Expression[]
+) => {
+  fjsxComputeParametersInExpression(scope, expression.left, list);
+  fjsxComputeParametersInExpression(scope, expression.right, list);
+};
+
 const checkExpressionList = (
   scope: Scope,
   argumentList: Array<
@@ -174,7 +185,7 @@ const checkExpressionList = (
 
 export const fjsxComputeParametersInExpressionWithScopeFilter = (
   scope: Scope,
-  expression: t.Expression
+  expression: t.Expression | t.PatternLike
 ) => {
   const fComputeParameters = [];
   fjsxComputeParametersInExpression(scope, expression, fComputeParameters);

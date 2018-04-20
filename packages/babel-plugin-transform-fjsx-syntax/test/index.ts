@@ -1,5 +1,4 @@
 import { format } from "prettier";
-
 var assert = require("assert");
 var babel = require("@babel/core");
 var chalk = require("chalk");
@@ -8,15 +7,15 @@ var diff = require("diff");
 import * as fs from "fs";
 var path = require("path");
 import "better-log/install";
-
 require("@babel/register");
 
 ////////////////////////////////////////////////////////////////////////////
 var RUN_SINGLE_TEST = null;
-// RUN_SINGLE_TEST = "class-names-4";
+// RUN_SINGLE_TEST = "component-3";
 ////////////////////////////////////////////////////////////////////////////
 
 var pluginPath = require.resolve("../lib");
+var exitCode = 0;
 
 function runTests() {
   var testsPath = __dirname + "/fixtures/";
@@ -48,7 +47,6 @@ function runTest(dir) {
   if (dir.name.startsWith("_")) {
     return;
   }
-  var exitCode = 0;
   let testFile = dir.path + "/actual.jsx";
   if (fs.existsSync(testFile) == false) {
     testFile = dir.path + "/actual.tsx";
@@ -100,7 +98,6 @@ function runTest(dir) {
         var value = part.value;
         if (part.added) {
           value = chalk.green(value);
-          exitCode = 1;
         } else if (part.removed) {
           value = chalk.red(value);
           exitCode = 1;
@@ -127,6 +124,6 @@ if (process.argv.indexOf("--watch") >= 0) {
     }
   });
 } else {
-  var exitCode = runTests();
+  runTests();
   process.exit(exitCode);
 }

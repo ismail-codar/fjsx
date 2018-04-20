@@ -9,7 +9,8 @@ export interface FormLabelProps
   component?: Fjsx.DetailedHTMLProps<any, FormLabelBaseProps>;
   disabled?: boolean;
   error?: boolean;
-  focused?: boolean;
+  className$: any;
+  focused$?: boolean;
   required?: boolean;
   muiFormControl?: any;
 }
@@ -57,51 +58,34 @@ export const FormLabel = (props: FormLabelProps) => {
   });
   const {
     children,
-    className: classNameProp,
     component: Component,
     disabled: disabledProp,
     error: errorProp,
-    focused: focusedProp,
+    focused$: focusedProp,
     required: requiredProp,
     ...other
   } = props;
 
   // debugger; //TODO context
   const classes = jssCssRulesWithTheme("MuiFormLabel", props, styles);
-  const { muiFormControl } = props;
 
   let required = requiredProp;
-  let focused = focusedProp;
+  let focused$ = focusedProp;
   let disabled = disabledProp;
   let error = errorProp;
 
-  if (muiFormControl) {
-    if (typeof required === "undefined") {
-      required = muiFormControl.required;
-    }
-    if (typeof focused === "undefined") {
-      focused = muiFormControl.focused;
-    }
-    if (typeof disabled === "undefined") {
-      disabled = muiFormControl.disabled;
-    }
-    if (typeof error === "undefined") {
-      error = muiFormControl.error;
-    }
-  }
-
-  const className = classNames(
+  const className$ = classNames(
     classes.root,
     {
-      [classes.focused]: focused,
+      [classes.focused]: focused$,
       [classes.disabled]: disabled,
       [classes.error]: error
     },
-    classNameProp
+    props.className$
   );
 
   return (
-    <Component className={className} {...other}>
+    <Component className={className$} {...other}>
       {children}
       {required && (
         <span

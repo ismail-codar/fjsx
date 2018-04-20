@@ -130,7 +130,7 @@ export = function() {
             (check.isTrackedByNodeName(path.node) ||
               check.hasTrackedComment(path))
           ) {
-            if (path.node.init && t.isBinaryExpression(path.node.init)) {
+            if (path.node.init && check.isDynamicExpression(path.node.init)) {
               const fComputeParameters = parameters.fjsxComputeParametersInExpressionWithScopeFilter(
                 path.scope,
                 path.node.init
@@ -203,27 +203,18 @@ export = function() {
           errorReport(e, path, file);
         }
       },
+      LogicalExpression(path: NodePath<t.LogicalExpression>, file) {
+        if (doNotTraverse) return;
+        try {
+          modify.pathNodeLeftRight(path);
+        } catch (e) {
+          errorReport(e, path, file);
+        }
+      },
       BinaryExpression(path: NodePath<t.BinaryExpression>, file) {
         if (doNotTraverse) return;
         try {
-          if (t.isIdentifier(path.node.left)) {
-            if (check.isTrackedVariable(path.scope, path.node.left)) {
-              path.node.left = modify.memberVal(path.node.left);
-            }
-          } else if (t.isMemberExpression(path.node.left)) {
-            if (check.isTrackedVariable(path.scope, path.node.left)) {
-              path.node.left = modify.memberVal(path.node.left);
-            }
-          }
-          if (t.isIdentifier(path.node.right)) {
-            if (check.isTrackedVariable(path.scope, path.node.right)) {
-              path.node.right = modify.memberVal(path.node.right);
-            }
-          } else if (t.isMemberExpression(path.node.right)) {
-            if (check.isTrackedVariable(path.scope, path.node.right)) {
-              path.node.right = modify.memberVal(path.node.right);
-            }
-          }
+          modify.pathNodeLeftRight(path);
         } catch (e) {
           errorReport(e, path, file);
         }

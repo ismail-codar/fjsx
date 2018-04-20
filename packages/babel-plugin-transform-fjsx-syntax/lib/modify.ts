@@ -197,6 +197,29 @@ export const moveContextArguments = (args: any[], contextArgIndex: number) => {
   args.splice.apply(args, [contextArgIndex + 1, 0].concat(contextArgs));
 };
 
+export const pathNodeLeftRight = (
+  path: NodePath<t.LogicalExpression | t.BinaryExpression>
+) => {
+  if (t.isIdentifier(path.node.left)) {
+    if (check.isTrackedVariable(path.scope, path.node.left)) {
+      path.node.left = modify.memberVal(path.node.left);
+    }
+  } else if (t.isMemberExpression(path.node.left)) {
+    if (check.isTrackedVariable(path.scope, path.node.left)) {
+      path.node.left = modify.memberVal(path.node.left);
+    }
+  }
+  if (t.isIdentifier(path.node.right)) {
+    if (check.isTrackedVariable(path.scope, path.node.right)) {
+      path.node.right = modify.memberVal(path.node.right);
+    }
+  } else if (t.isMemberExpression(path.node.right)) {
+    if (check.isTrackedVariable(path.scope, path.node.right)) {
+      path.node.right = modify.memberVal(path.node.right);
+    }
+  }
+};
+
 export const modify = {
   fjsxValueInit,
   fjsxCall,
@@ -205,5 +228,6 @@ export const modify = {
   assignmentExpressionToCallCompute,
   fjsxAssignmentExpressionSetCompute,
   expressionStatementGeneralProcess,
-  moveContextArguments
+  moveContextArguments,
+  pathNodeLeftRight
 };

@@ -11,9 +11,9 @@ export interface InputLabelProps
   disabled?: boolean;
   error?: boolean;
   FormLabelClasses?: any; //Partial<ClassNameMap<FormLabelClassKey>>;
-  focused?: boolean;
+  focused$?: boolean;
   required?: boolean;
-  shrink?: boolean;
+  shrink$?: boolean;
 }
 
 export type InputLabelClassKey =
@@ -54,51 +54,42 @@ export const InputLabel = props => {
   fjsx.setDefaults(props, {
     disableAnimation: false
   });
+  const filled$ = false; //TODO
+
   const {
     children,
     className: classNameProp,
     disableAnimation,
     FormLabelClasses,
     margin: marginProp,
-    shrink: shrinkProp,
+    focused$,
+    shrink$: shrinkProp,
+    adornedStart,
     ...other
   } = props;
 
   const classes = jssCssRulesWithTheme("MuiInputLabel", props, styles);
-  // debugger; //TODO context
-  const { muiFormControl } = props;
-  let shrink = shrinkProp;
+  let shrink$ = shrinkProp;
 
-  if (typeof shrink === "undefined" && muiFormControl) {
-    shrink =
-      muiFormControl.filled ||
-      muiFormControl.focused ||
-      muiFormControl.adornedStart;
+  if (shrink$ === undefined) {
+    shrink$ = filled$ || focused$ || adornedStart;
   }
 
   let margin = marginProp;
-  if (typeof margin === "undefined" && muiFormControl) {
-    margin = muiFormControl.margin;
-  }
 
-  const className = classNames(
+  const className$ = classNames(
     classes.root,
     {
-      [classes.formControl]: muiFormControl,
+      [classes.formControl]: !focused$,
       [classes.animated]: !disableAnimation,
-      [classes.shrink]: shrink,
+      [classes.shrink]: shrink$,
       [classes.marginDense]: margin === "dense"
     },
     classNameProp
   );
 
   return (
-    <FormLabel
-      data-shrink={shrink}
-      className={className}
-      classes={FormLabelClasses}
-      {...other}
-    >
+    <FormLabel className$={className$} classes={FormLabelClasses}>
       {children}
     </FormLabel>
   );

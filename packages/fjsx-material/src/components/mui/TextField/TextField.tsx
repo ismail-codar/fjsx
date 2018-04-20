@@ -116,6 +116,8 @@ export const TextField = (props: TextFieldProps) => {
     ...other
   } = props;
 
+  let focused$ = false;
+
   warning(
     !select || Boolean(children),
     "Material-UI: `children` must be passed when using the `TextField` component with `select`."
@@ -142,65 +144,42 @@ export const TextField = (props: TextFieldProps) => {
       onFocus={onFocus}
       placeholder={placeholder}
       inputProps={inputProps}
+      focused$={focused$}
       {...InputProps}
     />
   );
 
-  const { adornedStart, filled, focused } = {
-    adornedStart: false,
-    filled: false,
-    focused: false
-  };
   const handleBlur = () => {};
   const handleClean = () => {};
   const handleDirty = () => {};
   const handleFocus = () => {};
 
   return (
-    <>
-      <fjsx.Context
-        key="muiFormControl"
-        value={{
-          adornedStart,
-          disabled,
-          error,
-          filled,
-          focused,
-          margin,
-          onBlur: handleBlur,
-          onEmpty: handleClean,
-          onFilled: handleDirty,
-          onFocus: handleFocus,
-          required
-        }}
-      >
-        <FormControl
-          aria-describedby={helperTextId}
-          className={className}
-          error={error}
-          fullWidth={fullWidth}
-          required={required}
-          {...other}
-        >
-          {label && (
-            <InputLabel htmlFor={id} {...InputLabelProps}>
-              {label}
-            </InputLabel>
-          )}
-          {select ? (
-            <Select value={value} input={InputElement} {...SelectProps}>
-              {children}
-            </Select>
-          ) : (
-            InputElement
-          )}
-          {helperText && (
-            <FormHelperText id={helperTextId} {...FormHelperTextProps}>
-              {helperText}
-            </FormHelperText>
-          )}
-        </FormControl>
-      </fjsx.Context>
-    </>
+    <FormControl
+      aria-describedby={helperTextId}
+      className={className}
+      error={error}
+      fullWidth={fullWidth}
+      required={required}
+      {...other}
+    >
+      {label && (
+        <InputLabel htmlFor={id} focused$={focused$} {...InputLabelProps}>
+          {label}
+        </InputLabel>
+      )}
+      {select ? (
+        <Select value={value} input={InputElement} {...SelectProps}>
+          {children}
+        </Select>
+      ) : (
+        InputElement
+      )}
+      {helperText && (
+        <FormHelperText id={helperTextId} {...FormHelperTextProps}>
+          {helperText}
+        </FormHelperText>
+      )}
+    </FormControl>
   );
 };

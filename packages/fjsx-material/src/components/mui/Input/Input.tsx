@@ -32,6 +32,7 @@ export interface InputProps
   startAdornment?: Element;
   type?: string;
   value?: Array<string | number> | string | number;
+  focused$?: boolean;
   /**
    * `onChange`, `onKeyUp` + `onKeyDown` are applied to the inner `InputComponent`,
    * which by default is an input or textarea. Since these handlers differ from the
@@ -328,18 +329,20 @@ export const Input = (props: InputComponentProps) => {
     ...other
   } = props;
 
+  let focused$ = props.focused$;
+
   const classes = jssCssRulesWithTheme("MuiInput", props, styles);
-  // const { muiFormControl } = this.context;
+  // const { muiFormControl } = context;
   const { disabled, error, margin } = formControlState(props);
 
-  const className = classNames(
+  const className$ = classNames(
     classes.root,
     {
       [classes.disabled]: disabled,
       [classes.error]: error,
       [classes.fullWidth]: fullWidth,
-      // [classes.focused]: this.state.focused,
-      // [classes.formControl]: muiFormControl,
+      [classes.focused]: focused$,
+      [classes.formControl]: !focused$,
       [classes.multiline]: multiline,
       [classes.underline]: !disableUnderline
     },
@@ -348,7 +351,7 @@ export const Input = (props: InputComponentProps) => {
 
   let inputProps = {
     ...inputPropsProp
-    // ref: this.handleRefInput
+    // ref: handleRefInput
   };
 
   const inputClassName = classNames(
@@ -372,7 +375,7 @@ export const Input = (props: InputComponentProps) => {
     inputProps = {
       // Rename ref to inputRef as we don't know the
       // provided `inputComponent` structure.
-      inputRef: this.handleRefInput,
+      // inputRef: handleRefInput,
       ...inputProps,
       ref: null
     };
@@ -382,7 +385,7 @@ export const Input = (props: InputComponentProps) => {
     } else {
       inputProps = {
         rowsMax,
-        // textareaRef: this.handleRefInput,
+        // textareaRef: handleRefInput,
         ...inputProps,
         ref: null
       };
@@ -390,8 +393,11 @@ export const Input = (props: InputComponentProps) => {
     }
   }
 
+  const handleFocus = () => (focused$ = true);
+  const handleBlur = () => (focused$ = false);
+
   return (
-    <div className={className} {...other}>
+    <div className={className$} {...other}>
       {startAdornment}
       <InputComponent
         aria-invalid={error}
@@ -403,9 +409,9 @@ export const Input = (props: InputComponentProps) => {
         disabled={disabled}
         id={id}
         name={name}
-        // onBlur={this.handleBlur}
-        // onChange={this.handleChange}
-        // onFocus={this.handleFocus}
+        onBlur={handleBlur}
+        // onChange={handleChange}
+        onFocus={handleFocus}
         onKeyDown={onKeyDown}
         onKeyUp={onKeyUp}
         placeholder={placeholder || ""}
