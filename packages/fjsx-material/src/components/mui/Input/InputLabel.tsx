@@ -11,8 +11,11 @@ export interface InputLabelProps
   disabled?: boolean;
   error?: boolean;
   FormLabelClasses?: any; //Partial<ClassNameMap<FormLabelClassKey>>;
+  margin?: any;
+  adornedStart?: boolean;
   focused$?: boolean;
   required?: boolean;
+  filled$?: boolean;
   shrink$?: boolean;
 }
 
@@ -50,18 +53,18 @@ export const styles = theme => ({
   }
 });
 
-export const InputLabel = props => {
+export const InputLabel = (props: InputLabelProps) => {
   fjsx.setDefaults(props, {
     disableAnimation: false
   });
-  const filled$ = false; //TODO
 
   const {
     children,
     className: classNameProp,
     disableAnimation,
     FormLabelClasses,
-    margin: marginProp,
+    margin,
+    filled$,
     focused$,
     shrink$: shrinkProp,
     adornedStart,
@@ -70,8 +73,6 @@ export const InputLabel = props => {
 
   const classes = jssCssRulesWithTheme("MuiInputLabel", props, styles);
   let shrink$ = shrinkProp || filled$ || focused$ || adornedStart;
-
-  let margin = marginProp;
 
   const className$ = classNames(
     classes.root,

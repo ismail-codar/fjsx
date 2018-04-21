@@ -26,7 +26,7 @@ export const TextFieldsPage = props => {
         className={classes.textField}
         type="password"
         autoComplete="current-password"
-        focused$={true}
+        // value$={"1111"}
         margin="normal"
       />
     </div>

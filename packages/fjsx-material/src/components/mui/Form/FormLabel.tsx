@@ -9,7 +9,7 @@ export interface FormLabelProps
   component?: Fjsx.DetailedHTMLProps<any, FormLabelBaseProps>;
   disabled?: boolean;
   error?: boolean;
-  className$: any;
+  className$?: any;
   focused$?: boolean;
   required?: boolean;
   muiFormControl?: any;

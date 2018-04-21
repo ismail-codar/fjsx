@@ -31,7 +31,7 @@ export interface InputProps
   rowsMax?: string | number;
   startAdornment?: Element;
   type?: string;
-  value?: Array<string | number> | string | number;
+  value$?: Array<string | number> | string | number;
   focused$?: boolean;
   /**
    * `onChange`, `onKeyUp` + `onKeyDown` are applied to the inner `InputComponent`,
@@ -324,11 +324,11 @@ export const Input = (props: InputComponentProps) => {
     rows,
     rowsMax,
     startAdornment,
-    type,
-    value
+    type
   } = props;
 
   let focused$ = props.focused$;
+  let value$ = props.value$;
 
   const classes = jssCssRulesWithTheme("MuiInput", props, styles);
   // const { muiFormControl } = context;
@@ -367,10 +367,10 @@ export const Input = (props: InputComponentProps) => {
 
   // const required = muiFormControl && muiFormControl.required === true;
 
-  let InputComponent: any = "input";
+  let InputComponent_: any = "input";
 
   if (inputComponent) {
-    InputComponent = inputComponent;
+    InputComponent_ = inputComponent;
     inputProps = {
       // Rename ref to inputRef as we don't know the
       // provided `inputComponent` structure.
@@ -380,7 +380,7 @@ export const Input = (props: InputComponentProps) => {
     };
   } else if (multiline) {
     if (rows && !rowsMax) {
-      InputComponent = "textarea";
+      InputComponent_ = "textarea";
     } else {
       inputProps = {
         rowsMax,
@@ -388,17 +388,18 @@ export const Input = (props: InputComponentProps) => {
         ...inputProps,
         ref: null
       };
-      InputComponent = Textarea;
+      InputComponent_ = Textarea;
     }
   }
 
   const handleFocus = () => (focused$ = true);
   const handleBlur = () => (focused$ = false);
+  const handleChange = (e: Fjsx.ChangeEvent<any>) => (value$ = e.target.value);
 
   return (
     <div className={className$}>
       {startAdornment}
-      <InputComponent
+      <InputComponent_
         aria-invalid={error}
         // aria-required={required}
         autoComplete={autoComplete}
@@ -409,7 +410,7 @@ export const Input = (props: InputComponentProps) => {
         id={id}
         name={name}
         onBlur={handleBlur}
-        // onChange={handleChange}
+        onInput={handleChange}
         onFocus={handleFocus}
         onKeyDown={onKeyDown}
         onKeyUp={onKeyUp}
@@ -418,7 +419,7 @@ export const Input = (props: InputComponentProps) => {
         // required={required ? true : undefined}
         rows={rows}
         type={type}
-        value={value}
+        value={value$}
         {...inputProps}
       />
       {endAdornment}
