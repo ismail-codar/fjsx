@@ -257,8 +257,9 @@ const objectPropertyParentIsComponent = (path: NodePath<any>) => {
       t.isIdentifier(path.node.callee.property) &&
       path.node.callee.property.name === "createElement"
     ) {
-      const arg0 = path.node.arguments[0] as t.Identifier;
+      const arg0 = path.node.arguments[0];
       return (
+        t.isIdentifier(arg0) &&
         arg0.name.substr(0, 1).toUpperCase() == arg0.name.substr(0, 1) &&
         !arg0.name.endsWith("_")
       );
@@ -304,10 +305,15 @@ export const isFjsxCall = (node: t.BaseNode) => {
   return member && member.name.startsWith("fjsx");
 };
 
-export const isDynamicExpression = (expression: t.Expression) =>
+export const isDynamicExpression = (expression: t.Expression | t.PatternLike) =>
   t.isBinaryExpression(expression) ||
-  t.isCallExpression(expression) ||
-  t.isLogicalExpression(expression);
+  t.isLogicalExpression(expression) ||
+  (t.isCallExpression(expression) &&
+    !(
+      t.isMemberExpression(expression.callee) &&
+      t.isIdentifier(expression.callee.object) &&
+      expression.callee.object.name === "fjsx"
+    ));
 
 export const check = {
   isFjsxCall,

@@ -25,9 +25,21 @@ var InputElement1 = fjsx.createElement(
   )
 );
 var InputElement2 = fjsx.createElement(Input_, {
-  focused$: fjsx.value(function(element) {
+  value: function(element) {
     fjsx.compute(function() {
-      element.focused$(focused$.$val);
-    }, focused$);
-  })
+      element.value = value$.$val;
+    }, value$);
+  }
+});
+var InputElement3 = fjsx.createElement(Input, {
+  value$: fjsx.initCompute(function() {
+    return value$.$val + 1;
+  }, value$)
+});
+var InputElement4 = fjsx.createElement(Input_, {
+  value: function(element) {
+    fjsx.compute(function() {
+      element.value = value$.$val + 1;
+    }, value$);
+  }
 });

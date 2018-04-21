@@ -56,8 +56,8 @@ const assignmentExpressionToCallCompute = (
     );
 };
 
-const binaryExpressionInitComputeValues = (
-  expression: t.Expression,
+const dynamicExpressionInitComputeValues = (
+  expression: t.Expression | t.PatternLike,
   fComputeParameters: any[]
 ) => {
   return t.callExpression(
@@ -66,7 +66,7 @@ const binaryExpressionInitComputeValues = (
       t.functionExpression(
         t.identifier(""),
         [],
-        t.blockStatement([t.returnStatement(expression)])
+        t.blockStatement([t.returnStatement(expression as any)])
       )
     ].concat(fComputeParameters)
   );
@@ -224,7 +224,7 @@ export const modify = {
   fjsxValueInit,
   fjsxCall,
   memberVal,
-  binaryExpressionInitComputeValues,
+  dynamicExpressionInitComputeValues,
   assignmentExpressionToCallCompute,
   fjsxAssignmentExpressionSetCompute,
   expressionStatementGeneralProcess,

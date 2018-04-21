@@ -136,7 +136,7 @@ export = function() {
                 path.node.init
               );
               if (fComputeParameters.length > 0) {
-                path.node.init = modify.binaryExpressionInitComputeValues(
+                path.node.init = modify.dynamicExpressionInitComputeValues(
                   path.node.init,
                   fComputeParameters
                 );
@@ -155,48 +155,67 @@ export = function() {
       ObjectProperty(path: NodePath<t.ObjectProperty>, file) {
         if (doNotTraverse) return;
         try {
+          const isComponent = check.objectPropertyParentIsComponent(path);
           if (
-            check.isTrackedVariable(path.scope, path.node.value) &&
-            !check.objectPropertyParentIsComponent(path)
+            check.isTrackedByNodeName(path.node.key) &&
+            isComponent &&
+            check.isDynamicExpression(path.node.value) //component-3
           ) {
-            //class-names
-            path.node.value = modify.memberVal(path.node.value);
-          } else if (
-            (check.isTrackedByNodeName(path.node.key) ||
-              check.isTrackedVariable(path.scope, path.node)) &&
-            !check.isFjsxCall(path.node.value) &&
-            !check.isTrackedVariable(path.scope, path.node.value)
-          ) {
-            //object-property-1
-            path.node.value = modify.fjsxValueInit(path.node.value as any);
-          } else {
-            //ts-interface-1
-            const parentVariablePath = found.parentPathFound(path, checkPath =>
-              t.isVariableDeclarator(checkPath.node)
+            const fComputeParameters = parameters.fjsxComputeParametersInExpressionWithScopeFilter(
+              path.scope,
+              path.node.value
             );
-            if (
-              parentVariablePath &&
-              t.isIdentifier(path.node.key) &&
-              check.hasTrackedKeyComment(
-                parentVariablePath.parent.leadingComments,
-                path.node.key.name
-              )
-            ) {
-              path.node.value = modify.fjsxValueInit(path.node.value);
-            } else {
-              const parentCallPath: NodePath<
-                t.CallExpression
-              > = found.parentPathFound(path, checkPath =>
-                t.isCallExpression(checkPath.node)
+            if (fComputeParameters.length > 0) {
+              path.node.value = modify.dynamicExpressionInitComputeValues(
+                path.node.value,
+                fComputeParameters
               );
-              // list.$val.push
+            }
+          } else {
+            if (
+              !isComponent &&
+              check.isTrackedVariable(path.scope, path.node.value)
+            ) {
+              //class-names
+              path.node.value = modify.memberVal(path.node.value);
+            } else if (
+              (check.isTrackedByNodeName(path.node.key) ||
+                check.isTrackedVariable(path.scope, path.node)) &&
+              !check.isFjsxCall(path.node.value) &&
+              !check.isTrackedVariable(path.scope, path.node.value)
+            ) {
+              //object-property-1
+              path.node.value = modify.fjsxValueInit(path.node.value as any);
+            } else {
+              //ts-interface-1
+              const parentVariablePath = found.parentPathFound(
+                path,
+                checkPath => t.isVariableDeclarator(checkPath.node)
+              );
               if (
-                parentCallPath &&
-                t.isMemberExpression(parentCallPath.node.callee) &&
-                t.isMemberExpression(parentCallPath.node.callee.object) &&
-                parentCallPath.node.callee.object.property.name === "$val"
-              )
+                parentVariablePath &&
+                t.isIdentifier(path.node.key) &&
+                check.hasTrackedKeyComment(
+                  parentVariablePath.parent.leadingComments,
+                  path.node.key.name
+                )
+              ) {
                 path.node.value = modify.fjsxValueInit(path.node.value);
+              } else {
+                const parentCallPath: NodePath<
+                  t.CallExpression
+                > = found.parentPathFound(path, checkPath =>
+                  t.isCallExpression(checkPath.node)
+                );
+                // list.$val.push
+                if (
+                  parentCallPath &&
+                  t.isMemberExpression(parentCallPath.node.callee) &&
+                  t.isMemberExpression(parentCallPath.node.callee.object) &&
+                  parentCallPath.node.callee.object.property.name === "$val"
+                )
+                  path.node.value = modify.fjsxValueInit(path.node.value);
+              }
             }
           }
         } catch (e) {
