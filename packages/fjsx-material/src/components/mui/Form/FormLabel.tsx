@@ -58,10 +58,10 @@ export const FormLabel = (props: FormLabelProps) => {
   });
   const {
     children,
-    component: Component,
+    component: Component_,
     disabled: disabledProp,
     error: errorProp,
-    focused$: focusedProp,
+    focused$: focusedProp$,
     required: requiredProp,
     ...other
   } = props;
@@ -70,7 +70,7 @@ export const FormLabel = (props: FormLabelProps) => {
   const classes = jssCssRulesWithTheme("MuiFormLabel", props, styles);
 
   let required = requiredProp;
-  let focused$ = focusedProp;
+  let focused$ = focusedProp$;
   let disabled = disabledProp;
   let error = errorProp;
 
@@ -85,7 +85,7 @@ export const FormLabel = (props: FormLabelProps) => {
   );
 
   return (
-    <Component className={className$} {...other}>
+    <Component_ className={className$}>
       {children}
       {required && (
         <span
@@ -97,6 +97,6 @@ export const FormLabel = (props: FormLabelProps) => {
           {"\u2009*"}
         </span>
       )}
-    </Component>
+    </Component_>
   );
 };

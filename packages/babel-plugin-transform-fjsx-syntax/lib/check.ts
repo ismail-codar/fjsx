@@ -228,7 +228,10 @@ const expressionContainerParentIsComponent = (
     t.isJSXIdentifier(path.parentPath.parentPath.node.name)
   ) {
     const name = path.parentPath.parentPath.node.name.name;
-    return name.substr(0, 1).toUpperCase() == name.substr(0, 1);
+    return (
+      name.substr(0, 1).toUpperCase() == name.substr(0, 1) &&
+      !name.endsWith("_")
+    );
   }
 };
 
@@ -239,7 +242,10 @@ const objectPropertyParentIsComponent = (path: NodePath<any>) => {
     t.isIdentifier(path.parentPath.container[0])
   ) {
     const name = path.parentPath.container[0]["name"];
-    return name.substr(0, 1).toUpperCase() == name.substr(0, 1);
+    return (
+      name.substr(0, 1).toUpperCase() == name.substr(0, 1) &&
+      !name.endsWith("_")
+    );
   }
 
   while (path) {
@@ -252,7 +258,10 @@ const objectPropertyParentIsComponent = (path: NodePath<any>) => {
       path.node.callee.property.name === "createElement"
     ) {
       const arg0 = path.node.arguments[0] as t.Identifier;
-      return arg0.name.substr(0, 1).toUpperCase() == arg0.name.substr(0, 1);
+      return (
+        arg0.name.substr(0, 1).toUpperCase() == arg0.name.substr(0, 1) &&
+        !arg0.name.endsWith("_")
+      );
     } else path = path.parentPath;
   }
   return false;

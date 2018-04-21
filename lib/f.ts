@@ -9,6 +9,8 @@ export interface FJsxValue<T> {
 export type FjsxArrayEventType = "itemadded" | "itemset" | "itemremoved";
 
 export const value = <T>(value: T, freezed?: boolean): FJsxValue<T> => {
+  if (value && value["$val"] != undefined)
+    throw "Fjsx: Higher ordered signals is not supported.";
   const innerFn: any = (val?) => {
     if (Array.isArray(val)) {
       // TODO https://github.com/WebReflection/majinbuu

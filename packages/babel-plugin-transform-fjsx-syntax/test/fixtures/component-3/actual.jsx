@@ -1,2 +1,3 @@
 let focused$ = false;
-const InputElement = <Input focused$={focused$} {...InputProps} />;
+const InputElement1 = <Input focused$={focused$} {...InputProps} />;
+const InputElement2 = <Input_ focused$={focused$} />;

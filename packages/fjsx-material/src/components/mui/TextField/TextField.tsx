@@ -44,6 +44,7 @@ export interface TextFieldProps
   select?: boolean;
   SelectProps?: Partial<SelectProps>;
   type?: string;
+  focused$?: boolean;
   value?: Array<string | number> | string | number;
 }
 
@@ -80,7 +81,8 @@ export type TextFieldClassKey = FormControlClassKey;
 export const TextField = (props: TextFieldProps) => {
   fjsx.setDefaults(props, {
     required: false,
-    select: false
+    select: false,
+    focused$: false
   });
   const {
     autoComplete,
@@ -111,12 +113,12 @@ export const TextField = (props: TextFieldProps) => {
     select,
     SelectProps,
     type,
+    focused$: focusedProp$,
     value,
-    margin,
     ...other
   } = props;
 
-  let focused$ = false;
+  let focused$ = focusedProp$;
 
   warning(
     !select || Boolean(children),

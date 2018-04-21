@@ -69,11 +69,7 @@ export const InputLabel = props => {
   } = props;
 
   const classes = jssCssRulesWithTheme("MuiInputLabel", props, styles);
-  let shrink$ = shrinkProp;
-
-  if (shrink$ === undefined) {
-    shrink$ = filled$ || focused$ || adornedStart;
-  }
+  let shrink$ = shrinkProp || filled$ || focused$ || adornedStart;
 
   let margin = marginProp;
 
@@ -89,7 +85,11 @@ export const InputLabel = props => {
   );
 
   return (
-    <FormLabel className$={className$} classes={FormLabelClasses}>
+    <FormLabel
+      className$={className$}
+      focused$={focused$}
+      classes={FormLabelClasses}
+    >
       {children}
     </FormLabel>
   );

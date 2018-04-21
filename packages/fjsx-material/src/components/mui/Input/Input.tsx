@@ -325,8 +325,7 @@ export const Input = (props: InputComponentProps) => {
     rowsMax,
     startAdornment,
     type,
-    value,
-    ...other
+    value
   } = props;
 
   let focused$ = props.focused$;
@@ -397,7 +396,7 @@ export const Input = (props: InputComponentProps) => {
   const handleBlur = () => (focused$ = false);
 
   return (
-    <div className={className$} {...other}>
+    <div className={className$}>
       {startAdornment}
       <InputComponent
         aria-invalid={error}

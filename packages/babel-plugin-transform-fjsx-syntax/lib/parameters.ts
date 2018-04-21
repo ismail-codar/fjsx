@@ -62,6 +62,8 @@ const fjsxComputeParametersInExpression = (
     checkLogicalExpression(scope, expression, list);
   else if (t.isConditionalExpression(expression))
     checkConditionalExpression(scope, expression, list);
+  else if (t.isUnaryExpression(expression))
+    fjsxComputeParametersInExpression(scope, expression.argument, list);
   else if (t.isCallExpression(expression)) {
     const methodName = t.isIdentifier(expression.callee)
       ? expression.callee.name

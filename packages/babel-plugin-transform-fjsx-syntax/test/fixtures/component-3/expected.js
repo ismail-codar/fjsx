@@ -15,7 +15,7 @@ function _extends() {
   return _extends.apply(this, arguments);
 }
 var focused$ = fjsx.value(false);
-var InputElement = fjsx.createElement(
+var InputElement1 = fjsx.createElement(
   Input,
   _extends(
     {
@@ -24,3 +24,10 @@ var InputElement = fjsx.createElement(
     InputProps
   )
 );
+var InputElement2 = fjsx.createElement(Input_, {
+  focused$: fjsx.value(function(element) {
+    fjsx.compute(function() {
+      element.focused$(focused$.$val);
+    }, focused$);
+  })
+});
