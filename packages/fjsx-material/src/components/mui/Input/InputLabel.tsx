@@ -72,7 +72,6 @@ export const InputLabel = (props: InputLabelProps) => {
     ...other
   } = props;
 
-  console.log(error$);
   const classes = jssCssRulesWithTheme("MuiInputLabel", props, styles);
   let shrink$ = shrinkProp || filled$ || focused$ || adornedStart;
 

@@ -15,8 +15,8 @@ export interface TextareaProps
   rows?: number;
   rowsMax?: string | number;
   textareaRef?: Fjsx.Ref<any>;
-  value?: string;
-  height?: number;
+  value$?: string;
+  height$?: number;
 }
 
 export type TextareaClassKey = "root" | "shadow" | "textarea";
@@ -54,45 +54,85 @@ export const styles = {
   }
 };
 
-const handleRefSinglelineShadow = element => {
-  // TODO handleRefSinglelineShadow
-  return null;
-};
-const handleRefShadow = element => {
-  // TODO handleRefShadow
-  return null;
-};
-const handleRefInput = element => {
-  // TODO handleRefInput
-  return null;
-};
-
-const handleChange = (e: Fjsx.ChangeEvent<any>) => {
-  //TODO handleChange
-};
-
 /**
  * @ignore - internal component.
  */
 export const Textarea = (props: TextareaProps) => {
+  let shadow: HTMLTextAreaElement = null;
+  let input: HTMLTextAreaElement = null;
+  let singlelineShadow: HTMLTextAreaElement = null;
+
+  const handleRefSinglelineShadow = element => {
+    singlelineShadow = element;
+  };
+  const handleRefShadow = element => {
+    shadow = element;
+  };
+  const handleRefInput = element => {
+    input = element;
+    if (props.textareaRef) {
+      props.textareaRef(element);
+    }
+  };
+
+  const handleChange = (event: Fjsx.KeyboardEvent<any>) => {
+    props.value$ = event.target["value"];
+
+    if (typeof props.value$ === "undefined" && shadow) {
+      // The component is not controlled, we need to update the shallow value.
+      shadow.value = props.value$;
+    }
+    if (event.key === "Enter") syncHeightWithShadow();
+  };
+
+  const syncHeightWithShadow = () => {
+    if (!shadow || !singlelineShadow) {
+      return;
+    }
+
+    // The component is controlled, we need to update the shallow value.
+    if (typeof props.value$ !== "undefined") {
+      shadow.value = props.value$ == null ? "" : String(props.value$);
+    }
+
+    const lineHeight = singlelineShadow.scrollHeight;
+    let newHeight = shadow.scrollHeight;
+
+    // Guarding for jsdom, where scrollHeight isn't present.
+    // See https://github.com/tmpvar/jsdom/issues/1013
+    if (newHeight === undefined) {
+      return;
+    }
+
+    if (Number(props.rowsMax) >= Number(props.rows)) {
+      newHeight = Math.min(Number(props.rowsMax) * lineHeight, newHeight);
+    }
+
+    newHeight = Math.max(newHeight, lineHeight);
+    height$ = newHeight + lineHeight;
+  };
+
+  ////////////////////////////////////////////////////////////////////////////////////////
   fjsx.setDefaults(props, {
-    rows: 1
+    rows: 1,
+    value$: "",
+    height$: Number(props.rows) * ROWS_HEIGHT
   });
   const {
     className,
     defaultValue,
-    onChange,
     rows,
     rowsMax,
     textareaRef,
-    height,
     value,
     ...other
   } = props;
 
+  let height$ = props.height$;
+
   const classes = jssCssRulesWithTheme("MuiTextarea", props, styles);
   return (
-    <div className={classes.root} style={{ height: height }}>
+    <div className={classes.root} style={{ height: height$ + "px" }}>
       {/* TODO <EventListener target="window" onResize={handleResize} /> */}
       <textarea
         ref={handleRefSinglelineShadow}
@@ -118,7 +158,7 @@ export const Textarea = (props: TextareaProps) => {
         className={classNames(classes.textarea, className)}
         defaultValue={defaultValue}
         value={value}
-        onChange={handleChange}
+        onKeyPress={handleChange}
         ref={handleRefInput}
         {...other}
       />
