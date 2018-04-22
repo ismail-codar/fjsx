@@ -19,7 +19,7 @@ const styles = theme => ({
 export const TextFieldsPage = props => {
   const classes = jssCssRulesWithTheme("TextFieldsPage", props, styles);
   return (
-    <div>
+    <div className={classes.container}>
       <TextField
         id="password-input"
         label="Password"
@@ -27,6 +27,22 @@ export const TextFieldsPage = props => {
         type="password"
         autoComplete="current-password"
         // value$={"1111"}
+        margin="normal"
+      />
+      <TextField
+        label="Error"
+        error$
+        className={classes.textField}
+        type="text"
+        value$={"1111"}
+        margin="normal"
+      />
+      <TextField
+        id="multiline-flexible"
+        label="Multiline"
+        multiline
+        rowsMax="4"
+        className={classes.textField}
         margin="normal"
       />
     </div>

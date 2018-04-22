@@ -17,7 +17,7 @@ export interface InputProps
   disabled?: boolean;
   disableUnderline?: boolean;
   endAdornment?: Element;
-  error?: boolean;
+  error$?: boolean;
   fullWidth?: boolean;
   id?: string;
   inputComponent?: Fjsx.DetailedHTMLProps<any, InputComponentProps>;
@@ -303,7 +303,7 @@ export const Input = (props: InputComponentProps) => {
     disabled: disabledProp,
     disableUnderline,
     endAdornment,
-    error: errorProp,
+    error$,
     fullWidth,
     id,
     inputComponent,
@@ -338,7 +338,7 @@ export const Input = (props: InputComponentProps) => {
     classes.root,
     {
       [classes.disabled]: disabled,
-      [classes.error]: error,
+      [classes.error]: error$,
       [classes.fullWidth]: fullWidth,
       [classes.focused]: focused$,
       [classes.formControl]: !focused$,
@@ -418,7 +418,7 @@ export const Input = (props: InputComponentProps) => {
         readOnly={readOnly}
         // required={required ? true : undefined}
         rows={rows}
-        type={type}
+        type={multiline ? null : type}
         value={value$}
         {...inputProps}
       />

@@ -9,7 +9,7 @@ export interface InputLabelProps
   extends StandardProps<FormLabelProps, InputLabelClassKey> {
   disableAnimation?: boolean;
   disabled?: boolean;
-  error?: boolean;
+  error$?: boolean;
   FormLabelClasses?: any; //Partial<ClassNameMap<FormLabelClassKey>>;
   margin?: any;
   adornedStart?: boolean;
@@ -66,11 +66,13 @@ export const InputLabel = (props: InputLabelProps) => {
     margin,
     filled$,
     focused$,
+    error$,
     shrink$: shrinkProp,
     adornedStart,
     ...other
   } = props;
 
+  console.log(error$);
   const classes = jssCssRulesWithTheme("MuiInputLabel", props, styles);
   let shrink$ = shrinkProp || filled$ || focused$ || adornedStart;
 
@@ -89,6 +91,7 @@ export const InputLabel = (props: InputLabelProps) => {
     <FormLabel
       className$={className$}
       focused$={focused$}
+      error$={error$}
       classes={FormLabelClasses}
     >
       {children}

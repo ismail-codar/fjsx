@@ -12,7 +12,7 @@ export interface FormControlProps
     > {
   component?: Fjsx.DetailedHTMLProps<any, any>;
   disabled?: boolean;
-  error?: boolean;
+  error$?: boolean;
   fullWidth?: boolean;
   margin?: PropTypes.Margin;
   onBlur?: Fjsx.EventHandler<any>;
@@ -64,7 +64,7 @@ export const FormControl = (props: FormControlProps) => {
   fjsx.setDefaults(props, {
     component: "div",
     disabled: false,
-    error: false,
+    error$: false,
     fullWidth: false,
     margin: "none",
     required: false
@@ -72,7 +72,7 @@ export const FormControl = (props: FormControlProps) => {
   const {
     className,
     disabled,
-    error,
+    error$,
     fullWidth,
     margin,
     required,

@@ -23,7 +23,7 @@ export interface TextFieldProps
   children?: Element;
   defaultValue?: string | number;
   disabled?: boolean;
-  error?: boolean;
+  error$?: boolean;
   FormHelperTextProps?: Partial<FormHelperTextProps>;
   fullWidth?: boolean;
   helperText?: Element;
@@ -82,6 +82,7 @@ export const TextField = (props: TextFieldProps) => {
   fjsx.setDefaults(props, {
     required: false,
     select: false,
+    error$: false,
     focused$: false,
     value$: null
   });
@@ -92,7 +93,7 @@ export const TextField = (props: TextFieldProps) => {
     className,
     defaultValue,
     disabled,
-    error,
+    error$,
     FormHelperTextProps,
     fullWidth,
     helperText,
@@ -146,6 +147,7 @@ export const TextField = (props: TextFieldProps) => {
       placeholder={placeholder}
       inputProps={inputProps}
       focused$={focused$}
+      error$={error$}
       {...InputProps}
     />
   );
@@ -159,7 +161,7 @@ export const TextField = (props: TextFieldProps) => {
     <FormControl
       aria-describedby={helperTextId}
       className={className}
-      error={error}
+      error$={error$}
       fullWidth={fullWidth}
       required={required}
       {...other}
@@ -168,7 +170,8 @@ export const TextField = (props: TextFieldProps) => {
         <InputLabel
           htmlFor={id}
           focused$={focused$}
-          filled$={value$ != null}
+          error$={error$}
+          filled$={value$ != null && value$ !== ""}
           {...InputLabelProps}
         >
           {label}
