@@ -1,3 +1,3 @@
 module.exports = {
-  view: require("../examples/router-1/_.demo.tsx")
+  view: require("../examples/todomvc-minimal-2/_.demo.tsx")
 };

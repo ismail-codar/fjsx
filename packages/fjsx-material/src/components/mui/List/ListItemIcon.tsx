@@ -29,13 +29,10 @@ export const ListItemIcon = (props: ListItemIconProps) => {
 
   const classes = jssCssRulesWithTheme("MuiListItemIcon", props, styles);
 
-  const view = fjsx.cloneElement(children[0], {
-    [children[0].tagName == "svg" ? "class" : "className"]: classNames(
-      classes.root,
-      classNameProp,
-      children[0].className
-    )
-    // TODO ...other
-  }) as any;
-  return view;
+  const view = children[0].cloneNode(true);
+  view[children[0].tagName == "svg" ? "class" : "className"] = classNames(
+    classes.root,
+    classNameProp,
+    children[0].className
+  );
 };
