@@ -11,6 +11,9 @@ import { MenuList } from "./MenuList";
 export interface MenuProps extends StandardProps<PopoverProps, MenuClassKey> {
   anchorEl?: HTMLElement;
   MenuListProps?: Partial<MenuListProps>;
+  id: string;
+  open?: boolean;
+  onClose?: (e) => void;
 }
 
 export type MenuClassKey = PopoverClassKey | "root";

@@ -11,7 +11,7 @@ export interface FormLabelProps
   error$?: boolean;
   className$?: any;
   focused$?: boolean;
-  required$?: boolean;
+  required?: boolean;
 }
 
 export type FormLabelBaseProps = Fjsx.LabelHTMLAttributes<HTMLLabelElement>;
@@ -57,7 +57,7 @@ export const FormLabel = (props: FormLabelProps) => {
     error$: false,
     disabled$: false,
     focused$: false,
-    required$: false
+    required: false
   });
   const {
     children,
@@ -65,7 +65,7 @@ export const FormLabel = (props: FormLabelProps) => {
     disabled$,
     error$,
     focused$,
-    required$,
+    required,
     ...other
   } = props;
 
@@ -85,7 +85,7 @@ export const FormLabel = (props: FormLabelProps) => {
   return (
     <Component_ className={className$}>
       {children}
-      {required$ && (
+      {required && (
         <span
           className={classNames(classes.asterisk, {
             [classes.error]: error$

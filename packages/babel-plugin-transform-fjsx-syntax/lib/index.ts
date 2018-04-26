@@ -155,6 +155,35 @@ export = function() {
       ObjectProperty(path: NodePath<t.ObjectProperty>, file) {
         if (doNotTraverse) return;
         try {
+          const leftIsTracked =
+            check.isTrackedByNodeName(path.node.key) ||
+            check.isTrackedVariable(path.scope, path.node);
+          const rightIsTracked = check.isTrackedVariable(
+            path.scope,
+            path.node.value
+          );
+          if (rightIsTracked) {
+            if (!leftIsTracked) {
+              path.node.value = modify.memberVal(path.node.value);
+            }
+          } else if (leftIsTracked) {
+            const rightIsDynamic = check.isDynamicExpression(path.node.value);
+            if (rightIsDynamic) {
+              const fComputeParameters = parameters.fjsxComputeParametersInExpressionWithScopeFilter(
+                path.scope,
+                path.node.value
+              );
+              if (fComputeParameters.length > 0) {
+                path.node.value = modify.dynamicExpressionInitComputeValues(
+                  path.node.value,
+                  fComputeParameters
+                );
+              } else if (!check.isFjsxCall(path.node.value))
+                path.node.value = modify.fjsxValueInit(path.node.value);
+            } else if (!check.isFjsxCall(path.node.value))
+              path.node.value = modify.fjsxValueInit(path.node.value);
+          }
+          /*
           const isComponent = check.objectPropertyParentIsComponent(path);
           if (
             check.isTrackedByNodeName(path.node.key) &&
@@ -218,6 +247,7 @@ export = function() {
               }
             }
           }
+          */
         } catch (e) {
           errorReport(e, path, file);
         }

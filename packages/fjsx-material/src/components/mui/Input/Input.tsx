@@ -290,6 +290,9 @@ function formControlState(props) {
 
 export const Input = (props: InputComponentProps) => {
   fjsx.setDefaults(props, {
+    error$: false,
+    focused$: false,
+    value$: false,
     disableUnderline: false,
     fullWidth: false,
     multiline: false,
@@ -367,10 +370,10 @@ export const Input = (props: InputComponentProps) => {
 
   // const required = muiFormControl && muiFormControl.required === true;
 
-  let InputComponent_: any = "input";
+  let InputComponent: any = "input";
 
   if (inputComponent) {
-    InputComponent_ = inputComponent;
+    InputComponent = inputComponent;
     inputProps = {
       // Rename ref to inputRef as we don't know the
       // provided `inputComponent` structure.
@@ -380,7 +383,7 @@ export const Input = (props: InputComponentProps) => {
     };
   } else if (multiline) {
     if (rows && !rowsMax) {
-      InputComponent_ = "textarea";
+      InputComponent = "textarea";
     } else {
       inputProps = {
         rowsMax,
@@ -388,7 +391,7 @@ export const Input = (props: InputComponentProps) => {
         ...inputProps,
         ref: null
       };
-      InputComponent_ = Textarea;
+      InputComponent = Textarea;
     }
   }
 
@@ -399,7 +402,7 @@ export const Input = (props: InputComponentProps) => {
   return (
     <div className={className$}>
       {startAdornment}
-      <InputComponent_
+      <InputComponent
         aria-invalid={error}
         // aria-required={required}
         autoComplete={autoComplete}

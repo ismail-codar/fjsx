@@ -92,6 +92,7 @@ export const InputLabel = (props: InputLabelProps) => {
       focused$={focused$}
       error$={error$}
       classes={FormLabelClasses}
+      {...other}
     >
       {children}
     </FormLabel>

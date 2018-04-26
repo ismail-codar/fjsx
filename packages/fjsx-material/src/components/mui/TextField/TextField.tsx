@@ -2,7 +2,7 @@ import fjsx from "@fjsx/runtime";
 import classNames from "classnames";
 import { jssCssRulesWithTheme } from "../../../utils/jss-css-rules";
 import warning from "warning";
-import { Input, InputProps } from "../Input/Input";
+import { Input, InputProps, InputComponentProps } from "../Input/Input";
 import { InputLabel, InputLabelProps } from "../Input/InputLabel";
 import { FormControl } from "../Form/FormControl";
 import { FormHelperText } from "../Form/FormHelperText";
@@ -20,13 +20,13 @@ export interface TextFieldProps
     > {
   autoComplete?: string;
   autoFocus?: boolean;
-  children?: Element;
+  children?: any;
   defaultValue?: string | number;
-  disabled?: boolean;
+  disabled$?: boolean;
   error$?: boolean;
   FormHelperTextProps?: Partial<FormHelperTextProps>;
   fullWidth?: boolean;
-  helperText?: Element;
+  helperText$?: Element | string;
   id?: string;
   InputLabelProps?: Partial<InputLabelProps>;
   InputProps?: Partial<InputProps>;
@@ -84,7 +84,9 @@ export const TextField = (props: TextFieldProps) => {
     select: false,
     error$: false,
     focused$: false,
-    value$: null
+    value$: null,
+    disabled$: null,
+    helperText$: null
   });
   const {
     autoComplete,
@@ -92,11 +94,10 @@ export const TextField = (props: TextFieldProps) => {
     children,
     className,
     defaultValue,
-    disabled,
     error$,
     FormHelperTextProps,
     fullWidth,
-    helperText,
+    helperText$,
     id,
     InputLabelProps,
     inputProps,
@@ -115,6 +116,7 @@ export const TextField = (props: TextFieldProps) => {
     select,
     SelectProps,
     type,
+    disabled$,
     focused$,
     value$,
     ...other
@@ -125,32 +127,31 @@ export const TextField = (props: TextFieldProps) => {
     "Material-UI: `children` must be passed when using the `TextField` component with `select`."
   );
 
-  const helperTextId = helperText && id ? `${id}-helper-text` : undefined;
-  const InputElement = (
-    <Input
-      autoComplete={autoComplete}
-      autoFocus={autoFocus}
-      defaultValue={defaultValue}
-      disabled={disabled}
-      fullWidth={fullWidth}
-      multiline={multiline}
-      name={name}
-      rows={rows}
-      rowsMax={rowsMax}
-      type={type}
-      value$={value$}
-      id={id}
-      inputRef={inputRef}
-      onBlur={onBlur}
-      onChange={onChange}
-      onFocus={onFocus}
-      placeholder={placeholder}
-      inputProps={inputProps}
-      focused$={focused$}
-      error$={error$}
-      {...InputProps}
-    />
-  );
+  const helperTextId = helperText$ && id ? `${id}-helper-text` : undefined;
+
+  const inputElementProps: InputComponentProps = {
+    autoComplete: autoComplete,
+    autoFocus: autoFocus,
+    defaultValue: defaultValue,
+    disabled: disabled$,
+    fullWidth: fullWidth,
+    multiline: multiline,
+    name: name,
+    rows: rows,
+    rowsMax: rowsMax,
+    type: type,
+    value$: value$,
+    id: id,
+    inputRef: inputRef,
+    onBlur: onBlur,
+    onChange: onChange,
+    onFocus: onFocus,
+    placeholder: placeholder,
+    inputProps: inputProps,
+    focused$: focused$,
+    error$: error$,
+    ...InputProps
+  };
 
   const handleBlur = () => {};
   const handleClean = () => {};
@@ -171,22 +172,26 @@ export const TextField = (props: TextFieldProps) => {
           htmlFor={id}
           focused$={focused$}
           error$={error$}
-          filled$={value$ != null && value$ !== ""}
+          filled$={
+            (value$ != null && value$ !== "") || placeholder !== undefined
+          }
+          disabled$={disabled$}
+          required={required}
           {...InputLabelProps}
         >
           {label}
         </InputLabel>
       )}
       {select ? (
-        <Select value={value$} input={InputElement} {...SelectProps}>
+        <Select value={value$} input={inputElementProps} {...SelectProps}>
           {children}
         </Select>
       ) : (
-        InputElement
+        <Input {...inputElementProps} />
       )}
-      {helperText && (
+      {helperText$ && (
         <FormHelperText id={helperTextId} {...FormHelperTextProps}>
-          {helperText}
+          {helperText$}
         </FormHelperText>
       )}
     </FormControl>

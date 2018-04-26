@@ -3,14 +3,13 @@ import classNames from "classnames";
 import { jssCssRulesWithTheme } from "../../../utils/jss-css-rules";
 
 import { StandardProps } from "..";
-import { Input, InputProps } from "../Input/Input";
+import { Input, InputProps, InputComponentProps } from "../Input/Input";
 import { MenuProps } from "../Menu/Menu";
 
-export interface SelectProps
-  extends StandardProps<InputProps, SelectClassKey, "value"> {
+export interface SelectProps extends StandardProps<InputProps, SelectClassKey> {
   autoWidth?: boolean;
   displayEmpty?: boolean;
-  input?: Element;
+  input?: InputComponentProps;
   MenuProps?: Partial<MenuProps>;
   multiple?: boolean;
   native?: boolean;
@@ -29,7 +28,7 @@ export type SelectClassKey =
   | "disabled"
   | "icon";
 
-import { SelectInput } from "./SelectInput";
+import { SelectInput, SelectInputProps } from "./SelectInput";
 
 export const styles = theme => ({
   root: {
@@ -90,14 +89,13 @@ export const Select = (props: SelectProps) => {
   fjsx.setDefaults(props, {
     autoWidth: false,
     displayEmpty: false,
-    input: <Input />,
     multiple: false,
     native: false
   });
+
   const {
     autoWidth,
     children,
-    classes,
     displayEmpty,
     input,
     inputProps,
@@ -112,8 +110,9 @@ export const Select = (props: SelectProps) => {
     ...other
   } = props;
 
-  jssCssRulesWithTheme("MuiSelect", props, styles);
-  return fjsx.cloneElement(input, {
+  const classes = jssCssRulesWithTheme("MuiSelect", props, styles);
+
+  const inputComponentProps: InputComponentProps = Object.assign({}, input, {
     // Most of the logic is implemented in `SelectInput`.
     // The `Select` component is a simple API wrapper to expose something better to play with.
     inputComponent: SelectInput,
@@ -132,8 +131,10 @@ export const Select = (props: SelectProps) => {
       SelectDisplayProps,
       type: undefined, // We render a select. We can ignore the type provided by the `Input`.
       ...inputProps,
-      ...(input ? input["$props"] : {})
+      ...(input ? input.inputProps : {})
     },
     ...other
-  }) as Fjsx.DetailedHTMLProps<any, SelectProps>;
+  });
+
+  return <Input {...inputComponentProps} />;
 };

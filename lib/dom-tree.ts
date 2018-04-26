@@ -41,7 +41,7 @@ export const createElement = (
   let element = null;
   if (tagName instanceof Function) {
     if (attributes === null) attributes = {};
-    attributes["children"] = childs;
+    if (childs && childs.length) attributes["children"] = childs;
     injectContexts(attributes);
     element = (tagName as any)(attributes);
     if (element) element["$props"] = attributes;
@@ -97,10 +97,4 @@ export const addChildElements = (element, childs) => {
 
 export const createTextNode = parent => {
   return parent.appendChild(document.createTextNode(""));
-};
-
-export const cloneElement = (element: Element, attributes: any) => {
-  element = element.cloneNode(true) as Element;
-  attributes && setElementAttributes(element, attributes, false);
-  return element;
 };

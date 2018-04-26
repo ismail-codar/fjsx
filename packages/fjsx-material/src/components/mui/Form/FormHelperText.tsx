@@ -8,8 +8,8 @@ export interface FormHelperTextProps
       Fjsx.HTMLAttributes<HTMLParagraphElement>,
       FormHelperTextClassKey
     > {
-  disabled?: boolean;
-  error?: boolean;
+  disabled$?: boolean;
+  error$?: boolean;
   component?: Element | string;
   margin?: "dense";
 }
@@ -46,45 +46,26 @@ export const styles = theme => ({
 
 export const FormHelperText = props => {
   fjsx.setDefaults(props, {
-    component: "p"
+    component: "p",
+    disabled$: false,
+    error$: false
   });
   const {
     className: classNameProp,
-    disabled: disabledProp,
-    error: errorProp,
-    margin: marginProp,
+    disabled$,
+    error$,
+    margin,
     component: Component,
     ...other
   } = props;
 
   const classes = jssCssRulesWithTheme("MuiFormHelperText", props, styles);
-  debugger;
-  // TODO context
-  const { muiFormControl } = props;
-
-  let disabled = disabledProp;
-  let error = errorProp;
-  let margin = marginProp;
-
-  if (muiFormControl) {
-    if (typeof disabled === "undefined") {
-      disabled = muiFormControl.disabled;
-    }
-
-    if (typeof error === "undefined") {
-      error = muiFormControl.error;
-    }
-
-    if (typeof margin === "undefined") {
-      margin = muiFormControl.margin;
-    }
-  }
 
   const className = classNames(
     classes.root,
     {
-      [classes.disabled]: disabled,
-      [classes.error]: error,
+      [classes.disabled]: disabled$,
+      [classes.error]: error$,
       [classes.marginDense]: margin === "dense"
     },
     classNameProp

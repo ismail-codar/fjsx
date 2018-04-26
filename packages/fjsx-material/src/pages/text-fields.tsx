@@ -17,6 +17,31 @@ const styles = theme => ({
 });
 
 export const TextFieldsPage = props => {
+  const selectedCurrency$ = "EUR";
+
+  const currencies = [
+    {
+      value: "USD",
+      label: "$"
+    },
+    {
+      value: "EUR",
+      label: "€"
+    },
+    {
+      value: "BTC",
+      label: "฿"
+    },
+    {
+      value: "JPY",
+      label: "¥"
+    }
+  ];
+
+  const handleChange = name => {
+    return null;
+  };
+
   const classes = jssCssRulesWithTheme("TextFieldsPage", props, styles);
   return (
     <div className={classes.container}>
@@ -30,6 +55,7 @@ export const TextFieldsPage = props => {
         margin="normal"
       />
       <TextField
+        required
         label="Error"
         error$
         className={classes.textField}
@@ -45,6 +71,39 @@ export const TextFieldsPage = props => {
         className={classes.textField}
         margin="normal"
       />
+      <TextField
+        id="full-width"
+        label="Label"
+        InputLabelProps={{}}
+        placeholder="Placeholder"
+        helperText$="Full width!"
+        error$={true}
+        FormHelperTextProps={{ error$: true }}
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        id="select-currency-native"
+        select
+        label="Native select"
+        className={classes.textField}
+        value$={selectedCurrency$}
+        onChange={handleChange("currency")}
+        SelectProps={{
+          native: true,
+          MenuProps: {
+            className: classes.menu
+          }
+        }}
+        helperText$="Please select your currency"
+        margin="normal"
+      >
+        {currencies.map(option => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </TextField>
     </div>
   );
 };

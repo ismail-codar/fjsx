@@ -3,7 +3,7 @@
 A counter example:
 
 ```jsx
-var counter$ = 0; // An option: If variables ending with $ they are observable.
+var counter$ = 0; // An option: If a variable ends with $ then it is observable.
 
 var view = (
   <>
