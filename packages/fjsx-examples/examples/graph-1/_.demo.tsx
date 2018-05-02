@@ -33,6 +33,8 @@ const classes = {
 interface IGraphNode {
   x: number;
   y: number;
+  width: number;
+  height: number;
   name: string;
 }
 
@@ -52,12 +54,12 @@ const GraphNode = (props: IGraphNode) => {
         height="40"
         rx="5"
         ry="5"
-        x={x$}
-        y={y$}
+        x={x$ - props.width / 2}
+        y={y$ - props.height / 2}
       >
         <title>{props.name}</title>
       </rect>
-      <text className={classes.label} x={x$ + 30} y={y$ + 30}>
+      <text className={classes.label} x={x$} y={y$ + 10}>
         {props.name}
       </text>
     </g>
@@ -99,22 +101,12 @@ var viewGraph = (
     <svg className={classes.svg} width="960" height="500">
       {graph$ === null ? null : (
         <>
-          {graph$.nodes.map(node => <GraphNode {...node} />)}
           {graph$.links.map(link => <GraphLink {...link} />)}
+          {graph$.nodes.map(node => <GraphNode {...node} />)}
         </>
       )}
     </svg>
   </div>
 );
-
-var obj = { x: 1 };
-var x1$ = 500;
-var x2$ = 600;
-fjsx.mapProperty(obj, "x", x1$);
-fjsx.mapProperty(obj, "x", x2$);
-setTimeout(() => {
-  x1$ = 100;
-}, 1000);
-console.log(obj.x);
 
 document.body.appendChild(viewGraph);

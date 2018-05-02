@@ -140,7 +140,13 @@ export = function() {
                   path.node.init,
                   fComputeParameters
                 );
-              }
+              } else if (
+                //TODO reduce
+                !check.hasTrackedSetComment(path) &&
+                !check.isTrackedVariable(path.scope, path.node.init) &&
+                !t.isCallExpression(path.node.init)
+              )
+                path.node.init = modify.fjsxValueInit(path.node.init);
             } else if (
               !check.hasTrackedSetComment(path) &&
               !check.isTrackedVariable(path.scope, path.node.init) &&

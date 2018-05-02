@@ -10,7 +10,8 @@ export const setDefaults = <T>(
 };
 
 export const mapProperty = (obj: Object, propertyKey: string, value$: any) => {
-  if (Object.getOwnPropertyDescriptor(obj, propertyKey).configurable)
+  const descr = Object.getOwnPropertyDescriptor(obj, propertyKey);
+  if (descr.configurable)
     Object.defineProperty(obj, propertyKey, {
       configurable: false,
       enumerable: true,
@@ -19,8 +20,11 @@ export const mapProperty = (obj: Object, propertyKey: string, value$: any) => {
       },
       set: value$
     });
-  else
-    value$["computes"].push(() => {
-      debugger;
-    });
+  else {
+    descr.set["computes"].push(
+      value(() => {
+        value$(obj[propertyKey]);
+      })
+    );
+  }
 };
