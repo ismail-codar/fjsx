@@ -11,7 +11,6 @@ export const conditionalElement = (
   activateContext(parentElement["$props"]["$context"]);
   let newElement = newElementFn();
   deactivateContext(parentElement["$props"]["$context"]);
-  // for (var key in props["$context"]) fjsx.endContext(key);
   if (newElement instanceof Node === false)
     newElement = document.createTextNode(newElement || "");
   if (oldElement) parentElement.replaceChild(newElement, oldElement);

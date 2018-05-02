@@ -72,6 +72,7 @@ export const createSvgElement = (
     }
     setElementAttributes(element, attributes, true);
   }
+  element["$props"] = attributes;
   childs && childs.length && addChildElements(element, childs);
   return element;
 };

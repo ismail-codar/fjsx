@@ -3,6 +3,7 @@ import traverse from "@babel/traverse";
 import { NodePath, Scope } from "babel-traverse";
 import * as t from "@babel/types";
 import { found } from "./found";
+import { allSvgElements, htmlAndSvgElements } from "./svg";
 
 const COMMENT_TRACKED = "@tracked";
 const COMMENT_NON_TRACKED = "@untracked";
@@ -315,6 +316,14 @@ export const isDynamicExpression = (expression: t.Expression | t.PatternLike) =>
       expression.callee.object.name === "fjsx"
     ));
 
+export const isSvgElementTagName = (tagName, openedTags: string[]) => {
+  return (
+    (tagName != null && allSvgElements.indexOf(tagName) !== -1) ||
+    (htmlAndSvgElements.indexOf(tagName) !== -1 &&
+      allSvgElements.indexOf(openedTags[openedTags.length - 1]) !== -1)
+  );
+};
+
 export const check = {
   isFjsxCall,
   isValMemberProperty,
@@ -331,5 +340,6 @@ export const check = {
   objectPropertyParentIsComponent,
   isExportsMember,
   isArrayMapExpression,
-  isDynamicExpression
+  isDynamicExpression,
+  isSvgElementTagName
 };

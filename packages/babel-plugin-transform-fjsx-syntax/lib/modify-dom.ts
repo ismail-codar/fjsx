@@ -5,7 +5,8 @@ import { Scope } from "babel-traverse";
 const attributeExpression = (
   scope: Scope,
   attributeName: string,
-  expression: t.Expression
+  expression: t.Expression,
+  setAttr: boolean
 ) => {
   const fComputeParameters = parameters.fjsxComputeParametersInExpressionWithScopeFilter(
     scope,
@@ -42,14 +43,7 @@ const attributeExpression = (
             [],
             t.blockStatement([
               t.expressionStatement(
-                t.assignmentExpression(
-                  "=",
-                  t.memberExpression(
-                    t.identifier("element"),
-                    t.identifier(attributeName)
-                  ),
-                  expression
-                )
+                assignSetAttributeExpression(attributeName, expression, setAttr)
               )
             ])
           )
@@ -65,6 +59,25 @@ const attributeExpression = (
   );
 };
 
+const assignSetAttributeExpression = (
+  attributeName: string,
+  expression: t.Expression,
+  setAttr: boolean
+) => {
+  if (setAttr)
+    //TODO setAttributeNS ?
+    return t.callExpression(
+      t.memberExpression(t.identifier("element"), t.identifier("setAttribute")),
+      [t.stringLiteral(attributeName), expression]
+    );
+  else
+    return t.assignmentExpression(
+      "=",
+      t.memberExpression(t.identifier("element"), t.identifier(attributeName)),
+      expression
+    );
+};
+
 const setupStyleAttributeExpression = (
   scope: Scope,
   expression: t.ObjectExpression
@@ -74,7 +87,8 @@ const setupStyleAttributeExpression = (
       prop.value = attributeExpression(
         scope,
         "style." + prop.key.name,
-        prop.value as t.Expression
+        prop.value as t.Expression,
+        false
       );
     }
   });

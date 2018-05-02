@@ -19,6 +19,7 @@
     "@babel/preset-env": "^7.0.0-beta.42",
     "@babel/preset-react": "7.0.0-beta.42",
     "@babel/preset-typescript": "7.0.0-beta.42",
+    "@babel/plugin-proposal-class-properties": "7.0.0-beta.42",
     "@fjsx/babel-plugin-transform-fjsx-syntax": "file:../babel-plugin-transform-fjsx-syntax",
     "@types/chai": "^4.1.2",
     "@types/classnames": "^2.2.3",
@@ -56,6 +57,7 @@
     "@fjsx/router": "file:../fjsx-router",
     "@fjsx/runtime": "file:../..",
     "classnames": "^2.2.5",
-    "most": "^1.7.3"
+    "most": "^1.7.3",
+    "webcola": "^3.3.8"
   }
 }

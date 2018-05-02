@@ -1,14 +1,17 @@
 {
   "presets": [
-    "@babel/preset-typescript",
-    "@babel/preset-react",
     [
       "@babel/preset-env",
       {
         "modules": false
       }
-    ]
+    ],
+    "@babel/preset-typescript",
+    "@babel/preset-react"
   ],
-  "plugins": ["@fjsx/transform-fjsx-syntax"],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties",
+    "@fjsx/transform-fjsx-syntax"
+  ],
   "retainLines": true
 }

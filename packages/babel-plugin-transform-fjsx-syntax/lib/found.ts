@@ -125,11 +125,23 @@ const findContextChildIndex = (args: any[]) => {
   });
 };
 
+export const pathElementTagName = (
+  path: NodePath<t.JSXExpressionContainer>
+) => {
+  if (
+    t.isJSXOpeningElement(path.parentPath.parentPath.node) &&
+    t.isJSXIdentifier(path.parentPath.parentPath.node.name)
+  )
+    return path.parentPath.parentPath.node.name.name;
+  return null;
+};
+
 export const found = {
   callExpressionFirstMember,
   memberExpressionFirstMember,
   parentPathFound,
   variableBindingInScope,
   callingMethodParams,
-  findContextChildIndex
+  findContextChildIndex,
+  pathElementTagName
 };

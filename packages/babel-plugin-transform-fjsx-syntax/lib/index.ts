@@ -281,11 +281,8 @@ export = function() {
             const firstArgument = path.node.arguments[0];
             if (t.isStringLiteral(firstArgument)) {
               if (
-                (t.isStringLiteral(firstArgument) &&
-                  allSvgElements.indexOf(firstArgument.value) !== -1) ||
-                (htmlAndSvgElements.indexOf(firstArgument.value) !== -1 &&
-                  allSvgElements.indexOf(openedTags[openedTags.length - 1]) !==
-                    -1)
+                t.isStringLiteral(firstArgument) &&
+                check.isSvgElementTagName(firstArgument.value, openedTags)
               )
                 path.node.callee.property.name = "createSvgElement";
             }
@@ -408,7 +405,11 @@ export = function() {
               path.node.expression = modifyDom.attributeExpression(
                 path.scope,
                 path.container.name.name.toString(),
-                path.node.expression
+                path.node.expression,
+                check.isSvgElementTagName(
+                  found.pathElementTagName(path),
+                  openedTags
+                )
               );
           else if (
             check.isValMemberProperty(path.node.expression) ||
@@ -422,7 +423,8 @@ export = function() {
               path.node.expression = modifyDom.attributeExpression(
                 path.scope,
                 "textContent",
-                path.node.expression
+                path.node.expression,
+                false
               );
             }
           } else if (t.isConditionalExpression(path.node.expression)) {
