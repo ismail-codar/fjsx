@@ -3,27 +3,27 @@ import { EventEmitter } from "events";
 
 export class LayoutAdaptor extends Layout {
   ee = new EventEmitter();
+  frameId = -1;
   constructor(width, height) {
     super();
     super
       .linkDistance(120)
       .avoidOverlaps(true)
       .size([width, height]);
-  }
-  kick(): void {
-    let frameId = 0;
-    const animFn = () => {
-      if (this.alpha()) {
-        super.tick();
-        frameId = window.requestAnimationFrame(animFn);
-      }
-    };
     this.ee.addListener(EventType[EventType.end], () => {
       super.stop();
-      frameId = 0;
-      window.cancelAnimationFrame(frameId);
+      this.frameId = 0;
+      window.cancelAnimationFrame(this.frameId);
     });
-    animFn();
+  }
+  animFn() {
+    if (this.alpha()) {
+      super.tick();
+      this.frameId = window.requestAnimationFrame(this.animFn.bind(this));
+    }
+  }
+  kick(): void {
+    this.animFn();
   }
 
   trigger(e: Event) {

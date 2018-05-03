@@ -26,7 +26,8 @@ const classes = {
     fontFamily: "Verdana",
     fontSize: "25px",
     textAnchor: "middle",
-    cursor: "move"
+    cursor: "move",
+    userSelect: "none"
   })
 };
 
@@ -95,10 +96,60 @@ fetch("/examples/graph-1/fivenodesdisconnected.json").then(response => {
   });
 });
 //////////////////////////////////////////////////////////////////////////////////////////////////
+var pt = null;
+var svg = null;
+const offset = { x: 0, y: 0 };
+function cursorPoint(evt) {
+  pt.x = evt.clientX;
+  pt.y = evt.clientY;
+  return pt.matrixTransform(svg.getScreenCTM().inverse());
+}
+
+const initSvg = element => {
+  svg = element;
+  pt = svg.createSVGPoint();
+};
+
+var dragNode: IGraphNode = null;
+const onMouseDown = (e: Fjsx.MouseEvent<SVGSVGElement>) => {
+  const path: Element[] = e["path"].slice();
+  while (path.length) {
+    var item = path.shift();
+    if (item.tagName === "g") {
+      dragNode = item["$props"];
+      const pt = cursorPoint(e);
+      offset.x = pt.x - dragNode.x;
+      offset.y = pt.y - dragNode.y;
+      LayoutAdaptor.dragStart(dragNode);
+      break;
+    }
+  }
+};
+
+const onMouseMove = (e: Fjsx.MouseEvent<SVGSVGElement>) => {
+  if (!dragNode) return;
+  const pt = cursorPoint(e);
+  pt.x -= offset.x;
+  pt.y -= offset.y;
+  LayoutAdaptor.drag(dragNode, pt);
+  cola.resume();
+};
+const onMouseUp = (e: Fjsx.MouseEvent<SVGSVGElement>) => {
+  dragNode && LayoutAdaptor.dragEnd(dragNode);
+  dragNode = null;
+};
 
 var viewGraph = (
   <div>
-    <svg className={classes.svg} width="960" height="500">
+    <svg
+      ref={initSvg}
+      onMouseDown={onMouseDown}
+      onMouseMove={onMouseMove}
+      onMouseUp={onMouseUp}
+      className={classes.svg}
+      width="960"
+      height="500"
+    >
       {graph$ === null ? null : (
         <>
           {graph$.links.map(link => <GraphLink {...link} />)}
