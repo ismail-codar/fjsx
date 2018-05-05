@@ -407,16 +407,38 @@ export = function() {
                 path.scope,
                 path.node.expression
               );
-            else
-              path.node.expression = modifyDom.attributeExpression(
-                path.scope,
-                path.container.name.name.toString(),
-                path.node.expression,
-                check.isSvgElementTagName(
-                  found.pathElementTagName(path),
-                  openedTags
-                )
-              );
+            else {
+              if (
+                t.isCallExpression(path.node.expression) &&
+                check.isTrackedByNodeName(path.container.name) &&
+                check.objectPropertyParentIsComponent(path)
+              ) {
+                //class-names-6
+                const fComputeParameters = parameters.fjsxComputeParametersInExpressionWithScopeFilter(
+                  path.scope,
+                  path.node.expression
+                );
+                if (fComputeParameters.length)
+                  path.node.expression = modify.dynamicExpressionInitComputeValues(
+                    path.node.expression,
+                    fComputeParameters
+                  );
+                else
+                  path.node.expression = modify.fjsxValueInit(
+                    path.node.expression
+                  );
+              } else {
+                path.node.expression = modifyDom.attributeExpression(
+                  path.scope,
+                  path.container.name.name.toString(),
+                  path.node.expression,
+                  check.isSvgElementTagName(
+                    found.pathElementTagName(path),
+                    openedTags
+                  )
+                );
+              }
+            }
           else if (
             check.isValMemberProperty(path.node.expression) ||
             check.isTrackedVariable(path.scope, path.node.expression) ||

@@ -35,13 +35,14 @@ export const checker = {
 
 const isTrackedByNodeName = (node: t.BaseNode) => {
   if (t.isUnaryExpression(node)) node = node.argument;
-  const nodeName = t.isIdentifier(node)
-    ? node.name
-    : t.isMemberExpression(node)
-      ? node.property.name
-      : t.isVariableDeclarator(node) && t.isIdentifier(node.id)
-        ? node.id.name
-        : null;
+  const nodeName =
+    t.isIdentifier(node) || t.isJSXIdentifier(node)
+      ? node.name
+      : t.isMemberExpression(node)
+        ? node.property.name
+        : t.isVariableDeclarator(node) && t.isIdentifier(node.id)
+          ? node.id.name
+          : null;
   return (
     nodeName &&
     checker.literalTracked(nodeName) &&
@@ -239,14 +240,24 @@ const expressionContainerParentIsComponent = (
 const objectPropertyParentIsComponent = (path: NodePath<any>) => {
   if (
     Array.isArray(path.parentPath.container) &&
-    path.parentPath.container.length &&
-    t.isIdentifier(path.parentPath.container[0])
+    path.parentPath.container.length
   ) {
-    const name = path.parentPath.container[0]["name"];
-    return (
-      name.substr(0, 1).toUpperCase() == name.substr(0, 1) &&
-      !name.endsWith("_")
+    const foundPath: NodePath<t.JSXOpeningElement> = found.parentPathFound(
+      path,
+      checkPath => t.isJSXOpeningElement(checkPath.node)
     );
+    if (t.isJSXIdentifier(foundPath.node.name)) {
+      const name = foundPath.node.name.name;
+      return (
+        name !== null &&
+        name.substr(0, 1).toUpperCase() == name.substr(0, 1) &&
+        !name.endsWith("_")
+      );
+    } else return false;
+    // let name: string = null;
+    // const container = path.parentPath.container[0];
+    // if (t.isIdentifier(container)) name = container.name;
+    // else if (t.isJSXAttribute(container)) name = container.name.name.toString();
   }
 
   while (path) {
