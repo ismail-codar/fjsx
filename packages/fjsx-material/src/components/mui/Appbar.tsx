@@ -85,6 +85,8 @@ export const AppBar = (props: AppBarProps) => {
     ...other
   } = props;
 
+  console.log(classNameProp);
+
   const classes = jssCssRulesWithTheme("MuiAppBar", props, styles);
   const className = classNames(
     classes.root,

@@ -1,14 +1,15 @@
 import fjsx from "@fjsx/runtime";
 import classNames from "classnames";
-import { PropTypes, StandardProps } from ".";
 import { Style, TextStyle } from "../../styles/createTypography";
 import { capitalize } from "../../utils/helpers";
 import { jssCssRulesWithTheme } from "../../utils/jss-css-rules";
+import { PropTypes, StandardProps } from ".";
 
 export interface TypographyProps
   extends StandardProps<Fjsx.HTMLAttributes<HTMLElement>, TypographyClassKey> {
   align?: PropTypes.Alignment;
   color?: PropTypes.Color | "textSecondary" | "error";
+  className?: string;
   component?: Element | string;
   gutterBottom?: boolean;
   headlineMapping?: { [type in TextStyle]: string };

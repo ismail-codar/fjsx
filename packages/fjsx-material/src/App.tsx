@@ -11,6 +11,7 @@ import { TextFieldsPage } from "./pages/text-fields";
 import { AppBarPage } from "./pages/appbar";
 import { ButtonsPage } from "./pages/buttons";
 import { ListPage } from "./pages/list";
+import { DrawersPage } from "./pages/drawers";
 
 const theme = createMuiTheme({
   palette: {
@@ -34,6 +35,7 @@ export const App = () => {
             <Link to="/appbar">App Bar</Link> |
             <Link to="/textfields">Text Fields</Link> |
             <Link to="/list">List</Link> |
+            <Link to="/drawers">Drawers</Link> |
           </div>
           <hr />
         </div>
@@ -44,6 +46,7 @@ export const App = () => {
           <Route path="/appbar" component={AppBarPage} />
           <Route path="/textfields" component={TextFieldsPage} />
           <Route path="/list" component={ListPage} />
+          <Route path="/drawers" component={DrawersPage} />
         </Router>
       </fjsx.Context>
     </>

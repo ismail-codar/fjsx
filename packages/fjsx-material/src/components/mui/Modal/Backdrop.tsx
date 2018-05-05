@@ -3,12 +3,14 @@ import classNames from "classnames";
 import { jssCssRulesWithTheme } from "../../../utils/jss-css-rules";
 
 import { StandardProps } from "..";
+import { TransitionProps } from "../../../transitions/transition";
 
 export interface BackdropProps
   extends StandardProps<Fjsx.HTMLAttributes<HTMLDivElement>, BackdropClassKey> {
   invisible?: boolean;
   onClick?: Fjsx.FjsxEventHandler<{}>;
   open: boolean;
+  transitionDuration?: TransitionProps["timeout"];
 }
 
 export type BackdropClassKey = "root" | "invisible";

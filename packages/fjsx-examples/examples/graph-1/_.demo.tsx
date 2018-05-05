@@ -83,8 +83,6 @@ const GraphLink = (props: { source: IGraphNode; target: IGraphNode }) => {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 var cola = new LayoutAdaptor(960, 500);
 
-cola.on("tick", () => {});
-
 var graph$ = null;
 fetch("/examples/graph-1/fivenodesdisconnected.json").then(response => {
   response.json().then(graph => {

@@ -12,10 +12,20 @@ const presets = jssPreset();
 export const jss = create(presets);
 const manager = new SheetsManager();
 
+// TODO manager.unmanage when unmount (all)
+
 // Use a singleton or the provided one by the context.
 const generateClassName = createGenerateClassName();
 
-var INDEX = 9999999999999;
+var INDEX = Number.MAX_SAFE_INTEGER;
+
+var styleOrders: string[] = [];
+export const jssStyleOrders = (names: string[]) => {
+  if (!names) return styleOrders;
+  else {
+    styleOrders = names;
+  }
+};
 
 export const jssCssRulesWithTheme = (
   name,
@@ -26,10 +36,11 @@ export const jssCssRulesWithTheme = (
   dynamicCss = dynamicCss || stylesOrCreator instanceof Function;
   const stylesCreator = getStylesCreator(stylesOrCreator);
 
-  const styles = stylesCreator.create(
-    fjsx.getContextValue("theme", props),
-    name
-  );
+  const theme = fjsx.getContextValue("theme", props);
+  if (props) props.theme = theme;
+  const styles = stylesCreator.create(theme, name);
+
+  const index = styleOrders.indexOf(name);
 
   //TODO detect theme changes and unmanage (buttons:MuiThemeProvider)
 
@@ -41,13 +52,12 @@ export const jssCssRulesWithTheme = (
       generateClassName,
       classNamePrefix: name,
       link: false,
-      index: INDEX--
+      index: index !== -1 ? index : INDEX--
     });
     manager.add(key, sheet);
     manager.manage(key);
   } else {
     sheet = manager.get(key);
-    INDEX = sheet.options.index + (sheet.options.index - INDEX);
   }
 
   const classes = Object.assign({}, sheet.classes);
