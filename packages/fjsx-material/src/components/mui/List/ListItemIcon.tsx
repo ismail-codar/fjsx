@@ -25,14 +25,15 @@ export const styles = theme => ({
  * A simple wrapper to apply `List` styles to an `Icon` or `SvgIcon`.
  */
 export const ListItemIcon = (props: ListItemIconProps) => {
-  const { children, className: classNameProp, ...other } = props;
+  fjsx.setDefaults(props, { className$: null });
+  const { children, className$: classNameProp$, ...other } = props;
 
   const classes = jssCssRulesWithTheme("MuiListItemIcon", props, styles);
 
   const view = children[0].cloneNode(true);
   view[children[0].tagName == "svg" ? "class" : "className"] = classNames(
     classes.root,
-    classNameProp,
+    classNameProp$,
     children[0].className
   );
 };

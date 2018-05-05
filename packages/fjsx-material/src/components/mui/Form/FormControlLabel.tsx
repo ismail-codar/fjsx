@@ -54,7 +54,7 @@ export const FormControlLabel = props => {
   const {
     checked,
     classes,
-    className: classNameProp,
+    className: classNameProp$,
     control,
     disabled: disabledProp,
     inputRef,
@@ -87,7 +87,7 @@ export const FormControlLabel = props => {
     {
       [classes.disabled]: disabled
     },
-    classNameProp
+    classNameProp$
   );
 
   return (
@@ -105,7 +105,7 @@ export const FormControlLabel = props => {
       })}
       <Typography
         component="span"
-        className={classNames(classes.label, { [classes.disabled]: disabled })}
+        className$={classNames(classes.label, { [classes.disabled]: disabled })}
       >
         {label}
       </Typography>

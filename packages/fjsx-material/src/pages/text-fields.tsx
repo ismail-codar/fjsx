@@ -48,7 +48,7 @@ export const TextFieldsPage = props => {
       <TextField
         id="password-input"
         label="Password"
-        className={classes.textField}
+        className$={classes.textField}
         type="password"
         autoComplete="current-password"
         // value$={"1111"}
@@ -58,7 +58,7 @@ export const TextFieldsPage = props => {
         required
         label="Error"
         error$
-        className={classes.textField}
+        className$={classes.textField}
         type="text"
         value$={"1111"}
         margin="normal"
@@ -68,7 +68,7 @@ export const TextFieldsPage = props => {
         label="Multiline"
         multiline
         rowsMax="4"
-        className={classes.textField}
+        className$={classes.textField}
         margin="normal"
       />
       <TextField
@@ -86,13 +86,13 @@ export const TextFieldsPage = props => {
         id="select-currency-native"
         select
         label="Native select"
-        className={classes.textField}
+        className$={classes.textField}
         value$={selectedCurrency$}
         onChange={handleChange("currency")}
         SelectProps={{
           native: true,
           MenuProps: {
-            className: classes.menu
+            className$: classes.menu
           }
         }}
         helperText$="Please select your currency"

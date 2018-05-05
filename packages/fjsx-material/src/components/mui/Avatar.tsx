@@ -50,12 +50,13 @@ export const styles = theme => ({
 
 export const Avatar = (props: AvatarProps) => {
   fjsx.setDefaults(props, {
-    component: "div"
+    component: "div",
+    className$: null
   });
   const {
     alt,
-    childrenClassName: childrenClassNameProp,
-    className: classNameProp,
+    childrenClassName: childrenclassNameProp$,
+    className$: classNameProp$,
     component: Component,
     imgProps,
     sizes,
@@ -70,14 +71,14 @@ export const Avatar = (props: AvatarProps) => {
     {
       [classes.colorDefault]: childrenProp && !src && !srcSet
     },
-    classNameProp
+    classNameProp$
   );
   let children = null;
 
   if (childrenProp) {
-    if (childrenClassNameProp && typeof childrenProp !== "string") {
+    if (childrenclassNameProp$ && typeof childrenProp !== "string") {
       const childrenClassName = classNames(
-        childrenClassNameProp,
+        childrenclassNameProp$,
         childrenProp.props.className
       );
       children = fjsx.cloneElement(childrenProp, {

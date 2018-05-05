@@ -54,10 +54,11 @@ export const styles = {
 };
 
 export const ButtonBase = (props: ButtonBaseProps) => {
+  fjsx.setDefaults(props, { className$: null });
   const {
     buttonRef,
     children,
-    className: classNameProp,
+    className$: classNameProp$,
     component,
     disabled,
     tabIndex,
@@ -73,7 +74,7 @@ export const ButtonBase = (props: ButtonBaseProps) => {
     {
       [classes.disabled]: disabled
     },
-    classNameProp
+    classNameProp$
   );
 
   const buttonProps: any = {};

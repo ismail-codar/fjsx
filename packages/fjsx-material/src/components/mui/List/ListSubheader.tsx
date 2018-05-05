@@ -55,10 +55,11 @@ export const ListSubheader = (props: ListSubheaderProps) => {
     color: "default",
     component: "li",
     disableSticky: false,
-    inset: false
+    inset: false,
+    className$: null
   });
   const {
-    className,
+    className$,
     color,
     component: Component,
     disableSticky,
@@ -75,7 +76,7 @@ export const ListSubheader = (props: ListSubheaderProps) => {
           [classes.inset]: inset,
           [classes.sticky]: !disableSticky
         },
-        className
+        className$
       )}
       {...other}
     />

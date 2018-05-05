@@ -34,9 +34,10 @@ export const styles = {
 
 export const Backdrop = (props: BackdropProps) => {
   fjsx.setDefaults(props, {
-    invisible: false
+    invisible: false,
+    className$: null
   });
-  const { className, invisible, open, ...other } = props;
+  const { className$, invisible, open, ...other } = props;
   const classes = jssCssRulesWithTheme("MuiBackdrop", props, styles);
   return (
     <Fade appear in={open} timeout={transitionDuration} {...other}>
@@ -47,7 +48,7 @@ export const Backdrop = (props: BackdropProps) => {
           {
             [classes.invisible]: invisible
           },
-          className
+          className$
         )}
         aria-hidden="true"
       />

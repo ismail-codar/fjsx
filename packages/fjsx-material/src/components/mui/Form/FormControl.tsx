@@ -67,10 +67,11 @@ export const FormControl = (props: FormControlProps) => {
     error$: false,
     fullWidth: false,
     margin: "none",
-    required: false
+    required: false,
+    className$: null
   });
   const {
-    className,
+    className$,
     disabled,
     error$,
     fullWidth,
@@ -89,7 +90,7 @@ export const FormControl = (props: FormControlProps) => {
           [classes[`margin${capitalize(margin)}`]]: margin !== "none",
           [classes.fullWidth]: fullWidth
         },
-        className
+        className$
       )}
       {...other}
       // onFocus={props.handleFocus}

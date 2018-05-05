@@ -53,11 +53,12 @@ export const styles = theme => ({
 export const SvgIcon = (props: SvgIconProps) => {
   fjsx.setDefaults(props, {
     color: "inherit",
-    viewBox: "0 0 24 24"
+    viewBox: "0 0 24 24",
+    className$: null
   });
   const {
     children,
-    className: classNameProp,
+    className$: classNameProp$,
     color,
     nativeColor,
     titleAccess,
@@ -71,7 +72,7 @@ export const SvgIcon = (props: SvgIconProps) => {
     {
       [classes[`color${capitalize(color)}`]]: color !== "inherit"
     },
-    classNameProp
+    classNameProp$
   );
 
   return (

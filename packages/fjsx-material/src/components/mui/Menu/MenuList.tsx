@@ -23,7 +23,7 @@ export const MenuList = (props: MenuListProps) => {
       ref={node => {
         this.list = node;
       }}
-      className={className}
+      className$={className}
       onKeyDown={this.handleKeyDown}
       onBlur={this.handleBlur}
       {...other}

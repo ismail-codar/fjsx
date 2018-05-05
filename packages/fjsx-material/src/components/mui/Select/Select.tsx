@@ -90,7 +90,8 @@ export const Select = (props: SelectProps) => {
     autoWidth: false,
     displayEmpty: false,
     multiple: false,
-    native: false
+    native: false,
+    className$: null
   });
 
   const {

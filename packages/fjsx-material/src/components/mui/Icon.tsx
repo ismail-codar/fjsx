@@ -47,9 +47,10 @@ export const styles = theme => ({
 
 export const Icon = (props: IconProps) => {
   fjsx.setDefaults(props, {
-    color: "inherit"
+    color: "inherit",
+    className$: null
   });
-  const { children, className, color, ...other } = props;
+  const { children, className$, color, ...other } = props;
   const classes: any = jssCssRulesWithTheme("MuiIcon", props, styles);
 
   return (
@@ -60,7 +61,7 @@ export const Icon = (props: IconProps) => {
         {
           [classes[`color${capitalize(color)}`]]: color !== "inherit"
         },
-        className
+        className$
       )}
       aria-hidden="true"
       {...other}

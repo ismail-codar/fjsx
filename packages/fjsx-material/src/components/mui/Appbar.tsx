@@ -75,17 +75,16 @@ export const styles = theme => {
 export const AppBar = (props: AppBarProps) => {
   fjsx.setDefaults(props, {
     color: "primary",
-    position: "fixed"
+    position: "fixed",
+    className$: null
   });
   const {
     children,
-    className: classNameProp,
+    className$: classNameProp$,
     color,
     position,
     ...other
   } = props;
-
-  console.log(classNameProp);
 
   const classes = jssCssRulesWithTheme("MuiAppBar", props, styles);
   const className = classNames(
@@ -95,7 +94,7 @@ export const AppBar = (props: AppBarProps) => {
       [classes[`color${capitalize(color)}`]]: color !== "inherit",
       "mui-fixed": position === "fixed" // Useful for the Dialog
     },
-    classNameProp
+    classNameProp$
   );
 
   return (
@@ -103,7 +102,7 @@ export const AppBar = (props: AppBarProps) => {
       square
       component="header"
       elevation={4}
-      className={className}
+      className$={className}
       {...other}
     >
       {children}

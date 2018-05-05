@@ -63,9 +63,10 @@ export const Paper = (props: PaperProps) => {
   fjsx.setDefaults(props, {
     component: "div",
     elevation: 2,
-    square: false
+    square: false,
+    className$: null
   });
-  const { className: classNameProp, square, elevation, ...other } = props;
+  const { className$: classNameProp$, square, elevation, ...other } = props;
 
   warning(
     elevation >= 0 && elevation < 25,
@@ -79,7 +80,7 @@ export const Paper = (props: PaperProps) => {
     {
       [classes.rounded]: !square
     },
-    classNameProp
+    classNameProp$
   );
 
   const Component = props.component;

@@ -86,13 +86,14 @@ export const TextField = (props: TextFieldProps) => {
     focused$: false,
     value$: null,
     disabled$: null,
-    helperText$: null
+    helperText$: null,
+    className$: null
   });
   const {
     autoComplete,
     autoFocus,
     children,
-    className,
+    className$,
     defaultValue,
     error$,
     FormHelperTextProps,
@@ -161,7 +162,7 @@ export const TextField = (props: TextFieldProps) => {
   return (
     <FormControl
       aria-describedby={helperTextId}
-      className={className}
+      className$={className$}
       error$={error$}
       fullWidth={fullWidth}
       required={required}

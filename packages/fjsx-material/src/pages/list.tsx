@@ -144,7 +144,7 @@ function NestedList(props) {
         </ListItem>
         <Collapse open$={open$} timeout="auto">
           <List component="div" disablePadding>
-            <ListItem button className={classes.nested}>
+            <ListItem button className$={classes.nested}>
               <ListItemIcon>
                 <StarBorder />
               </ListItemIcon>

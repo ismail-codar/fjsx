@@ -55,12 +55,13 @@ export const styles = theme => ({
 
 export const InputLabel = (props: InputLabelProps) => {
   fjsx.setDefaults(props, {
-    disableAnimation: false
+    disableAnimation: false,
+    className$: null
   });
 
   const {
     children,
-    className: classNameProp,
+    className$: classNameProp$,
     disableAnimation,
     FormLabelClasses,
     margin,
@@ -83,7 +84,7 @@ export const InputLabel = (props: InputLabelProps) => {
       [classes.shrink]: shrink$,
       [classes.marginDense]: margin === "dense"
     },
-    classNameProp
+    classNameProp$
   );
 
   return (

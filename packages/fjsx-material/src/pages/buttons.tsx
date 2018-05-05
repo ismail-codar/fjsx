@@ -71,24 +71,24 @@ export const ButtonsPage = props => {
 
   return (
     <div>
-      <Button className={classes.button}>Default</Button>
-      <Button variant="raised" color="primary" className={classes.button}>
+      <Button className$={classes.button}>Default</Button>
+      <Button variant="raised" color="primary" className$={classes.button}>
         Primary
       </Button>
-      <Button variant="fab" color="secondary" className={classes.button}>
+      <Button variant="fab" color="secondary" className$={classes.button}>
         <AddIcon />
       </Button>
       <Button
         variant="fab"
         color="secondary"
         aria-label="edit"
-        className={classes.button}
+        className$={classes.button}
         mini
       >
         <Icon>edit_icon</Icon>
       </Button>
       <IconButton
-        className={classes.button}
+        className$={classes.button}
         aria-label="Delete"
         disabled
         color="primary"
@@ -97,20 +97,20 @@ export const ButtonsPage = props => {
       </IconButton>
       <IconButton
         color="secondary"
-        className={classes.button}
+        className$={classes.button}
         aria-label="Add an alarm"
       >
         <Icon>alarm</Icon>
       </IconButton>
-      <Button className={classes.button} variant="raised" color="primary">
+      <Button className$={classes.button} variant="raised" color="primary">
         Send
-        <Icon className={classes.rightIcon}>send</Icon>
+        <Icon className$={classes.rightIcon}>send</Icon>
       </Button>
       <Button
         variant="raised"
         color="secondary"
         disabled
-        className={classes.button}
+        className$={classes.button}
       >
         Disabled
       </Button>
@@ -122,14 +122,14 @@ export const ButtonsPage = props => {
         type="file"
       />
       <label htmlFor="raised-button-file">
-        <Button variant="raised" component="span" className={classes.button}>
+        <Button variant="raised" component="span" className$={classes.button}>
           Upload
         </Button>
       </label>
       <Button
         variant="raised"
         color="primary"
-        className={classes.button}
+        className$={classes.button}
         classes={{
           root: classes.cssRoot
         }}
@@ -144,7 +144,7 @@ export const ButtonsPage = props => {
       <Button
         variant="raised"
         color="primary"
-        className={classes.button}
+        className$={classes.button}
         disableRipple
         classes={{
           root: classes.bootstrapRoot

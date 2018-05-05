@@ -57,7 +57,8 @@ export const FormLabel = (props: FormLabelProps) => {
     error$: false,
     disabled$: false,
     focused$: false,
-    required: false
+    required: false,
+    className$: null
   });
   const {
     children,

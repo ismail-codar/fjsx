@@ -44,11 +44,11 @@ export const Collapse = (props: CollapseProps) => {
   fjsx.setDefaults(props, {
     collapsedHeight: "0px",
     component: "div",
-    timeout: duration.standard
+    className$: null
   });
   const {
     children,
-    className,
+    className$,
     collapsedHeight,
     component: Component,
     style,
@@ -68,7 +68,7 @@ export const Collapse = (props: CollapseProps) => {
         {
           [classes.entered]: props.open$ === true
         },
-        className
+        className$
       )}
       style={{
         ...style,

@@ -92,20 +92,13 @@ export const ListItem = (props: ListItemProps) => {
     dense: false,
     disabled: false,
     disableGutters: false,
-    divider: false
-  });
-  fjsx.setDefaults(props, {
-    button: false,
-    ContainerComponent: "li",
-    dense: false,
-    disabled: false,
-    disableGutters: false,
-    divider: false
+    divider: false,
+    className$: null
   });
   const {
     button,
     children: childrenProp,
-    className: classNameProp,
+    className$: classNameProp$,
     component: componentProp,
     ContainerProps: { ...ContainerProps } = {},
     dense,
@@ -132,7 +125,7 @@ export const ListItem = (props: ListItemProps) => {
       [classes.button]: button,
       [classes.secondaryAction]: hasSecondaryAction
     },
-    classNameProp
+    classNameProp$
   );
 
   const componentProps: any = { className, disabled, ...other };

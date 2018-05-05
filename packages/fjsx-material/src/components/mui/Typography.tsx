@@ -9,7 +9,7 @@ export interface TypographyProps
   extends StandardProps<Fjsx.HTMLAttributes<HTMLElement>, TypographyClassKey> {
   align?: PropTypes.Alignment;
   color?: PropTypes.Color | "textSecondary" | "error";
-  className?: string;
+  className$?: string;
   component?: Element | string;
   gutterBottom?: boolean;
   headlineMapping?: { [type in TextStyle]: string };
@@ -116,11 +116,12 @@ export const Typography = (props: TypographyProps) => {
     },
     noWrap: false,
     paragraph: false,
-    variant: "body1"
+    variant: "body1",
+    className$: null
   });
   const {
     align,
-    className: classNameProp,
+    className$: classNameProp$,
     component: componentProp,
     color,
     gutterBottom,
@@ -142,7 +143,7 @@ export const Typography = (props: TypographyProps) => {
       [classes.paragraph]: paragraph,
       [classes[`align${capitalize(align)}`]]: align !== "inherit"
     },
-    classNameProp
+    classNameProp$
   );
 
   const Component =

@@ -116,10 +116,11 @@ export const Textarea = (props: TextareaProps) => {
   fjsx.setDefaults(props, {
     rows: 1,
     value$: "",
-    height$: Number(props.rows) * ROWS_HEIGHT
+    height$: Number(props.rows) * ROWS_HEIGHT,
+    className$: null
   });
   const {
-    className,
+    className$,
     defaultValue,
     rows,
     rowsMax,
@@ -131,6 +132,7 @@ export const Textarea = (props: TextareaProps) => {
   let height$ = props.height$;
 
   const classes = jssCssRulesWithTheme("MuiTextarea", props, styles);
+  if (className$) delete other.className;
   return (
     <div className={classes.root} style={{ height: height$ + "px" }}>
       {/* TODO <EventListener target="window" onResize={handleResize} /> */}
@@ -155,7 +157,7 @@ export const Textarea = (props: TextareaProps) => {
       />
       <textarea
         rows={rows}
-        className={classNames(classes.textarea, className)}
+        className={classNames(classes.textarea, className$)}
         defaultValue={defaultValue}
         value={value}
         onKeyPress={handleChange}

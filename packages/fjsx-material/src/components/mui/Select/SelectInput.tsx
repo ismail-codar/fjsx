@@ -47,7 +47,7 @@ export const SelectInput = (props: SelectInputProps) => {
     autoWidth,
     children,
     classes,
-    className: classNameProp,
+    className$: classNameProp$,
     disabled,
     displayEmpty,
     inputRef,
@@ -76,12 +76,16 @@ export const SelectInput = (props: SelectInputProps) => {
     displayNode = element;
   };
   const handleSelectRef = element => {};
-  const handleKeyDown = e => {};
+  const handleKeyDown = e => {
+    //TODO
+  };
   const handleBlur = e => {};
   const handleClick = e => {};
   const handleClose = e => {};
 
   const open = props.open !== undefined && displayNode ? openProp : props.open;
+
+  if (classNameProp$) delete other["className"];
 
   if (native) {
     warning(
@@ -106,7 +110,7 @@ export const SelectInput = (props: SelectInputProps) => {
             {
               [classes.disabled]: disabled
             },
-            classNameProp
+            classNameProp$
           )}
           name={name}
           disabled={disabled}
@@ -119,7 +123,7 @@ export const SelectInput = (props: SelectInputProps) => {
         >
           {children}
         </select>
-        <ArrowDropDown className={classes.icon} />
+        <ArrowDropDown className$={classes.icon} />
       </div>
     );
   }
@@ -195,7 +199,7 @@ export const SelectInput = (props: SelectInputProps) => {
           {
             [classes.disabled]: disabled
           },
-          classNameProp
+          classNameProp$
         )}
         ref={handleDisplayRef}
         data-mui-test="SelectDisplay"
@@ -222,7 +226,7 @@ export const SelectInput = (props: SelectInputProps) => {
         type={type}
         {...other}
       />
-      <ArrowDropDown className={classes.icon} />
+      <ArrowDropDown className$={classes.icon} />
       <Menu
         id={`menu-${name || ""}`}
         anchorEl={displayNode}

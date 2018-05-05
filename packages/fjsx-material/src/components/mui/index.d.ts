@@ -19,7 +19,7 @@ export type StandardProps<
   Removals extends keyof C = never
 > = Omit<C & { classes: any }, "classes" | Removals> &
   StyledComponentProps<ClassKey> & {
-    className?: string;
+    className$?: string;
     style?: Fjsx.CSSProperties;
   };
 

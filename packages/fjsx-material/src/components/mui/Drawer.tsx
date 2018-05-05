@@ -135,14 +135,15 @@ export const Drawer = (props: DrawerProps) => {
       exit: duration.leavingScreen
     },
     variant: "temporary", // Mobile first.
-    ModalProps: {}
+    ModalProps: {},
+    className$: null
   });
   const BackdropPropsProp = props.ModalProps.BackdropProps;
   const {
     mounted,
     anchor: anchorProp,
     children,
-    className,
+    className$,
     elevation,
     ModalProps,
     onClose,
@@ -161,7 +162,7 @@ export const Drawer = (props: DrawerProps) => {
     <Paper
       elevation={variant === "temporary" ? elevation : 0}
       square
-      className={classNames(
+      className$={classNames(
         classes.paper,
         classes[`paperAnchor${capitalize(anchor)}`],
         {
@@ -177,7 +178,7 @@ export const Drawer = (props: DrawerProps) => {
 
   if (variant === "permanent") {
     return (
-      <div className={classNames(classes.docked, className)} {...other}>
+      <div className={classNames(classes.docked, className$)} {...other}>
         {drawer}
       </div>
     );
@@ -197,7 +198,7 @@ export const Drawer = (props: DrawerProps) => {
 
   if (variant === "persistent") {
     return (
-      <div className={classNames(classes.docked, className)} {...other}>
+      <div className={classNames(classes.docked, className$)} {...other}>
         {slidingDrawer}
       </div>
     );
@@ -210,7 +211,7 @@ export const Drawer = (props: DrawerProps) => {
         ...BackdropPropsProp,
         transitionDuration
       }}
-      className={classNames(classes.modal, className)}
+      className$={classNames(classes.modal, className$)}
       open={open$}
       onClose={onClose}
       {...other}

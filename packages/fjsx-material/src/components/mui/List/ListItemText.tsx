@@ -58,11 +58,12 @@ export const styles = theme => ({
 export const ListItemText = (props: ListItemTextProps) => {
   fjsx.setDefaults(props, {
     disableTypography: false,
-    inset: false
+    inset: false,
+    className$: null
   });
   const {
     children,
-    className: classNameProp,
+    className$: classNameProp$,
     disableTypography,
     inset,
     primary: primaryProp,
@@ -77,7 +78,7 @@ export const ListItemText = (props: ListItemTextProps) => {
     primary = (
       <Typography
         variant="subheading"
-        className={classNames(classes.primary, { [classes.textDense]: dense })}
+        className$={classNames(classes.primary, { [classes.textDense]: dense })}
       >
         {primary}
       </Typography>
@@ -89,7 +90,7 @@ export const ListItemText = (props: ListItemTextProps) => {
     secondary = (
       <Typography
         variant="body1"
-        className={classNames(classes.secondary, {
+        className$={classNames(classes.secondary, {
           [classes.textDense]: dense
         })}
         color="textSecondary"
@@ -107,7 +108,7 @@ export const ListItemText = (props: ListItemTextProps) => {
           [classes.dense]: dense,
           [classes.inset]: inset
         },
-        classNameProp
+        classNameProp$
       )}
       {...other}
     >

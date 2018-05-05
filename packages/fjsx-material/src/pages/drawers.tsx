@@ -80,7 +80,7 @@ const PermanentDrawer = props => {
       <div className={classes.appFrame}>
         <AppBar
           position="absolute"
-          className={classNames(classes.appBar, classes[`appBar-${anchor}`])}
+          className$={classNames(classes.appBar, classes[`appBar-${anchor}`])}
         >
           <Toolbar>
             <Typography variant="title" color="inherit" noWrap>
@@ -130,7 +130,7 @@ function ClippedDrawer(props) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="absolute" className={classes.appBar}>
+      <AppBar position="absolute" className$={classes.appBar}>
         <Toolbar>
           <Typography variant="title" color="inherit" noWrap>
             Clipped drawer
@@ -288,7 +288,7 @@ const PersistentDrawer = props => {
     <div className={classes.root}>
       <div className={classes.appFrame}>
         <AppBar
-          className={classNames(classes.appBar, {
+          className$={classNames(classes.appBar, {
             [classes.appBarShift]: open$,
             [classes[`appBarShift-${anchor}`]]: open$
           })}
@@ -298,7 +298,7 @@ const PersistentDrawer = props => {
               color="inherit"
               aria-label="open drawer"
               onClick={handleDrawerOpen}
-              className={classNames(classes.menuButton, open$ && classes.hide)}
+              className$={classNames(classes.menuButton, open$ && classes.hide)}
             >
               <MenuIcon />
             </IconButton>

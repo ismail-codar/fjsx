@@ -67,7 +67,7 @@ class SwitchBase extends React.Component {
       checked: checkedProp,
       checkedIcon,
       classes,
-      className: classNameProp,
+      className: classNameProp$,
       disabled: disabledProp,
       icon,
       id,
@@ -103,7 +103,7 @@ class SwitchBase extends React.Component {
             [classes.checked]: checked,
             [classes.disabled]: disabled,
           },
-          classNameProp,
+          classNameProp$,
         )}
         disabled={disabled}
         tabIndex={null}

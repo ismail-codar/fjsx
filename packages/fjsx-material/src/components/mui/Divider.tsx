@@ -42,9 +42,16 @@ export const Divider = (props: DividerProps) => {
     absolute: false,
     component: "hr",
     inset: false,
-    light: false
+    light: false,
+    className$: null
   });
-  const { absolute, className: classNameProp, inset, light, ...other } = props;
+  const {
+    absolute,
+    className$: classNameProp$,
+    inset,
+    light,
+    ...other
+  } = props;
   const classes = jssCssRulesWithTheme("MuiDivider", props, styles);
   const className = classNames(
     classes.root,
@@ -53,7 +60,7 @@ export const Divider = (props: DividerProps) => {
       [classes.inset]: inset,
       [classes.light]: light
     },
-    classNameProp
+    classNameProp$
   );
 
   const Component = props.component;

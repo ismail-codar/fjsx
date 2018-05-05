@@ -54,7 +54,8 @@ export const Modal = (props: ModalProps) => {
     keepMounted: false,
     // Modals don't open on the server so this won't conflict with concurrent requests.
     manager: new ModalManager(),
-    BackdropComponent: Backdrop
+    BackdropComponent: Backdrop,
+    className$: null
   });
   const {
     BackdropComponent,

@@ -22,11 +22,12 @@ export const styles = theme => ({
 
 export const Toolbar = (props: ToolbarProps) => {
   fjsx.setDefaults(props, {
-    disableGutters: false
+    disableGutters: false,
+    className$: null
   });
   const {
     children,
-    className: classNameProp,
+    className$: classNameProp$,
     disableGutters,
     ...other
   } = props;
@@ -37,7 +38,7 @@ export const Toolbar = (props: ToolbarProps) => {
     {
       [classes.gutters]: !disableGutters
     },
-    classNameProp
+    classNameProp$
   );
 
   return (

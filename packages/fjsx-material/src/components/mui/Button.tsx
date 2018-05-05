@@ -192,13 +192,14 @@ export const Button = (props: ButtonProps) => {
     mini: false,
     size: "medium",
     type: "button",
-    variant: "flat"
+    variant: "flat",
+    className$: null
   });
   const classes: any = jssCssRulesWithTheme("MuiButton", props, styles);
 
   const {
     children,
-    className: classNameProp,
+    className$: classNameProp$,
     color,
     disabled,
     disableFocusRipple,
@@ -227,11 +228,11 @@ export const Button = (props: ButtonProps) => {
       [classes.disabled]: disabled,
       [classes.fullWidth]: fullWidth
     },
-    classNameProp
+    classNameProp$
   );
 
   return (
-    <ButtonBase className={className} disabled={disabled} {...other}>
+    <ButtonBase className$={className} disabled={disabled} {...other}>
       <span className={classes.label}>{children}</span>
     </ButtonBase>
   );

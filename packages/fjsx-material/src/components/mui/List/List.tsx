@@ -37,11 +37,12 @@ export const List = (props: ListProps) => {
   fjsx.setDefaults(props, {
     component: "ul",
     dense: false,
-    disablePadding: false
+    disablePadding: false,
+    className$: null
   });
   const {
     children,
-    className: classNameProp,
+    className$: classNameProp$,
     component: Component,
     dense,
     disablePadding,
@@ -56,7 +57,7 @@ export const List = (props: ListProps) => {
       [classes.padding]: !disablePadding,
       [classes.subheader]: subheader
     },
-    classNameProp
+    classNameProp$
   );
 
   return (

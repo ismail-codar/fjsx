@@ -262,46 +262,22 @@ export const styles = theme => {
   };
 };
 
-function formControlState(props) {
-  let disabled = props.disabled;
-  let error = props.error;
-  let margin = props.margin;
-
-  if (props.muiFormControl) {
-    if (typeof disabled === "undefined") {
-      disabled = props.muiFormControl.disabled;
-    }
-
-    if (typeof error === "undefined") {
-      error = props.muiFormControl.error;
-    }
-
-    if (typeof margin === "undefined") {
-      margin = props.muiFormControl.margin;
-    }
-  }
-
-  return {
-    disabled,
-    error,
-    margin
-  };
-}
-
 export const Input = (props: InputComponentProps) => {
   fjsx.setDefaults(props, {
     error$: false,
     focused$: false,
     value$: false,
+    disabled$: false,
     disableUnderline: false,
     fullWidth: false,
     multiline: false,
-    type: "text"
+    type: "text",
+    className$: null
   });
   const {
     autoComplete,
     autoFocus,
-    className: classNameProp,
+    className$: classNameProp$,
     defaultValue,
     disabled: disabledProp,
     disableUnderline,
@@ -327,20 +303,20 @@ export const Input = (props: InputComponentProps) => {
     rows,
     rowsMax,
     startAdornment,
-    type
+    type,
+    disabled$,
+    margin
   } = props;
 
   let focused$ = props.focused$;
   let value$ = props.value$;
 
   const classes = jssCssRulesWithTheme("MuiInput", props, styles);
-  // const { muiFormControl } = context;
-  const { disabled, error, margin } = formControlState(props);
 
   const className$ = classNames(
     classes.root,
     {
-      [classes.disabled]: disabled,
+      [classes.disabled]: disabled$,
       [classes.error]: error$,
       [classes.fullWidth]: fullWidth,
       [classes.focused]: focused$,
@@ -348,7 +324,7 @@ export const Input = (props: InputComponentProps) => {
       [classes.multiline]: multiline,
       [classes.underline]: !disableUnderline
     },
-    classNameProp
+    classNameProp$
   );
 
   let inputProps = {
@@ -356,10 +332,10 @@ export const Input = (props: InputComponentProps) => {
     // ref: handleRefInput
   };
 
-  const inputClassName = classNames(
+  const inputClassName$ = classNames(
     classes.input,
     {
-      [classes.disabled]: disabled,
+      [classes.disabled]: disabled$,
       [classes.inputType]: type !== "text",
       [classes.inputTypeSearch]: type === "search",
       [classes.inputMultiline]: multiline,
@@ -403,13 +379,14 @@ export const Input = (props: InputComponentProps) => {
     <div className={className$}>
       {startAdornment}
       <InputComponent
-        aria-invalid={error}
+        aria-invalid={error$}
         // aria-required={required}
         autoComplete={autoComplete}
         autoFocus={autoFocus}
-        className={inputClassName}
+        className={inputClassName$}
+        className$={inputClassName$}
         defaultValue={defaultValue}
-        disabled={disabled}
+        disabled={disabled$}
         id={id}
         name={name}
         onBlur={handleBlur}

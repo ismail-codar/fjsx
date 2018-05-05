@@ -87,20 +87,21 @@ export const styles = theme => ({
 export const IconButton = (props: IconButtonProps) => {
   fjsx.setDefaults(props, {
     color: "default",
-    disabled: false
+    disabled: false,
+    className$: null
   });
-  const { children, className, color, disabled, ...other } = props;
+  const { children, className$, color, disabled, ...other } = props;
   const classes: any = jssCssRulesWithTheme("MuiIconButton", props, styles);
 
   return (
     <ButtonBase
-      className={classNames(
+      className$={classNames(
         classes.root,
         {
           [classes[`color${capitalize(color)}`]]: color !== "default",
           [classes.disabled]: disabled
         },
-        className
+        className$
       )}
       centerRipple
       focusRipple

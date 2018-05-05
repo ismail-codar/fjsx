@@ -48,10 +48,11 @@ export const FormHelperText = props => {
   fjsx.setDefaults(props, {
     component: "p",
     disabled$: false,
-    error$: false
+    error$: false,
+    className$: null
   });
   const {
-    className: classNameProp,
+    className: classNameProp$,
     disabled$,
     error$,
     margin,
@@ -68,7 +69,7 @@ export const FormHelperText = props => {
       [classes.error]: error$,
       [classes.marginDense]: margin === "dense"
     },
-    classNameProp
+    classNameProp$
   );
 
   return <Component className={className} {...other} />;
