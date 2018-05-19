@@ -7,3 +7,4 @@ export declare const createSvgElement: (tagName: string, attributes: {
 }, ...childs: any[]) => SVGElement;
 export declare const addChildElements: (element: any, childs: any) => void;
 export declare const createTextNode: (parent: any) => any;
+export declare const cloneElement: (element: Element, attributes: any) => Element;

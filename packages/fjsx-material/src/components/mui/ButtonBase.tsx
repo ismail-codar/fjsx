@@ -69,7 +69,7 @@ export const ButtonBase = (props: ButtonBaseProps) => {
 
   const classes: any = jssCssRulesWithTheme("MuiButtonBase", props, styles);
 
-  const className = classNames(
+  const className$ = classNames(
     classes.root,
     {
       [classes.disabled]: disabled
@@ -99,7 +99,7 @@ export const ButtonBase = (props: ButtonBaseProps) => {
   return (
     <ComponentProp
       tabIndex={disabled ? "-1" : tabIndex}
-      className={className}
+      className={className$}
       ref={element => {
         if (!disableRipple) rippleEffect(element);
         buttonRef && buttonRef(element);

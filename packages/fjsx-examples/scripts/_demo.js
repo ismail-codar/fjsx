@@ -1,3 +1,3 @@
 module.exports = {
-  view: require("../examples/graph-1/_.demo.tsx")
+  view: require("../examples/react-integration-1/_.demo.tsx")
 };

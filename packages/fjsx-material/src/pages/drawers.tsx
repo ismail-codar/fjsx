@@ -241,7 +241,7 @@ const PersistentDrawer = props => {
 
   const { theme } = props;
   var anchor: any = "left";
-  var open$ = false;
+  var open$ = false; //TODO props.open$
 
   const handleDrawerClose = () => {
     open$ = false;

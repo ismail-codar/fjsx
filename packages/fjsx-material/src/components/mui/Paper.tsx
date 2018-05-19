@@ -74,7 +74,7 @@ export const Paper = (props: PaperProps) => {
   );
 
   const classes = jssCssRulesWithTheme("MuiPaper", props, styles);
-  const className = classNames(
+  const className$ = classNames(
     classes.root,
     classes[`elevation${elevation}`],
     {
@@ -83,6 +83,6 @@ export const Paper = (props: PaperProps) => {
     classNameProp$
   );
 
-  const Component = props.component;
-  return <Component className={className} {...other} />;
+  const Component_ = props.component;
+  return <Component_ className={className$} {...other} />;
 };

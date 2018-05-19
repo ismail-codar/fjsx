@@ -87,7 +87,7 @@ export const AppBar = (props: AppBarProps) => {
   } = props;
 
   const classes = jssCssRulesWithTheme("MuiAppBar", props, styles);
-  const className = classNames(
+  const className$ = classNames(
     classes.root,
     classes[`position${capitalize(position)}`],
     {
@@ -102,7 +102,7 @@ export const AppBar = (props: AppBarProps) => {
       square
       component="header"
       elevation={4}
-      className$={className}
+      className$={className$}
       {...other}
     >
       {children}

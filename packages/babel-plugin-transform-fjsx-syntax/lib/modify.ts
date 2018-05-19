@@ -100,6 +100,9 @@ const expressionStatementGeneralProcess = (
   if (t.isAssignmentExpression(expression)) {
     // const code = generate(path.node).code;
     if (t.isMemberExpression(expression.left)) {
+      const rightIsFjsxCall = check.isFjsxCall(expression.right);
+      if (rightIsFjsxCall) return;
+
       const leftIsTracked = check.isTrackedVariable(
         path.scope,
         expression.left
@@ -108,6 +111,7 @@ const expressionStatementGeneralProcess = (
         path.scope,
         expression.right
       );
+
       if (rightIsTracked) {
         if (leftIsTracked) {
           path.node[propertyName] = modify.fjsxCall(

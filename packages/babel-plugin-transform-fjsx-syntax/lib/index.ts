@@ -44,10 +44,13 @@ export = function() {
           try {
             if (
               (this.opts.include &&
-                micromatch(this.file.opts.filename, this.opts.include) ===
-                  false) ||
+                micromatch(this.file.opts.filename, this.opts.include, {
+                  matchBase: true
+                }).length === 0) ||
               (this.opts.exclude &&
-                micromatch(this.file.opts.filename, this.opts.exclude) === true)
+                micromatch(this.file.opts.filename, this.opts.exclude, {
+                  matchBase: true
+                }).length)
             ) {
               doNotTraverse = true;
             }
@@ -282,7 +285,7 @@ export = function() {
             path.node.callee.property.name == "createElement" &&
             t.isIdentifier(path.node.callee.object) &&
             (path.node.callee.object.name === "React" ||
-              path.node.callee.object.name === "fjsx")
+              check.isFjsxName(path.node.callee.object.name))
           ) {
             const firstArgument = path.node.arguments[0];
             if (t.isStringLiteral(firstArgument)) {
@@ -294,7 +297,7 @@ export = function() {
             }
           }
           const member = found.callExpressionFirstMember(path.node);
-          if (member && member.name && !member.name.startsWith("fjsx")) {
+          if (member && member.name && !check.isFjsxName(member.name)) {
             const contextArgumentIndex = found.findContextChildIndex(
               path.node.arguments
             );

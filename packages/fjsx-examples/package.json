@@ -17,6 +17,7 @@
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.42",
     "@babel/plugin-proposal-class-properties": "7.0.0-beta.42",
+    "@babel/plugin-proposal-export-default-from": "7.0.0-beta.42",
     "@babel/preset-env": "^7.0.0-beta.42",
     "@babel/preset-react": "7.0.0-beta.42",
     "@babel/preset-typescript": "7.0.0-beta.42",
@@ -57,6 +58,8 @@
     "@fjsx/runtime": "file:../..",
     "classnames": "^2.2.5",
     "most": "^1.7.3",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
     "webcola": "^3.3.8"
   }
 }

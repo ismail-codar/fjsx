@@ -8,7 +8,7 @@ export interface FJsxValue<T> {
 
 export type FjsxArrayEventType = "itemadded" | "itemset" | "itemremoved";
 
-export const value = <T>(value: T, freezed?: boolean): FJsxValue<T> => {
+export const value = <T>(value?: T, freezed?: boolean): FJsxValue<T> => {
   if (value && value["$val"] != undefined)
     throw "Fjsx: Higher ordered signals is not supported.";
   const innerFn: any = (val?) => {
@@ -25,8 +25,7 @@ export const value = <T>(value: T, freezed?: boolean): FJsxValue<T> => {
   innerFn["freezed"] = freezed;
 
   innerFn["computes"] = [];
-  if (value instanceof Function) innerFn["compute"] = value;
-  innerFn.toString = innerFn.toJSON = () => innerFn["$val"];
+  innerFn.toString = innerFn.toJSON = () => innerFn["$val"].toString();
   return innerFn;
 };
 
@@ -65,25 +64,23 @@ export const off = (
 };
 
 export const compute = (fn: () => void, ...args: any[]) => {
-  var compute = value(fn);
+  var compute = value();
+  compute["compute"] = fn;
   for (var i = 0; i < args.length; i++) args[i]["computes"].push(compute);
   fn();
 };
 
 export const initCompute = (fn: () => any, ...args: any[]) => {
-  var cValue = value(fn());
-  var cmpInner = function() {
+  const cValue = value(fn());
+  compute(() => {
     cValue(fn());
-  };
-  cmpInner["compute"] = cValue;
-  for (var i = 0; i < args.length; i++) args[i]["computes"].push(cmpInner);
-
+  }, ...args);
   return cValue;
 };
 
 export const setCompute = (prev: any, fn: () => void, ...args: any[]) => {
   destroy(prev);
-  return initCompute(fn, ...args);
+  return initCompute(prev, fn, ...args);
 };
 
 export const destroy = (item: any) => {

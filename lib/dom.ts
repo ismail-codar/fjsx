@@ -8,9 +8,11 @@ export const conditionalElement = (
   oldElement,
   newElementFn: () => any
 ) => {
-  activateContext(parentElement["$props"]["$context"]);
+  parentElement["$props"] &&
+    activateContext(parentElement["$props"]["$context"]);
   let newElement = newElementFn();
-  deactivateContext(parentElement["$props"]["$context"]);
+  parentElement["$props"] &&
+    deactivateContext(parentElement["$props"]["$context"]);
   if (newElement instanceof Node === false)
     newElement = document.createTextNode(newElement || "");
   if (oldElement) parentElement.replaceChild(newElement, oldElement);

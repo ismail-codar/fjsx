@@ -188,6 +188,8 @@ const isTrackedKey = (scope: Scope, node: t.MemberExpression) => {
     return true;
 };
 
+const isFjsxName = (str: string) => str.indexOf("fjsx") !== -1;
+
 const fjsxValueBinaryInit = (
   // fjsx.value(a.$val + b.$val); gibi mi diye bak
   expression: t.Expression
@@ -198,7 +200,7 @@ const fjsxValueBinaryInit = (
     t.isBinaryExpression(expression.arguments[0]) &&
     t.isMemberExpression(expression.callee) &&
     t.isIdentifier(expression.callee.object) &&
-    expression.callee.object.name == "fjsx" &&
+    isFjsxName(expression.callee.object.name) &&
     t.isIdentifier(expression.callee.property) &&
     expression.callee.property.name == "value"
   );
@@ -265,7 +267,7 @@ const objectPropertyParentIsComponent = (path: NodePath<any>) => {
       t.isCallExpression(path.node) &&
       t.isMemberExpression(path.node.callee) &&
       t.isIdentifier(path.node.callee.object) &&
-      path.node.callee.object.name === "fjsx" &&
+      isFjsxName(path.node.callee.object.name) &&
       t.isIdentifier(path.node.callee.property) &&
       path.node.callee.property.name === "createElement"
     ) {
@@ -314,7 +316,7 @@ export const isArrayMapExpression = (
 export const isFjsxCall = (node: t.BaseNode) => {
   if (!t.isCallExpression(node)) return false;
   const member = found.callExpressionFirstMember(node);
-  return member && member.name.startsWith("fjsx");
+  return member && isFjsxName(member.name);
 };
 
 export const isDynamicExpression = (expression: t.Expression | t.PatternLike) =>
@@ -324,7 +326,7 @@ export const isDynamicExpression = (expression: t.Expression | t.PatternLike) =>
     !(
       t.isMemberExpression(expression.callee) &&
       t.isIdentifier(expression.callee.object) &&
-      expression.callee.object.name === "fjsx"
+      isFjsxName(expression.callee.object.name)
     ));
 
 export const isSvgElementTagName = (tagName, openedTags: string[]) => {
@@ -336,6 +338,7 @@ export const isSvgElementTagName = (tagName, openedTags: string[]) => {
 };
 
 export const check = {
+  isFjsxName,
   isFjsxCall,
   isValMemberProperty,
   isTrackedByNodeName,

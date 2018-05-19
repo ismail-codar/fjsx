@@ -11,7 +11,13 @@
   ],
   "plugins": [
     "@babel/plugin-proposal-class-properties",
-    "@fjsx/transform-fjsx-syntax"
+    "@babel/plugin-proposal-export-default-from",
+    [
+      "@fjsx/transform-fjsx-syntax",
+      {
+        "exclude": ["*.js", "*.jsx", "*.react.*"]
+      }
+    ]
   ],
   "retainLines": true
 }
