@@ -1,4 +1,5 @@
 import * as fjsxObj from "@fjsx/runtime";
+import "./integration.react";
 
 declare global {
   var fjsx: typeof fjsxObj;

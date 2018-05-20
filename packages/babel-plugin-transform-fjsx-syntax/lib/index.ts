@@ -288,12 +288,59 @@ export = function() {
               check.isFjsxName(path.node.callee.object.name))
           ) {
             const firstArgument = path.node.arguments[0];
+            const secondArgument: any =
+              path.node.arguments.length > 1 ? path.node.arguments[1] : null;
             if (t.isStringLiteral(firstArgument)) {
               if (
                 t.isStringLiteral(firstArgument) &&
                 check.isSvgElementTagName(firstArgument.value, openedTags)
               )
                 path.node.callee.property.name = "createSvgElement";
+            }
+
+            let jsxFactoryName = null;
+            if (t.isIdentifier(firstArgument)) {
+              let variableBinding = found.variableBindingInScope(
+                path.scope,
+                firstArgument.name
+              );
+              if (
+                variableBinding &&
+                t.isImportDeclaration(variableBinding.path.parent)
+              ) {
+                const importPath = variableBinding.path.parent.source.value;
+                if (
+                  this.opts.exclude &&
+                  micromatch(importPath + ".", this.opts.exclude, {
+                    matchBase: true
+                  }).length
+                ) {
+                  jsxFactoryName = importPath.substr(
+                    importPath.lastIndexOf(".") + 1
+                  );
+                }
+              }
+            }
+            if (jsxFactoryName === null) {
+              const elementFactoryPropIndex =
+                secondArgument && secondArgument.properties
+                  ? secondArgument.properties.findIndex(
+                      item => item.key.name === "elementFactory"
+                    )
+                  : -1;
+              if (elementFactoryPropIndex !== -1) {
+                //integration-1
+                jsxFactoryName =
+                  secondArgument.properties[elementFactoryPropIndex].value
+                    .value;
+                secondArgument.properties.splice(elementFactoryPropIndex, 1);
+              }
+            }
+            if (jsxFactoryName !== null) {
+              path.node.callee.property.name =
+                "createElementBy" +
+                jsxFactoryName[0].toUpperCase() +
+                jsxFactoryName.substr(1);
             }
           }
           const member = found.callExpressionFirstMember(path.node);
