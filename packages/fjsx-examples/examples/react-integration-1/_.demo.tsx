@@ -1,9 +1,9 @@
 import _react from "react";
-import { Button } from "./button.react";
+import Index from "./example-page.react";
 
 const viewReactEntegration1 = (
   <div>
-    <Button>Buton 1</Button>
+    <Index />
   </div>
 );
 

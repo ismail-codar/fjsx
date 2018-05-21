@@ -15,7 +15,7 @@
     [
       "@fjsx/transform-fjsx-syntax",
       {
-        "exclude": ["*.js", "*.jsx", "*.react.*"]
+        "exclude": ["*.js", "*.jsx", "*.react.*", "material-ui"]
       }
     ]
   ],

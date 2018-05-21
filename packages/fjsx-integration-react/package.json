@@ -1,0 +1,30 @@
+{
+  "name": "fjsx-integration-react",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "npx webpack"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fjsx/runtime": "file:../..",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2"
+  },
+  "peerDependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.47",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.47",
+    "@babel/preset-env": "^7.0.0-beta.47",
+    "@babel/preset-react": "^7.0.0-beta.47",
+    "@babel/preset-typescript": "^7.0.0-beta.47",
+    "babel-loader": "^8.0.0-beta.3",
+    "clean-webpack-plugin": "^0.1.19",
+    "webpack": "^4.8.3",
+    "webpack-bundle-analyzer": "^2.13.0",
+    "webpack-cli": "^2.1.3"
+  }
+}
