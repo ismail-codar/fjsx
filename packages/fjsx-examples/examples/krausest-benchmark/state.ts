@@ -1,3 +1,5 @@
-export const id = fjsx.value(1);
-export const selected = fjsx.value(null);
-export const data = fjsx.value([]);
+export const state = {
+	id: 1,
+	selected$: null,
+	data$: []
+};

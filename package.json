@@ -24,6 +24,7 @@
     "@types/chai": "^4.1.2",
     "@types/jasmine": "^2.8.6",
     "@types/node": "^9.6.2",
+    "basichtml": "^0.19.0",
     "jasmine": "^3.1.0",
     "jasmine-ts": "^0.2.1",
     "symbol-observable": "^1.2.0",
@@ -33,6 +34,7 @@
     "webpack-cli": "^2.0.14"
   },
   "dependencies": {
+    "@starptech/prettyhtml": "^0.5.1",
     "@types/deepmerge": "^2.1.0",
     "@types/warning": "^3.0.0",
     "save-dev": "^2.0.0"

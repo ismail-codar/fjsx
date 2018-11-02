@@ -3,7 +3,7 @@ export interface FJsxValue<T> {
     readonly $val: T;
     freezed: boolean;
 }
-export declare type FjsxArrayEventType = "itemadded" | "itemset" | "itemremoved";
+export declare type FjsxArrayEventType = 'itemadded' | 'itemset' | 'itemremoved';
 export declare const value: <T>(value?: T, freezed?: boolean) => FJsxValue<T>;
 export declare const array: <T>(items: T[]) => {
     on?: (type: FjsxArrayEventType, callback: (e: {
