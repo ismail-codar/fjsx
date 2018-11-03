@@ -1,6 +1,6 @@
 import * as fjsx from '../index';
-import { FJsxValue } from '../dist';
 import { insertToDom } from '../lib/dom';
+import { FJsxValue } from '../lib/f';
 const prettyhtml = require('@starptech/prettyhtml');
 const { Document, Node, Text } = require('basichtml');
 

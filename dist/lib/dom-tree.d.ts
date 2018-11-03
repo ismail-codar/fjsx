@@ -1,4 +1,5 @@
 export declare const Fragment: unique symbol;
+export declare const setElementAttributes: (element: Element, attributes: any, forceSetAttr?: boolean) => void;
 export declare const createElement: (tagName: string | Function | Symbol, attributes: {
     [key: string]: any;
 }, ...childs: any[]) => any;
