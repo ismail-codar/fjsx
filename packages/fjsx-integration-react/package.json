@@ -11,20 +11,20 @@
   "license": "ISC",
   "dependencies": {
     "@fjsx/runtime": "file:../..",
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0"
   },
   "peerDependencies": {},
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.47",
-    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.47",
-    "@babel/preset-env": "^7.0.0-beta.47",
-    "@babel/preset-react": "^7.0.0-beta.47",
-    "@babel/preset-typescript": "^7.0.0-beta.47",
-    "babel-loader": "^8.0.0-beta.3",
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.1.0",
+    "babel-loader": "^8.0.4",
     "clean-webpack-plugin": "^0.1.19",
-    "webpack": "^4.8.3",
-    "webpack-bundle-analyzer": "^2.13.0",
-    "webpack-cli": "^2.1.3"
+    "webpack": "^4.24.0",
+    "webpack-bundle-analyzer": "^3.0.3",
+    "webpack-cli": "^3.1.2"
   }
 }

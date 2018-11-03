@@ -16,6 +16,6 @@
   },
   "dependencies": {
     "@fjsx/runtime": "file:../..",
-    "route-recognizer": "^0.3.3"
+    "route-recognizer": "^0.3.4"
   }
 }
