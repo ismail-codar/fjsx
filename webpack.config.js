@@ -25,19 +25,17 @@ module.exports = {
 		libraryTarget: 'commonjs'
 	},
 	plugins: [
-		new CopyWebpackPlugin([ { from: './types', to: './types' } ]),
 		new class ReplacePlugin {
 			apply(compiler) {
-				compiler.hooks.done.tap('Hello World Plugin', (
-					stats /* stats is passed as argument when done hook is tapped.  */
-				) => {
-					// fs.copyFileSync('./types/global.d.ts', './dist/');
-					// fs.copyFileSync('./types/JSX.d.ts', './dist/');
+				compiler.hooks.done.tap('replace', (stats) => {
 					setTimeout(() => {
+						fs.mkdirSync('./dist/types');
+						fs.copyFileSync('./types/global.d.ts', './dist/types/global.d.ts');
+						fs.copyFileSync('./types/JSX.d.ts', './dist/types/JSX.d.ts');
 						let content = fs.readFileSync('./dist/index.d.ts').toString();
 						content = content.replace('../types', './types');
 						fs.writeFileSync('./dist/index.d.ts', content);
-					}, 500);
+					}, 1500);
 				});
 			}
 		}()
