@@ -36,6 +36,13 @@
       "runtimeArgs": ["-r", "ts-node/register"],
       "cwd": "${fileDirname}",
       "args": ["${file}"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "fjsx-jasmine-ts",
+      "program": "${workspaceFolder}/node_modules/jasmine-ts/lib/index.js",
+      "args": ["${file}"]
     }
   ]
 }

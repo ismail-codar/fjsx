@@ -34,7 +34,7 @@ export const array = <T>(
 	on?: (type: FjsxArrayEventType, callback: (e: { item: T; index: number }) => void) => void;
 	removeEventListener?: (type: FjsxArrayEventType) => void;
 	$val: T[];
-} => {
+} & FJsxValue<T> => {
 	const arr = value(new EventedArray(items)) as any;
 	arr.on = arr.$val.on;
 	arr.off = arr.$val.off;

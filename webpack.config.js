@@ -18,7 +18,7 @@ module.exports = {
 	resolve: {
 		extensions: [ '.tsx', '.ts', '.js' ]
 	},
-	devtool: 'none',
+	devtool: 'source-map',
 	output: {
 		filename: 'index.js',
 		path: path.resolve(__dirname, 'dist'),
