@@ -12,7 +12,7 @@ export declare const array: <T>(items: T[]) => {
     }) => void) => void;
     removeEventListener?: (type: FjsxArrayEventType) => void;
     $val: T[];
-};
+} & FJsxValue<T>;
 export declare const on: (arr: any[], type: FjsxArrayEventType, callback: (e: {
     item: any;
     index: number;

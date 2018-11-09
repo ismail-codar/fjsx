@@ -11,7 +11,7 @@ export type FjsxArrayEventType = 'itemadded' | 'itemset' | 'itemremoved';
 export const value = <T>(value?: T, freezed?: boolean): FJsxValue<T> => {
 	if (value && value['$val'] != undefined) throw 'Fjsx: Higher ordered signals is not supported.';
 	const innerFn: any = (val?) => {
-		if (Array.isArray(val) && !innerFn['$val'].innerArray) {
+		if (Array.isArray(val)) {
 			// TODO arrayler için compile time x.$val = y şeklinde tanımlama olmuş olmalı o zaman yukardaki innerFn gereksiz olur
 			// TODO https://github.com/WebReflection/majinbuu
 			innerFn['$val'].innerArray = val;
