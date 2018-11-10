@@ -1,6 +1,7 @@
 import * as fjsx from '../index';
 import { insertToDom } from '../lib/dom';
 import { FJsxValue } from '../lib/f';
+import { arrayMapWithClone } from '../lib/experimental/array-map';
 const prettyhtml = require('@starptech/prettyhtml');
 const { Document, Node, Text } = require('basichtml');
 
@@ -52,7 +53,7 @@ var table2 = fjsx.createElement('div', null, function(element) {
 		}
 	});
 	const renderTemplate = (i) => fjsx.createElement('span', {}, state.data$.$val[i]);
-	fjsx.arrayMapWithClone(state.data$ as any, element, renderTemplate, updateList);
+	arrayMapWithClone(state.data$ as any, element, renderTemplate, updateList);
 });
 
 const html = (table2 as HTMLTableElement).outerHTML;
