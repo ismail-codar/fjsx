@@ -1,0 +1,5 @@
+.vscode
+bench
+packages
+spec
+types
