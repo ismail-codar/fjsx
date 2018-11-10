@@ -30,7 +30,7 @@ it('array map2', () => {
 	fjsx.arrayMap(arr, parentDom, (item, idx) => {
 		return fjsx.createElement('span', null, item);
 	});
-	arr.$val.push(2);
+	arr.$val.push(2, 3);
 
-	expect(parentDom.outerHTML).toEqual(`<div><span>1</span><span>2</span></div>`);
+	expect(parentDom.outerHTML).toEqual(`<div><span>1</span><span>2</span><span>3</span></div>`);
 });

@@ -23,10 +23,24 @@ export const insertToDom = (parentElement, index, itemElement) => {
 
 export const arrayMap = (
 	arr: FJsxValue<any[]>,
-	parentDom: HTMLElement,
+	parentDom: Node,
 	renderReturn: (item: any, idx?: number, isInsert?: boolean) => void
 ) => {
 	const oArr = arr.$val instanceof EventedArray ? arr.$val : new EventedArray(arr.$val);
+
+	let parentRef: { parent: Node; next: Node } = null;
+	oArr.on('beforemulti', function() {
+		if (parentDom.parentNode) {
+			parentRef = { parent: parentDom, next: parentDom.nextSibling };
+			parentDom = document.createDocumentFragment();
+		}
+	});
+	oArr.on('aftermulti', function() {
+		if (parentRef) {
+			parentRef.parent.insertBefore(parentDom, parentRef.next);
+			parentDom = parentRef.parent;
+		}
+	});
 
 	oArr.on('itemadded', function(e) {
 		insertToDom(parentDom, e.index, renderReturn(e.item, e.index));
@@ -44,9 +58,11 @@ export const arrayMap = (
 	const renderAll = () => {
 		if (arr.$val.length === 0) parentDom.textContent = '';
 		else {
+			const parentFragment = document.createDocumentFragment();
 			parentDom.textContent = '';
-			for (var i = parentDom.childElementCount; i < arr.$val.length; i++)
-				insertToDom(parentDom, i, renderReturn(arr.$val[i], i));
+			for (var i = (parentDom as Element).childElementCount; i < arr.$val.length; i++)
+				insertToDom(parentFragment, i, renderReturn(arr.$val[i], i));
+			parentDom.appendChild(parentFragment);
 		}
 	};
 	compute(renderAll, arr);

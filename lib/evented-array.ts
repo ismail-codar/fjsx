@@ -5,7 +5,9 @@ export function EventedArray(items) {
 		_handlers = {
 			itemadded: [],
 			itemremoved: [],
-			itemset: []
+			itemset: [],
+			beforemulti: [],
+			aftermulti: []
 		};
 
 	function defineIndexProperty(index) {
@@ -50,6 +52,10 @@ export function EventedArray(items) {
 
 	_self.push = function() {
 		var index;
+		arguments.length > 1 &&
+			raiseEvent({
+				type: 'beforemulti'
+			});
 		for (var i = 0, ln = arguments.length; i < ln; i++) {
 			index = _array.length;
 			_array.push(arguments[i]);
@@ -60,6 +66,10 @@ export function EventedArray(items) {
 				item: arguments[i]
 			});
 		}
+		arguments.length > 1 &&
+			raiseEvent({
+				type: 'aftermulti'
+			});
 		return _array.length;
 	};
 
