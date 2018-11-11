@@ -66,16 +66,6 @@ export = function() {
 					}
 				}
 			},
-			// Identifier(path: NodePath<t.Identifier>, file) {
-			//   console.log(path.node.name);
-			//   // if (path.scope.parent.bindings[path.node.name]) {
-			//   //   path.scope.parent.bindings[path.node.name].path.parent
-			//   //     .leadingComments;
-			//   // }
-			//   if (check.isTrackedVariable(path.scope, path.node)) {
-			// path.node.left  = modify.memberVal(expression.right);    vs...
-			//   }
-			// }
 			MemberExpression(path: NodePath<t.MemberExpression>, file) {
 				if (doNotTraverse) return;
 				try {
@@ -140,6 +130,8 @@ export = function() {
 							!t.isCallExpression(path.node.init) //freezed-1
 						)
 							path.node.init = modify.fjsxValueInit(path.node.init);
+					} else if (check.isTrackedVariable(path.scope, path.node.init)) {
+						path.node.init = modify.memberVal(path.node.init);
 					}
 				} catch (e) {
 					errorReport(e, path, file);
@@ -172,71 +164,6 @@ export = function() {
 						} else if (!check.isFjsxCall(path.node.value))
 							path.node.value = modify.fjsxValueInit(path.node.value);
 					}
-					/*
-          const isComponent = check.objectPropertyParentIsComponent(path);
-          if (
-            check.isTrackedByNodeName(path.node.key) &&
-            isComponent &&
-            check.isDynamicExpression(path.node.value) //component-3
-          ) {
-            const fComputeParameters = parameters.fjsxComputeParametersInExpressionWithScopeFilter(
-              path.scope,
-              path.node.value
-            );
-            if (fComputeParameters.length > 0) {
-              path.node.value = modify.dynamicExpressionInitComputeValues(
-                path.node.value,
-                fComputeParameters
-              );
-            }
-          } else {
-            if (
-              !isComponent &&
-              check.isTrackedVariable(path.scope, path.node.value)
-            ) {
-              //class-names
-              path.node.value = modify.memberVal(path.node.value);
-            } else if (
-              (check.isTrackedByNodeName(path.node.key) ||
-                check.isTrackedVariable(path.scope, path.node)) &&
-              !check.isFjsxCall(path.node.value) &&
-              !check.isTrackedVariable(path.scope, path.node.value)
-            ) {
-              //object-property-1
-              path.node.value = modify.fjsxValueInit(path.node.value as any);
-            } else {
-              //ts-interface-1
-              const parentVariablePath = found.parentPathFound(
-                path,
-                checkPath => t.isVariableDeclarator(checkPath.node)
-              );
-              if (
-                parentVariablePath &&
-                t.isIdentifier(path.node.key) &&
-                check.hasTrackedKeyComment(
-                  parentVariablePath.parent.leadingComments,
-                  path.node.key.name
-                )
-              ) {
-                path.node.value = modify.fjsxValueInit(path.node.value);
-              } else {
-                const parentCallPath: NodePath<
-                  t.CallExpression
-                > = found.parentPathFound(path, checkPath =>
-                  t.isCallExpression(checkPath.node)
-                );
-                // list.$val.push
-                if (
-                  parentCallPath &&
-                  t.isMemberExpression(parentCallPath.node.callee) &&
-                  t.isMemberExpression(parentCallPath.node.callee.object) &&
-                  parentCallPath.node.callee.object.property.name === "$val"
-                )
-                  path.node.value = modify.fjsxValueInit(path.node.value);
-              }
-            }
-          }
-          */
 				} catch (e) {
 					errorReport(e, path, file);
 				}
@@ -366,6 +293,24 @@ export = function() {
 					//   );
 					// }
 					modify.expressionStatementGeneralProcess('body', path);
+				} catch (e) {
+					errorReport(e, path, file);
+				}
+			},
+
+			IfStatement(path: NodePath<t.IfStatement>, file) {
+				if (doNotTraverse) return;
+				try {
+					if (t.isIdentifier(path.node.test) && check.isTrackedVariable(path.scope, path.node.test)) {
+						//if-1
+						path.node.test = modify.memberVal(path.node.test);
+					} else if (
+						t.isMemberExpression(path.node.test) &&
+						check.isTrackedVariable(path.scope, path.node.test.property)
+					) {
+						//if-2
+						path.node.test = modify.memberVal(path.node.test);
+					}
 				} catch (e) {
 					errorReport(e, path, file);
 				}
