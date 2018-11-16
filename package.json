@@ -1,6 +1,6 @@
 {
 	"name": "@fjsx/runtime",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "JSX views with functional style reactive programming",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -34,9 +34,7 @@
 		"ts-node": "^7.0.1",
 		"typescript": "^3.1.6",
 		"webpack": "^4.24.0",
-		"webpack-cli": "^3.1.2"
-	},
-	"dependencies": {
+		"webpack-cli": "^3.1.2",
 		"@starptech/prettyhtml": "^0.5.1",
 		"@types/deepmerge": "^2.2.0",
 		"@types/warning": "^3.0.0",

@@ -130,7 +130,10 @@ export = function() {
 							!t.isCallExpression(path.node.init) //freezed-1
 						)
 							path.node.init = modify.fjsxValueInit(path.node.init);
-					} else if (check.isTrackedVariable(path.scope, path.node.init)) {
+					} else if (
+						check.isTrackedVariable(path.scope, path.node.init) ||
+						check.isTrackedVariable(path.scope, path.node.id) // variable-init-1
+					) {
 						path.node.init = modify.memberVal(path.node.init);
 					}
 				} catch (e) {

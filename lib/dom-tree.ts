@@ -43,7 +43,7 @@ export const createElement = (
 			element = document.createDocumentFragment();
 		} else {
 			element = document.createElement(tagName as any);
-			attributes && setElementAttributes(element, attributes, false);
+			attributes && setElementAttributes(element, attributes, (tagName as string).indexOf('-') !== -1);
 		}
 		element['$props'] = attributes;
 		childs && childs.length && addChildElements(element, childs);

@@ -5,7 +5,9 @@
 	"repository": "https://github.com/babel/babel/tree/master/packages/babel-plugin-transform-fjsx-syntax",
 	"license": "MIT",
 	"main": "dist/index.js",
-	"keywords": [ "babel-plugin" ],
+	"keywords": [
+		"babel-plugin"
+	],
 	"scripts": {
 		"test": "ts-node test",
 		"build": "tsc"
