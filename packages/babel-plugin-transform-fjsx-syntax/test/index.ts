@@ -11,7 +11,7 @@ require('@babel/register');
 
 ////////////////////////////////////////////////////////////////////////////
 var RUN_SINGLE_TEST = null;
-RUN_SINGLE_TEST = 'class-property-1';
+// RUN_SINGLE_TEST = 'class-property-1';
 ////////////////////////////////////////////////////////////////////////////
 
 var pluginPath = require.resolve('../lib');
@@ -52,7 +52,12 @@ function runTest(dir) {
 		testFile = dir.path + '/actual.tsx';
 	}
 	var output = babel.transformFileSync(testFile, {
-		plugins: [ pluginPath ],
+		plugins: [
+			pluginPath,
+			'@babel/plugin-syntax-dynamic-import',
+			[ '@babel/plugin-proposal-decorators', { legacy: true } ],
+			[ '@babel/plugin-proposal-class-properties', { loose: true } ]
+		],
 		presets: [ '@babel/preset-typescript' ]
 	});
 
