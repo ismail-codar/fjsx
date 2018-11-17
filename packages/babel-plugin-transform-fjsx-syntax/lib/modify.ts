@@ -70,10 +70,20 @@ const expressionStatementGeneralProcess = (propertyName: string, path: NodePath<
 
 			const leftIsTracked = check.isTrackedVariable(path.scope, expression.left);
 			const rightIsTracked = check.isTrackedVariable(path.scope, expression.right);
-			if (expression.left.object.type === 'ThisExpression') {
+			if (leftIsTracked && expression.left.object.type === 'ThisExpression') {
 				// class-property-1
 				if (rightIsTracked) return;
 				else {
+					if (check.isDynamicExpression(expression.right)) {
+						const fComputeParameters = parameters.fjsxComputeParametersInExpressionWithScopeFilter(
+							path.scope,
+							expression.right
+						);
+						if (fComputeParameters.length > 0) {
+							expression.right = dynamicExpressionInitComputeValues(expression.right, fComputeParameters);
+							return;
+						}
+					}
 					expression.right = fjsxValueInit(expression.right);
 					return;
 				}

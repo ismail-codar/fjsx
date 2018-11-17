@@ -217,6 +217,7 @@ exports.isFjsxCall = (node) => {
 };
 exports.isDynamicExpression = (expression) => t.isBinaryExpression(expression) ||
     t.isLogicalExpression(expression) ||
+    t.isConditionalExpression(expression) ||
     (t.isCallExpression(expression) &&
         !(t.isMemberExpression(expression.callee) &&
             t.isIdentifier(expression.callee.object) &&

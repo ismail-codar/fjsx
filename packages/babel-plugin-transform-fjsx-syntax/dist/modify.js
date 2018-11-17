@@ -4,40 +4,36 @@ const t = require("@babel/types");
 const check_1 = require("./check");
 const parameters_1 = require("./parameters");
 const fjsxValueInit = (init) => {
-    return t.callExpression(t.memberExpression(t.identifier("fjsx"), t.identifier(t.isArrayExpression(init) ? "array" : "value")), [init == null ? t.nullLiteral() : init]);
+    return t.callExpression(t.memberExpression(t.identifier('fjsx'), t.identifier(t.isArrayExpression(init) ? 'array' : 'value')), [init == null ? t.nullLiteral() : init]);
 };
 const fjsxCall = (left, right, operator) => {
-    if (operator === "=")
+    if (operator === '=')
         return t.callExpression(left, [right]);
     else {
         operator = operator.substr(0, 1);
-        return t.callExpression(left, [
-            t.binaryExpression(operator, left, right)
-        ]);
+        return t.callExpression(left, [t.binaryExpression(operator, left, right)]);
     }
 };
 const assignmentExpressionToCallCompute = (expression, fComputeParameters) => {
     if (t.isMemberExpression(expression.left) &&
         t.isIdentifier(expression.left.object) &&
-        expression.left.property.name === "$val")
-        return t.callExpression(t.memberExpression(t.identifier("fjsx"), t.identifier("compute")), [
-            t.functionExpression(t.identifier(""), [], t.blockStatement([
+        expression.left.property.name === '$val')
+        return t.callExpression(t.memberExpression(t.identifier('fjsx'), t.identifier('compute')), [
+            t.functionExpression(t.identifier(''), [], t.blockStatement([
                 t.expressionStatement(t.callExpression(expression.left.object, [expression.right]))
             ]))
         ].concat(fComputeParameters));
 };
 const dynamicExpressionInitComputeValues = (expression, fComputeParameters) => {
-    return t.callExpression(t.memberExpression(t.identifier("fjsx"), t.identifier("initCompute")), [
-        t.functionExpression(t.identifier(""), [], t.blockStatement([t.returnStatement(expression)]))
+    return t.callExpression(t.memberExpression(t.identifier('fjsx'), t.identifier('initCompute')), [
+        t.functionExpression(t.identifier(''), [], t.blockStatement([t.returnStatement(expression)]))
     ].concat(fComputeParameters));
 };
 const fjsxAssignmentExpressionSetCompute = (expression, fComputeParameters) => {
-    const leftName = t.isIdentifier(expression.left)
-        ? expression.left.name
-        : "TODO";
-    return t.callExpression(t.memberExpression(t.identifier("fjsx"), t.identifier("setCompute")), [
+    const leftName = t.isIdentifier(expression.left) ? expression.left.name : 'TODO';
+    return t.callExpression(t.memberExpression(t.identifier('fjsx'), t.identifier('setCompute')), [
         t.identifier(leftName),
-        t.functionExpression(t.identifier(""), [], t.blockStatement([t.returnStatement(expression.right)]))
+        t.functionExpression(t.identifier(''), [], t.blockStatement([t.returnStatement(expression.right)]))
     ].concat(fComputeParameters));
 };
 const expressionStatementGeneralProcess = (propertyName, path) => {
@@ -50,6 +46,22 @@ const expressionStatementGeneralProcess = (propertyName, path) => {
                 return;
             const leftIsTracked = check_1.check.isTrackedVariable(path.scope, expression.left);
             const rightIsTracked = check_1.check.isTrackedVariable(path.scope, expression.right);
+            if (leftIsTracked && expression.left.object.type === 'ThisExpression') {
+                // class-property-1
+                if (rightIsTracked)
+                    return;
+                else {
+                    if (check_1.check.isDynamicExpression(expression.right)) {
+                        const fComputeParameters = parameters_1.parameters.fjsxComputeParametersInExpressionWithScopeFilter(path.scope, expression.right);
+                        if (fComputeParameters.length > 0) {
+                            expression.right = dynamicExpressionInitComputeValues(expression.right, fComputeParameters);
+                            return;
+                        }
+                    }
+                    expression.right = fjsxValueInit(expression.right);
+                    return;
+                }
+            }
             if (rightIsTracked) {
                 if (leftIsTracked) {
                     path.node[propertyName] = exports.modify.fjsxCall(expression.left, expression.right, expression.operator);
@@ -62,19 +74,21 @@ const expressionStatementGeneralProcess = (propertyName, path) => {
             }
         }
         if (check_1.check.hasTrackedSetComment(path)) {
-            if (!(t.isIdentifier(expression.right) &&
-                check_1.check.isTrackedVariable(path.scope, expression.right)) // @tracked != @tracked ...
+            if (!(t.isIdentifier(expression.right) && check_1.check.isTrackedVariable(path.scope, expression.right)) // @tracked != @tracked ...
             ) {
                 const fComputeParameters = parameters_1.parameters.fjsxComputeParametersInExpressionWithScopeFilter(path.scope, expression.right);
                 expression.right = exports.modify.fjsxAssignmentExpressionSetCompute(expression, fComputeParameters);
             }
         }
-        else if (check_1.check.isTrackedVariable(path.scope, expression.left)) {
-            path.node[propertyName] = exports.modify.fjsxCall(expression.left, expression.right, expression.operator);
-        }
-        else if (check_1.check.isTrackedVariable(path.scope, expression.right) &&
-            !check_1.check.isExportsMember(expression.left)) {
-            expression.right = exports.modify.memberVal(expression.right);
+        else if (t.isAssignmentExpression(expression)) {
+            const leftIsTracked = check_1.check.isTrackedVariable(path.scope, expression.left);
+            const rightIsTracked = check_1.check.isTrackedVariable(path.scope, expression.right);
+            if (leftIsTracked &&
+                !(t.isMemberExpression(expression.left) && expression.left.object.type === 'ThisExpression'))
+                path.node[propertyName] = exports.modify.fjsxCall(expression.left, expression.right, expression.operator);
+            else if (rightIsTracked && !check_1.check.isExportsMember(expression.left)) {
+                expression.right = exports.modify.memberVal(expression.right);
+            }
         }
     }
     else if (t.isUpdateExpression(expression)) {
@@ -85,17 +99,22 @@ const expressionStatementGeneralProcess = (propertyName, path) => {
 };
 const memberVal = (expression) => {
     if (t.isUnaryExpression(expression)) {
-        expression.argument = t.memberExpression(expression.argument, t.identifier("$val"));
+        expression.argument = t.memberExpression(expression.argument, t.identifier('$val'));
         return expression;
     }
     else
-        return t.memberExpression(expression, t.identifier("$val"));
+        return t.memberExpression(expression, t.identifier('$val'));
 };
 exports.moveContextArguments = (args, contextArgIndex) => {
     const contextArgProps = args[contextArgIndex].arguments[1].properties;
     const contextArgs = args[contextArgIndex].arguments.splice(2);
-    contextArgs.push(t.callExpression(t.memberExpression(t.identifier("fjsx"), t.identifier("endContext")), [contextArgProps[0].value]));
-    args[contextArgIndex] = t.callExpression(t.memberExpression(t.identifier("fjsx"), t.identifier("startContext")), [contextArgProps[0].value, contextArgProps[1].value]);
+    contextArgs.push(t.callExpression(t.memberExpression(t.identifier('fjsx'), t.identifier('endContext')), [
+        contextArgProps[0].value
+    ]));
+    args[contextArgIndex] = t.callExpression(t.memberExpression(t.identifier('fjsx'), t.identifier('startContext')), [
+        contextArgProps[0].value,
+        contextArgProps[1].value
+    ]);
     args.splice.apply(args, [contextArgIndex + 1, 0].concat(contextArgs));
 };
 exports.pathNodeLeftRight = (path) => {

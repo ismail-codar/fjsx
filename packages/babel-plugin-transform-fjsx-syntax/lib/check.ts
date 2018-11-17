@@ -255,6 +255,7 @@ export const isFjsxCall = (node: t.BaseNode) => {
 export const isDynamicExpression = (expression: t.Expression | t.PatternLike) =>
 	t.isBinaryExpression(expression) ||
 	t.isLogicalExpression(expression) ||
+	t.isConditionalExpression(expression) ||
 	(t.isCallExpression(expression) &&
 		!(
 			t.isMemberExpression(expression.callee) &&

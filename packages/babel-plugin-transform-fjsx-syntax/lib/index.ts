@@ -276,7 +276,7 @@ export = function() {
 						path.node.consequent = modify.memberVal(path.node.consequent);
 					}
 					if (check.isTrackedVariable(path.scope, path.node.alternate)) {
-						path.node.consequent = modify.memberVal(path.node.alternate);
+						path.node.alternate = modify.memberVal(path.node.alternate);
 					}
 					if (check.isTrackedVariable(path.scope, path.node.test)) {
 						path.node.test = modify.memberVal(path.node.test);
