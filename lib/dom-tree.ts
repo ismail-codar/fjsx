@@ -17,7 +17,12 @@ export const setElementAttributes = (element: Element, attributes, forceSetAttr?
 			} else if (attribute instanceof Object) {
 				if (Array.isArray(attribute)) {
 					addChildElements(element, attribute);
-				} else for (var key in attribute) if (typeof attribute[key] === 'function') attribute[key](element);
+				} else {
+					for (var key in attribute) {
+						if (typeof attribute[key] === 'function') attribute[key](element);
+						else element[attributeName][key] = attribute[key]; // style like
+					}
+				}
 			} else {
 				if (forceSetAttr || attributeName.indexOf('-') !== -1) element.setAttribute(attributeName, attribute);
 				else element[attributeName] = attribute;
