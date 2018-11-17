@@ -1,6 +1,6 @@
 {
 	"name": "@fjsx/runtime",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"description": "JSX views with functional style reactive programming",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
