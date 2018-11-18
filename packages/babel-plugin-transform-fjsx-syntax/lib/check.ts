@@ -181,6 +181,19 @@ const parentPathComputeCallee = (path: NodePath<t.ExpressionStatement>) => {
 	else return false;
 };
 
+/**
+ * function (element) {
+      fjsx.compute... control
+    }
+ */
+const isFjsxElementFunction = (node: t.BaseNode) => {
+	if (t.isFunctionExpression(node) && node.params.length === 1) {
+		const param0 = node.params[0];
+		if (t.isIdentifier(param0)) return param0.name === 'element';
+	}
+	return false;
+};
+
 const expressionContainerParentIsComponent = (path: NodePath<t.JSXExpressionContainer>) => {
 	if (
 		path.parentPath &&
@@ -200,6 +213,9 @@ const objectPropertyParentIsComponent = (path: NodePath<any>) => {
 		);
 		if (t.isJSXIdentifier(foundPath.node.name)) {
 			const name = foundPath.node.name.name;
+			return name !== null && name.substr(0, 1).toUpperCase() == name.substr(0, 1) && !name.endsWith('_');
+		} else if (t.isJSXMemberExpression(foundPath.node.name)) {
+			const name = foundPath.node.name.property.name;
 			return name !== null && name.substr(0, 1).toUpperCase() == name.substr(0, 1) && !name.endsWith('_');
 		} else return false;
 		// let name: string = null;
@@ -288,5 +304,6 @@ export const check = {
 	isExportsMember,
 	isArrayMapExpression,
 	isDynamicExpression,
-	isSvgElementTagName
+	isSvgElementTagName,
+	isFjsxElementFunction
 };

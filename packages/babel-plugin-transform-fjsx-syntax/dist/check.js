@@ -156,6 +156,19 @@ const parentPathComputeCallee = (path) => {
     else
         return false;
 };
+/**
+ * function (element) {
+      fjsx.compute... control
+    }
+ */
+const isFjsxElementFunction = (node) => {
+    if (t.isFunctionExpression(node) && node.params.length === 1) {
+        const param0 = node.params[0];
+        if (t.isIdentifier(param0))
+            return param0.name === 'element';
+    }
+    return false;
+};
 const expressionContainerParentIsComponent = (path) => {
     if (path.parentPath &&
         path.parentPath.parentPath &&
@@ -170,6 +183,10 @@ const objectPropertyParentIsComponent = (path) => {
         const foundPath = found_1.found.parentPathFound(path, (checkPath) => t.isJSXOpeningElement(checkPath.node));
         if (t.isJSXIdentifier(foundPath.node.name)) {
             const name = foundPath.node.name.name;
+            return name !== null && name.substr(0, 1).toUpperCase() == name.substr(0, 1) && !name.endsWith('_');
+        }
+        else if (t.isJSXMemberExpression(foundPath.node.name)) {
+            const name = foundPath.node.name.property.name;
             return name !== null && name.substr(0, 1).toUpperCase() == name.substr(0, 1) && !name.endsWith('_');
         }
         else
@@ -244,6 +261,7 @@ exports.check = {
     isExportsMember: exports.isExportsMember,
     isArrayMapExpression: exports.isArrayMapExpression,
     isDynamicExpression: exports.isDynamicExpression,
-    isSvgElementTagName: exports.isSvgElementTagName
+    isSvgElementTagName: exports.isSvgElementTagName,
+    isFjsxElementFunction
 };
 //# sourceMappingURL=check.js.map

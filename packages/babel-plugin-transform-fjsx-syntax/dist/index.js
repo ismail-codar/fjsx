@@ -145,7 +145,7 @@ module.exports = function () {
                             else if (!check_1.check.isFjsxCall(path.node.value))
                                 path.node.value = modify_1.modify.fjsxValueInit(path.node.value);
                         }
-                        else if (!check_1.check.isFjsxCall(path.node.value))
+                        else if (!check_1.check.isFjsxCall(path.node.value) && !check_1.check.isFjsxElementFunction(path.node.value))
                             path.node.value = modify_1.modify.fjsxValueInit(path.node.value);
                     }
                 }
@@ -332,9 +332,9 @@ module.exports = function () {
                             //style-member-access, style-conditional
                             modify_dom_1.modifyDom.setupStyleAttributeExpression(path.scope, path.node.expression);
                         else {
-                            if (t.isCallExpression(path.node.expression) &&
-                                check_1.check.isTrackedByNodeName(path.container.name) &&
-                                check_1.check.objectPropertyParentIsComponent(path)) {
+                            const componentPropertyIsTracked = check_1.check.isTrackedByNodeName(path.container.name) &&
+                                check_1.check.objectPropertyParentIsComponent(path);
+                            if (t.isCallExpression(path.node.expression) && componentPropertyIsTracked) {
                                 //class-names-6
                                 const fComputeParameters = parameters_1.parameters.fjsxComputeParametersInExpressionWithScopeFilter(path.scope, path.node.expression);
                                 if (fComputeParameters.length)
@@ -342,7 +342,7 @@ module.exports = function () {
                                 else
                                     path.node.expression = modify_1.modify.fjsxValueInit(path.node.expression);
                             }
-                            else {
+                            else if (!componentPropertyIsTracked) {
                                 path.node.expression = modify_dom_1.modifyDom.attributeExpression(path.scope, path.container.name.name.toString(), path.node.expression, check_1.check.isSvgElementTagName(found_1.found.pathElementTagName(path), openedTags));
                             }
                         }

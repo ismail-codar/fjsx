@@ -164,7 +164,7 @@ export = function() {
 								);
 							} else if (!check.isFjsxCall(path.node.value))
 								path.node.value = modify.fjsxValueInit(path.node.value);
-						} else if (!check.isFjsxCall(path.node.value))
+						} else if (!check.isFjsxCall(path.node.value) && !check.isFjsxElementFunction(path.node.value))
 							path.node.value = modify.fjsxValueInit(path.node.value);
 					}
 				} catch (e) {
@@ -348,11 +348,10 @@ export = function() {
 							//style-member-access, style-conditional
 							modifyDom.setupStyleAttributeExpression(path.scope, path.node.expression);
 						else {
-							if (
-								t.isCallExpression(path.node.expression) &&
+							const componentPropertyIsTracked =
 								check.isTrackedByNodeName(path.container.name) &&
-								check.objectPropertyParentIsComponent(path)
-							) {
+								check.objectPropertyParentIsComponent(path);
+							if (t.isCallExpression(path.node.expression) && componentPropertyIsTracked) {
 								//class-names-6
 								const fComputeParameters = parameters.fjsxComputeParametersInExpressionWithScopeFilter(
 									path.scope,
@@ -364,7 +363,7 @@ export = function() {
 										fComputeParameters
 									);
 								else path.node.expression = modify.fjsxValueInit(path.node.expression);
-							} else {
+							} else if (!componentPropertyIsTracked) {
 								path.node.expression = modifyDom.attributeExpression(
 									path.scope,
 									path.container.name.name.toString(),

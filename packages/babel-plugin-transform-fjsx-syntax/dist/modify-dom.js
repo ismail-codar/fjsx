@@ -7,6 +7,8 @@ const attributeExpression = (scope, attributeName, expression, setAttr) => {
     if (fComputeParameters.length == 0)
         return expression;
     // console.log(fComputeParameters.map(parameter => generate(parameter).code));
+    if (attributeName.indexOf('-') !== -1)
+        setAttr = true;
     const statements = [];
     if (attributeName === 'textContent') {
         statements.push(t.expressionStatement(t.assignmentExpression('=', t.identifier('element'), t.callExpression(t.memberExpression(t.identifier('fjsx'), t.identifier('createTextNode')), [
