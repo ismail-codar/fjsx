@@ -288,13 +288,6 @@ export = function() {
 			ArrowFunctionExpression(path: NodePath<t.ArrowFunctionExpression>, file) {
 				if (doNotTraverse) return;
 				try {
-					// if (t.isAssignmentExpression(path.node.body)) {
-					//   path.node.body = modify.fjsxCall(
-					//     path.node.body.left,
-					//     path.node.body.right,
-					//     "="
-					//   );
-					// }
 					modify.expressionStatementGeneralProcess('body', path);
 				} catch (e) {
 					errorReport(e, path, file);
@@ -364,6 +357,9 @@ export = function() {
 									);
 								else path.node.expression = modify.fjsxValueInit(path.node.expression);
 							} else if (!componentPropertyIsTracked) {
+								// TODO bir yerde parent null olduğu için getProgramParent da hata oluşuyor
+								// bu hataya düşmemek için jsx içinde <div>{functionMethod(...)}</div> gibi kullanımdan kaçınılmalı
+								// onun yerine var view1 = functionMethod(...) .... <div>{view}</div> gibi kullanılabilir
 								path.node.expression = modifyDom.attributeExpression(
 									path.scope,
 									path.container.name.name.toString(),

@@ -272,13 +272,6 @@ module.exports = function () {
                 if (doNotTraverse)
                     return;
                 try {
-                    // if (t.isAssignmentExpression(path.node.body)) {
-                    //   path.node.body = modify.fjsxCall(
-                    //     path.node.body.left,
-                    //     path.node.body.right,
-                    //     "="
-                    //   );
-                    // }
                     modify_1.modify.expressionStatementGeneralProcess('body', path);
                 }
                 catch (e) {
@@ -343,6 +336,9 @@ module.exports = function () {
                                     path.node.expression = modify_1.modify.fjsxValueInit(path.node.expression);
                             }
                             else if (!componentPropertyIsTracked) {
+                                // TODO bir yerde parent null olduğu için getProgramParent da hata oluşuyor
+                                // bu hataya düşmemek için jsx içinde <div>{functionMethod(...)}</div> gibi kullanımdan kaçınılmalı
+                                // onun yerine var view1 = functionMethod(...) .... <div>{view}</div> gibi kullanılabilir
                                 path.node.expression = modify_dom_1.modifyDom.attributeExpression(path.scope, path.container.name.name.toString(), path.node.expression, check_1.check.isSvgElementTagName(found_1.found.pathElementTagName(path), openedTags));
                             }
                         }
