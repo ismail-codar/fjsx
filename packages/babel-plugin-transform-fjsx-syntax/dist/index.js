@@ -111,8 +111,17 @@ module.exports = function () {
                         else if (!check_1.check.hasTrackedSetComment(path) &&
                             !check_1.check.isTrackedVariable(path.scope, path.node.init) &&
                             !t.isCallExpression(path.node.init) //freezed-1
-                        )
-                            path.node.init = modify_1.modify.fjsxValueInit(path.node.init);
+                        ) {
+                            if (check_1.check.isTrackedByNodeName(path.node) && t.isObjectExpression(path.node.init)) {
+                                //variable-object-2
+                                const fComputeParameters = parameters_1.parameters.fjsxComputeParametersInExpressionWithScopeFilter(path.scope, path.node.init);
+                                if (fComputeParameters.length > 0) {
+                                    path.node.init = modify_1.modify.dynamicExpressionInitComputeValues(path.node.init, fComputeParameters);
+                                }
+                            }
+                            else
+                                path.node.init = modify_1.modify.fjsxValueInit(path.node.init);
+                        }
                     }
                     else if (check_1.check.isTrackedVariable(path.scope, path.node.init) ||
                         check_1.check.isTrackedVariable(path.scope, path.node.id) // variable-init-1

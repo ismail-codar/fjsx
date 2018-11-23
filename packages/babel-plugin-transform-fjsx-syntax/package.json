@@ -1,11 +1,13 @@
 {
 	"name": "@fjsx/babel-plugin-transform-fjsx-syntax",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"description": "Turn JSX into Fjsx function calls",
 	"repository": "https://github.com/babel/babel/tree/master/packages/babel-plugin-transform-fjsx-syntax",
 	"license": "MIT",
 	"main": "dist/index.js",
-	"keywords": [ "babel-plugin" ],
+	"keywords": [
+		"babel-plugin"
+	],
 	"scripts": {
 		"test": "ts-node test",
 		"build": "tsc"
