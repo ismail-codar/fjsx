@@ -1,43 +1,43 @@
 {
-  "name": "@fjsx/runtime",
-  "version": "0.0.6",
-  "description": "JSX views with functional style reactive programming",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "directories": {
-    "lib": "lib",
-    "types": "types"
-  },
-  "scripts": {
-    "build": "rm -rf dist & tsc --emitDeclarationOnly --declaration true & npx webpack"
-  },
-  "keywords": [],
-  "author": "ismail codar",
-  "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ismail-codar/fjsx.git"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "devDependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/jasmine": "^3.0.0",
-    "@types/node": "^10.12.9",
-    "basichtml": "^0.20.0",
-    "jasmine": "^3.3.0",
-    "jasmine-spec-reporter": "^4.2.1",
-    "jasmine-ts": "^0.3.0",
-    "symbol-observable": "^1.2.0",
-    "ts-loader": "^5.3.0",
-    "ts-node": "^7.0.1",
-    "typescript": "^3.1.6",
-    "webpack": "^4.25.1",
-    "webpack-cli": "^3.1.2",
-    "@starptech/prettyhtml": "^0.8.1",
-    "@types/deepmerge": "^2.2.0",
-    "@types/warning": "^3.0.0",
-    "save-dev": "^2.0.0"
-  }
+	"name": "@fjsx/runtime",
+	"version": "0.0.7",
+	"description": "JSX views with functional style reactive programming",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"directories": {
+		"lib": "lib",
+		"types": "types"
+	},
+	"scripts": {
+		"build": "rm -rf dist & tsc --emitDeclarationOnly --declaration true & npx webpack"
+	},
+	"keywords": [],
+	"author": "ismail codar",
+	"license": "ISC",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ismail-codar/fjsx.git"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"devDependencies": {
+		"@types/chai": "^4.1.7",
+		"@types/jasmine": "^3.0.0",
+		"@types/node": "^10.12.9",
+		"basichtml": "^0.20.0",
+		"jasmine": "^3.3.0",
+		"jasmine-spec-reporter": "^4.2.1",
+		"jasmine-ts": "^0.3.0",
+		"symbol-observable": "^1.2.0",
+		"ts-loader": "^5.3.0",
+		"ts-node": "^7.0.1",
+		"typescript": "^3.1.6",
+		"webpack": "^4.25.1",
+		"webpack-cli": "^3.1.2",
+		"@starptech/prettyhtml": "^0.8.1",
+		"@types/deepmerge": "^2.2.0",
+		"@types/warning": "^3.0.0",
+		"save-dev": "^2.0.0"
+	}
 }

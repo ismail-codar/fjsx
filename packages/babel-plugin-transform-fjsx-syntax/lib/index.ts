@@ -128,8 +128,21 @@ export = function() {
 							!check.hasTrackedSetComment(path) &&
 							!check.isTrackedVariable(path.scope, path.node.init) &&
 							!t.isCallExpression(path.node.init) //freezed-1
-						)
-							path.node.init = modify.fjsxValueInit(path.node.init);
+						) {
+							if (check.isTrackedByNodeName(path.node) && t.isObjectExpression(path.node.init)) {
+								//variable-object-2
+								const fComputeParameters = parameters.fjsxComputeParametersInExpressionWithScopeFilter(
+									path.scope,
+									path.node.init
+								);
+								if (fComputeParameters.length > 0) {
+									path.node.init = modify.dynamicExpressionInitComputeValues(
+										path.node.init,
+										fComputeParameters
+									);
+								}
+							} else path.node.init = modify.fjsxValueInit(path.node.init);
+						}
 					} else if (
 						check.isTrackedVariable(path.scope, path.node.init) ||
 						check.isTrackedVariable(path.scope, path.node.id) // variable-init-1
