@@ -66,6 +66,8 @@ export const initCompute = (fn: () => any, ...args: any[]) => {
 	return cValue;
 };
 
+export const computeReturn = <T>(fn: () => T, ...args: any[]): T => initCompute(fn, ...args) as any;
+
 export const setCompute = (prev: any, fn: () => void, ...args: any[]) => {
 	destroy(prev);
 	return initCompute(prev, fn, ...args);
