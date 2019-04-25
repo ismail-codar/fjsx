@@ -1,5 +1,8 @@
 # Fjsx
 
+
+# Deprecated so please use [fidan](https://github.com/ismail-codar/fidan).
+
 A counter example:
 
 ```jsx
